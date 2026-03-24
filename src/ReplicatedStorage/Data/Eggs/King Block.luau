@@ -2,7 +2,7 @@ local ReplicaetdStorage = game:GetService("ReplicatedStorage")
 local Products = require(ReplicaetdStorage.Shared.Info.Products)
 
 local Egg = {
-	DisplayName = "Hell Egg",
+	DisplayName = "King Block",
 	Rarity = "Legendary",
 	Price = 750000,
 	RobuxPreferred = true,

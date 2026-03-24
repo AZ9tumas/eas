@@ -424,7 +424,7 @@ function DataPlots.SpawnHatchableAtSlot(slot: Model, labubuData: Types.Labubu, p
 	local labubuModel: Model? = nil :: Model
 
 	labubuModel = PlotUtil.getHatchableModel(labubuData.Name)
-	if not labubuModel then return end
+	if not labubuModel then return warn("No hatchable model found for: " .. labubuData.Name) end
 	
 	local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(labubuData)
 	if not GetMutationExtraInfo then return end

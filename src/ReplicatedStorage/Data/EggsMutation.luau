@@ -115,7 +115,7 @@ local EggMutations = {
 
 	Celest = {
 		HatchTime = 1200,
-		SkipRobuxCost = 159,
+		SkipRobuxCost = 149,
 
 		Mutations = {
 			Default     = { Cost = 4000000,    FusionChance = nil },

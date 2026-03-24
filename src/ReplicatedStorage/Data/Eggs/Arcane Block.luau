@@ -2,12 +2,12 @@ local ReplicaetdStorage = game:GetService("ReplicatedStorage")
 local Products = require(ReplicaetdStorage.Shared.Info.Products)
 
 local Egg = {
-	DisplayName = "Good Egg",
-	Rarity = "Basic",
-	Price = 500,
-	HatchTime = 30,
-	SkipProductId = Products["Skip Common Hatch"],
-	Weight = 30, -- Spawn chance %
+	DisplayName = "Arcane Block",
+	Rarity = "Epic",
+	Price = 150000,
+	HatchTime = 300,
+	SkipProductId = Products["Skip Epic Hatch"],
+	Weight = 1.5, -- Spawn chance %
 	Items = nil
 }
 

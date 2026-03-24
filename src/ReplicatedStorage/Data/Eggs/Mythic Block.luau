@@ -2,7 +2,7 @@ local ReplicaetdStorage = game:GetService("ReplicatedStorage")
 local Products = require(ReplicaetdStorage.Shared.Info.Products)
 
 local Egg = {
-	DisplayName = "Celest Egg",
+	DisplayName = "Mythic Block",
 	Rarity = "Mythic",
 	Price = 4000000,
 	RobuxPreferred = true,

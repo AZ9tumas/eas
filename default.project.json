@@ -2,16 +2,6 @@
   "name": "MPP",
   "tree": {
     "$className": "DataModel",
-    "Workspace": {
-      "$className": "Workspace",
-      "$ignoreUnknownInstances": true,
-      "$path": "src/Workspace"
-    },
-    "ReplicatedFirst": {
-      "$className": "ReplicatedFirst",
-      "$ignoreUnknownInstances": true,
-      "$path": "src/ReplicatedFirst"
-    },
     "ReplicatedStorage": {
       "$className": "ReplicatedStorage",
       "$ignoreUnknownInstances": true,
@@ -26,11 +16,6 @@
       "$className": "ServerStorage",
       "$ignoreUnknownInstances": true,
       "$path": "src/ServerStorage"
-    },
-    "StarterGui": {
-      "$className": "StarterGui",
-      "$ignoreUnknownInstances": true,
-      "$path": "src/StarterGui"
     },
     "StarterPlayer": {
       "$className": "StarterPlayer",
