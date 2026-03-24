@@ -59,15 +59,15 @@ ProductPurchaseHandlers["Steal High-Tier Labubu"] = function(player: Player)
 	DataPlots.HandleStealing(player, true)
 end
 
--- Plot -> Eggs -> Exclusive Egg
+-- Plot -> Blocks -> Exclusive Block
 
-ProductPurchaseHandlers["Exclusive Egg"] = function(player: Player)
+ProductPurchaseHandlers["Exclusive Block"] = function(player: Player)
 	DataPlots.GiveExclusiveEgg(player)
 end
 
--- Plot -> Eggs -> Instant Legendary Egg
+-- Plot -> Blocks -> Instant Legendary Block
 
-ProductPurchaseHandlers["Instant Legendary Egg"] = function(player: Player)
+ProductPurchaseHandlers["Instant Legendary Block"] = function(player: Player)
 	local EggTool, eggPillar, egg = nil, nil, nil
 	local eggPillarIndex: number = 1 -- for legendary
 	
@@ -98,9 +98,9 @@ ProductPurchaseHandlers["Instant Legendary Egg"] = function(player: Player)
 	end
 end
 
--- Plot -> Eggs -> Instant Mythic Egg
+-- Plot -> Blocks -> Instant Mythic Block
 
-ProductPurchaseHandlers["Instant Mythic Egg"] = function(player: Player)
+ProductPurchaseHandlers["Instant Mythic Block"] = function(player: Player)
 	local EggTool, eggPillar, egg = nil, nil, nil
 	local eggPillarIndex: number = 5 -- for mythic
 
@@ -205,7 +205,7 @@ local function SkipEggHatch(player: Player)
 	)
 	if not Placement then return end
 
-	if Placement:GetAttribute("Type") ~= "Egg" then return end
+	if Placement:GetAttribute("Type") ~= "Block" then return end
 
 	local EggData = PlotUtil.EggsData[Placement.Name]
 	if not EggData then return end

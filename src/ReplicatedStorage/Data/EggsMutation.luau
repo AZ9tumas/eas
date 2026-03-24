@@ -1,5 +1,5 @@
 local EggMutations = {
-	Simple = {
+	Normal = {
 		HatchTime = 10,
 		SkipRobuxCost = 0,
 
@@ -18,7 +18,7 @@ local EggMutations = {
 		}
 	},
 
-	Good = {
+	Blue = {
 		HatchTime = 30,
 		SkipRobuxCost = 9,
 
@@ -37,7 +37,7 @@ local EggMutations = {
 		}
 	},
 
-	Rare = {
+	Purple = {
 		HatchTime = 60,
 		SkipRobuxCost = 19,
 
@@ -56,7 +56,7 @@ local EggMutations = {
 		}
 	},
 
-	Cracked = {
+	Ancient = {
 		HatchTime = 120,
 		SkipRobuxCost = 29,
 
@@ -75,7 +75,7 @@ local EggMutations = {
 		}
 	},
 
-	Ancient = {
+	Arcane = {
 		HatchTime = 300,
 		SkipRobuxCost = 49,
 
@@ -94,7 +94,7 @@ local EggMutations = {
 		}
 	},
 
-	Hell = {
+	King = {
 		HatchTime = 600,
 		SkipRobuxCost = 99,
 
@@ -113,9 +113,9 @@ local EggMutations = {
 		}
 	},
 
-	Celest = {
+	Mythic = {
 		HatchTime = 1200,
-		SkipRobuxCost = 149,
+		SkipRobuxCost = 159,
 
 		Mutations = {
 			Default     = { Cost = 4000000,    FusionChance = nil },
@@ -134,26 +134,6 @@ local EggMutations = {
 	
 	-- this needs to be adjusted
 	Exclusive = {
-		HatchTime = 300,
-		SkipRobuxCost = 49,
-
-		Mutations = {
-			Default     = { Cost = 4000000,    FusionChance = nil },
-			Silver      = { Cost = 8000000,    FusionChance = 70.00 },
-			Gold        = { Cost = 16000000,   FusionChance = 15.00 },
-			Diamond     = { Cost = 32000000,   FusionChance = 7.00 },
-			Rainbow     = { Cost = 64000000,   FusionChance = 3.50 },
-			Thunder     = { Cost = 128000000,  FusionChance = 1.80 },
-			Saiyan      = { Cost = 256000000,  FusionChance = 1.00 },
-			Conqueror   = { Cost = 512000000,  FusionChance = 0.60 },
-			Corrupted   = { Cost = 1024000000, FusionChance = 0.40 },
-			Galaxy      = { Cost = 2048000000, FusionChance = 0.35 },
-			Divine      = { Cost = 4096000000, FusionChance = 0.25 },
-		}
-	},
-	
-	-- this needs to be adjusted
-	["Halloween Egg"] = {
 		HatchTime = 300,
 		SkipRobuxCost = 49,
 

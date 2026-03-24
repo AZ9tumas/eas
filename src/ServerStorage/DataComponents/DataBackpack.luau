@@ -403,7 +403,7 @@ function DataBackpack.Eggs.GetEggInfo(egg: Model)
 	local eggInfo = {
 		Name = egg:GetAttribute("Name") or egg.Name,
 		Id = egg:GetAttribute("Id") or generateGUID(),
-		Type = "Egg",
+		Type = "Block",
 		EggMutationTier = egg:GetAttribute("EggMutationTier") or 1,
 
 		IsExclusive = egg:GetAttribute("IsExclusive") or false,
@@ -493,14 +493,14 @@ function DataBackpack.Eggs.ResetAll(player: Player)
 		local character = player.Character
 		if character then
 			for _, tool in character:GetChildren() do
-				if tool:IsA("Tool") and tool:GetAttribute("Type") == "Egg" then
+				if tool:IsA("Tool") and tool:GetAttribute("Type") == "Block" then
 					tool:Destroy()
 				end
 			end
 		end
 		
 		for _, tool in playerBack:GetChildren() do
-			if tool:IsA("Tool") and tool:GetAttribute("Type") == "Egg" then
+			if tool:IsA("Tool") and tool:GetAttribute("Type") == "Block" then
 				tool:Destroy()
 			end
 		end

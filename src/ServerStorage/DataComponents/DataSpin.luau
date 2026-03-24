@@ -84,21 +84,18 @@ SpinWheel.OnServerInvoke = function(player: Player)
 	
 	--Name = "30,000 Cash", 
 	--Name = "+1,000 Candies", 
-	--Name = "Ancient Egg", 
-	--Name = "Hell Egg", 
-	--Name = "Halloween Egg", 
+	--Name = "Arcane Block", 
+	--Name = "King Block", 
 	--Name = "SIX SIX SIX", 
 	
 	if RewardName == "30,000 Cash" then
 		DataCash.giveCash(player, 30000)
 	elseif RewardName == "+1,000 Candies" then
 		DataCandy.giveCandy(player, 1000)
-	elseif RewardName == "Ancient Egg" then
-		DataPlots.GiveEgg(player, "Ancient Egg", "Spinner")
-	elseif RewardName == "Hell Egg" then
-		DataPlots.GiveEgg(player, "Hell Egg", "Spinner")
-	elseif RewardName == "Halloween Egg" then
-		DataPlots.GiveEgg(player, "Halloween Egg", "Spinner")
+	elseif RewardName == "Arcane Block" then
+		DataPlots.GiveEgg(player, "Arcane Block", "Spinner")
+	elseif RewardName == "King Block" then
+		DataPlots.GiveEgg(player, "King Block", "Spinner")
 	elseif RewardName == "SIX SIX SIX" then
 		DataPlots.GiveLabubu(player, "SIX SIX SIX", 1, "GroupReward")
 	end

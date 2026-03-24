@@ -158,8 +158,8 @@ export type Labubu = {
 
 	-- Origin / Rarity
 	Source: "Normal" | "Exclusive" | "Event",
-	EggType: "Simple" | "Good" | "Rare" | "Cracked" | "Ancient" | "Hell" | "Celest",
-	EggRarity: "Basic" | "Rare" | "Epic" | "Legendary" | "Mythic" | "Exclusive",
+	EggType: "Normal" | "Blue" | "Purple" | "Ancient" | "Arcane" | "King" | "Mythic",
+	EggRarity: "Common" | "Rare" | "Epic" | "Legendary" | "Mythic" | "Exclusive", -- Common to Basic
 
 	-- Progression
 	MutationTier: number,       -- current tier (1–11)

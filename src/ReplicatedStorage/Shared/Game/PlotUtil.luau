@@ -59,13 +59,13 @@ local BuyVIPSlotProduct = Products.BuyVIPSlot
 local BuyVIPSlotProductInfo = getProductStaticPrice(BuyVIPSlotProduct, Enum.InfoType.Product)
 local BuyVIPSlotPrice = BuyVIPSlotProductInfo and BuyVIPSlotProductInfo.PriceInRobux or 0
 
-local BuyLegendaryInstantProduct = Products["Instant Legendary Egg"]
+local BuyLegendaryInstantProduct = Products["Instant Legendary Block"]
 local BuyLegendaryInstantProductInfo = getProductStaticPrice(
 	BuyLegendaryInstantProduct, Enum.InfoType.Product)
 local BuyLegendaryInstantProductPrice = BuyLegendaryInstantProductInfo and 
 	BuyLegendaryInstantProductInfo.PriceInRobux or 0
 
-local BuyMythicInstantProduct = Products["Instant Mythic Egg"]
+local BuyMythicInstantProduct = Products["Instant Mythic Block"]
 local BuyMythicInstantProductInfo = getProductStaticPrice(
 	BuyMythicInstantProduct, Enum.InfoType.Product)
 local BuyMythicInstantProductPrice = BuyMythicInstantProductInfo and 
@@ -191,10 +191,7 @@ function PlotUtil.getLabubusWithRarity(rarity: string) : { [string]: LabubuType 
 	local Labubus: { [string]: LabubuType } = {}
 	
 	for name, tbl: LabubuType in LabubusData do
-		local IsBasic = rarity == "Basic"
-		local IsCommon = tbl.Rarity == "Common"
-		
-		if (IsBasic and IsCommon) or tbl.Rarity == rarity then
+		if tbl.Rarity == rarity then -- Common to Basic
 			if HatchableAssets:FindFirstChild(name) then
 				Labubus[name] = tbl
 			else
@@ -229,7 +226,7 @@ function PlotUtil.CreateLabubuTemplateFromEggData(
 
 		-- Origin / Rarity
 		Source = labubuData.Source or "Normal",
-		EggRarity = labubuData.EggRarity or eggRarity or "Basic",
+		EggRarity = labubuData.EggRarity or eggRarity or "Common", -- Common to Basic
 		EggType = labubuData.EggType or eggNameSplit,
 
 		-- Progression
@@ -561,7 +558,7 @@ function PlotUtil.setEggPriceInfoUI(egg: Model, priceOnly: boolean?, hidePrice: 
 	local EggCost, EggSellerCost = PlotUtil.CalculateCost({
 		Name = egg.Name,
 		EggMutationTier = MutationTier,
-		Type = "Egg"
+		Type = "Block"
 	})
 
 	--local Price = formatCommaValue(EggData.Price)
@@ -653,7 +650,7 @@ function PlotUtil.spawnEggRoll(
 	if obtainedFrom then
 		clone:SetAttribute("ObtainedFrom", obtainedFrom)
 	end
-	clone:SetAttribute("Type", "Egg")
+	clone:SetAttribute("Type", "Block")
 	clone:SetAttribute("EggMutationTier", mutationTier)
 	
 	PlotUtil.setEggPriceInfoUI(clone, priceOnly)
@@ -1088,10 +1085,7 @@ function PlotUtil.LabubuPlacementFilterBy(placements: { Model }, rarity: string?
 	-- Mutation Tier: placement:GetAttribute("MutationTier")
 	-- Mutation Rarity: placement:GetAttribute("EggType")
 	
-	if rarity and rarity == "Common" then
-		rarity = "Basic"
-	end
-	
+	-- Common to Basic: old placements may still have EggRarity="Basic"
 	local FilteredPlacements = {}
 	
 	for _, placement in pairs(placements) do
@@ -1106,7 +1100,7 @@ function PlotUtil.LabubuPlacementFilterBy(placements: { Model }, rarity: string?
 end
 
 function PlotUtil.GetRarity(data: Types.Labubu | Types.Egg) : (string, Color3)
-	if data.Type == "Egg" then
+	if data.Type == "Block" then
 		local Rarity = data.Rarity or PlotUtil.EggsData[data.Name].Rarity
 		
 		return Rarity, RarityTextColors[Rarity]
@@ -1116,7 +1110,7 @@ function PlotUtil.GetRarity(data: Types.Labubu | Types.Egg) : (string, Color3)
 end
 
 function PlotUtil.CalculateCost(data: Types.Labubu | Types.Egg) : (number?, number?)
-	if data.Type == "Egg" then
+	if data.Type == "Block" then
 		local name = data.Name
 		local info: EggMutationInfo = EggsMutation[name]
 		if not info then
@@ -1135,7 +1129,7 @@ function PlotUtil.CalculateCost(data: Types.Labubu | Types.Egg) : (number?, numb
 		return math.floor(Cost), 
 			math.floor(Cost * (GlobalSettings.SellerPricePercentage / 100))
 	elseif data.Type == "Labubu" then
-		local EggData = PlotUtil.EggsData[data.EggType .. " Egg"]
+		local EggData = PlotUtil.EggsData[data.EggType .. " Block"]
 		local BaseEggPrice = EggData.Price
 		
 		local LabubuMutationTier = data.MutationTier

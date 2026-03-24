@@ -138,7 +138,7 @@ local function updateGrid(filter)
 				local unlocked = CachedIndexData[mutationTier] and 
 					CachedIndexData[mutationTier][hatchable.Name]
 				local rarity = LabubuData[hatchable.Name] and 
-					LabubuData[hatchable.Name].Rarity or "Basic"
+					LabubuData[hatchable.Name].Rarity or "Common" -- Common to Basic
 
 				createCard(hatchable.Name, unlocked, mutationName, rarity)
 

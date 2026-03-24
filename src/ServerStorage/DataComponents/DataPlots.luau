@@ -74,12 +74,12 @@ local PlotsInitialized = false -- to prevent possible race conditions
 
 -- Load Product Prices
 
-local BuyLegendaryInstantProduct = Products["Instant Legendary Egg"]
+local BuyLegendaryInstantProduct = Products["Instant Legendary Block"]
 local BuyLegendaryInstantProductInfo = PlotUtil.ProductsInfo.LegendaryInstant
 local BuyLegendaryInstantProductPrice = BuyLegendaryInstantProductInfo and 
 	BuyLegendaryInstantProductInfo.PriceInRobux or 0
 
-local BuyMythicInstantProduct = Products["Instant Mythic Egg"]
+local BuyMythicInstantProduct = Products["Instant Mythic Block"]
 local BuyMythicInstantProductInfo = PlotUtil.ProductsInfo.BuyMythicInstant
 local BuyMythicInstantProductPrice = BuyMythicInstantProductInfo and 
 	BuyMythicInstantProductInfo.PriceInRobux or 0
@@ -580,7 +580,7 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 	slot:SetAttribute("Occupied", isOccupied)
 	slot:SetAttribute("ForSale", isForSale)
 	
-	if slotPlacement and slotPlacement.Type == "Egg" then
+	if slotPlacement and slotPlacement.Type == "Block" then
 		if slotPlacement.IsHatching and slotPlacement.HatchTimeLeft 
 			and slotPlacement.HatchTimeLeft <= 0 then
 			slot:SetAttribute("IsHatching", false)
@@ -652,7 +652,7 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 				)
 				if not placementModel then return end
 				
-				if slotPlacement.Type == "Egg" then
+				if slotPlacement.Type == "Block" then
 					local eggPlacement: Types.Egg = slotPlacement
 					
 					-- Egg
@@ -1077,10 +1077,7 @@ function DataPlots.ApplyPlotData(plot: Model, plotData: Types.PlotData, player: 
 					local LabubuInfo = PlotUtil.getLabubuData(name)
 					if not LabubuInfo then return end
 					
-					local rarity = LabubuInfo.Rarity
-					if rarity == "Common" then
-						rarity = "Basic"
-					end
+					local rarity = LabubuInfo.Rarity -- Common to Basic
 
 					local EggRng = RngUtil(
 						PlotUtil.EggChancesRarity[rarity],
@@ -1142,7 +1139,7 @@ function DataPlots.ApplyPlotData(plot: Model, plotData: Types.PlotData, player: 
 				-- DataPlots.SpawnLabubu(plot, floorIndex, slotIndex, labubu)
 				
 				if slotPlacement then
-					if slotPlacement.Type == "Egg" then
+					if slotPlacement.Type == "Block" then
 						DataPlots.SpawnEggAtSlot(slot, slotPlacement)
 					elseif slotPlacement.Type == "Labubu" then
 						slotPlacement.Traits = slotPlacement.Traits or {}
@@ -1694,10 +1691,7 @@ function DataPlots.GiveLabubu(
 	local LabubuInfo = PlotUtil.getLabubuData(name)
 	if not LabubuInfo then return end
 	
-	local rarity = LabubuInfo.Rarity
-	if rarity == "Common" then
-		rarity = "Basic"
-	end
+	local rarity = LabubuInfo.Rarity -- Common to Basic
 
 	local EggRng = RngUtil(
 		PlotUtil.EggChancesRarity[rarity],
@@ -1706,7 +1700,7 @@ function DataPlots.GiveLabubu(
 
 	if not EggRng then
 		if rarity == "Exclusive" then
-			EggRng = "Exclusive Egg"
+			EggRng = "Exclusive Block"
 		end
 	end
 
@@ -1752,9 +1746,7 @@ end
 
 function DataPlots.GiveLabubuByRarity(
 	player: Player, rarity: string?, mutationTier: number?, obtainedFrom: string?)
-	if rarity == "Common" then
-		rarity = "Basic"
-	end
+	-- Common to Basic: rarity now uses "Common" directly
 	
 	local profileData, clientData = DataHandler.getProfileData(player)
 	if not profileData or not clientData then
@@ -1829,7 +1821,7 @@ function DataPlots.GiveEgg(player: Player, name: string, obtainedFrom: string?)
 	local EggCost, EggSellerCost = PlotUtil.CalculateCost({
 		Name = egg.Name,
 		EggMutationTier = egg:GetAttribute("EggMutationTier") or 1,
-		Type = "Egg"
+		Type = "Block"
 	})
 
 	local EggToolClone: Tool? = DataPlots.ConvertEggModelToRoll(egg)
@@ -1865,7 +1857,7 @@ function DataPlots.GiveEggBasedOffRarity(player: Player, rarity: string, obtaine
 	local EggCost, EggSellerCost = PlotUtil.CalculateCost({
 		Name = egg.Name,
 		EggMutationTier = egg:GetAttribute("EggMutationTier") or 1,
-		Type = "Egg"
+		Type = "Block"
 	})
 
 	local EggToolClone: Tool? = DataPlots.ConvertEggModelToRoll(egg)
@@ -1901,7 +1893,7 @@ function DataPlots.GiveExclusiveEgg(player: Player)
 	local EggCost, EggSellerCost = PlotUtil.CalculateCost({
 		Name = egg.Name,
 		EggMutationTier = egg:GetAttribute("EggMutationTier") or 1,
-		Type = "Egg"
+		Type = "Block"
 	})
 
 	local EggToolClone: Tool? = DataPlots.ConvertEggModelToRoll(egg)
@@ -2386,7 +2378,7 @@ function DataPlots.InitAllPlots()
 			local Type = Tool:GetAttribute("Type")
 			if not Type then continue end
 
-			if Type ~= "Egg" then continue end
+			if Type ~= "Block" then continue end
 			if Tool:GetAttribute("IsBeingStolen") then continue end
 			local Id = Tool:GetAttribute("Id")
 			if not Id then continue end
@@ -2438,7 +2430,7 @@ function DataPlots.InitAllPlots()
 		local IsATool = Tool and Tool:IsA("Tool")
 		local Type = Tool and Tool:GetAttribute("Type")
 		
-		if not Type or (Type ~= "Egg" and Type ~= "Labubu") then 
+		if not Type or (Type ~= "Block" and Type ~= "Labubu") then 
 			NotifyError:FireClient(player, "You can't sell this item!")
 			
 			return 
@@ -2458,7 +2450,7 @@ function DataPlots.InitAllPlots()
 		local Rarity, RarityColor = PlotUtil.GetRarity(Data)
 		if not Rarity or not RarityColor then return end
 
-		if Type == "Egg" then
+		if Type == "Block" then
 			DataBackpack.Eggs.removeBackpackEggByID(player, Id)
 		elseif Type == "Labubu" then
 			DataBackpack.Labubus.removeById(player, Id)
@@ -2493,7 +2485,7 @@ function DataPlots.InitAllPlots()
 		local IsATool = Tool and Tool:IsA("Tool")
 		local Type = Tool and Tool:GetAttribute("Type")
 
-		if not Type or (Type ~= "Egg" and Type ~= "Labubu") then 
+		if not Type or (Type ~= "Block" and Type ~= "Labubu") then 
 			NotifyError:FireClient(player, "Invalid Item!")
 
 			return 
@@ -3001,7 +2993,7 @@ function DataPlots.InitAllPlots()
 		local EggCost, EggSellerCost = PlotUtil.CalculateCost({
 			Name = egg.Name,
 			EggMutationTier = egg:GetAttribute("EggMutationTier") or 1,
-			Type = "Egg"
+			Type = "Block"
 		})
 		
 		--if EggData.Price > DataCash.getCash(player) then
@@ -3086,7 +3078,7 @@ function DataPlots.InitAllPlots()
 		
 		tool:SetAttribute("Placeable", nil)
 		
-		if Type == "Egg" then
+		if Type == "Block" then
 			local PlayerEggData: Types.Egg? = DataBackpack.Eggs.getBackpackEggByID(player, id)
 			if not PlayerEggData then return end
 			
@@ -3217,7 +3209,7 @@ function DataPlots.InitAllPlots()
 		if not Placement then return end
 		if Placement.Name ~= placeName then return end
 		
-		if Placement:GetAttribute("Type") ~= "Egg" then return end
+		if Placement:GetAttribute("Type") ~= "Block" then return end
 		
 		DataPlots.HatchEgg(Placement, slot, player)
 	end)
@@ -3272,15 +3264,12 @@ function DataPlots.InitAllPlots()
 		)
 		if not Placement then return end
 
-		if Placement:GetAttribute("Type") ~= "Egg" then return end
+		if Placement:GetAttribute("Type") ~= "Block" then return end
 		
 		local EggData = PlotUtil.EggsData[Placement.Name]
 		if not EggData then return end
 		
-		local rarity = EggData.Rarity
-		if rarity == "Basic" then
-			rarity = "Common"
-		end
+		local rarity = EggData.Rarity -- Common to Basic
 		
 		local Product = Products[`Skip {rarity} Hatch`]
 		if not Product then return end

@@ -30,7 +30,7 @@ end
 
 GamepassPurchaseHandlers["Starter Pack"] = function(player: Player, OnPurchase: boolean?)
 	if OnPurchase then
-		DataPlots.GiveEgg(player, "Ancient Egg", "Pass")
+		DataPlots.GiveEgg(player, "Arcane Block", "Pass")
 	end
 end
 

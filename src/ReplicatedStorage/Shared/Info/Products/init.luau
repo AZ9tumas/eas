@@ -11,9 +11,9 @@ local Products = {
 	
 	["Magic Shield (24h)"] = 3516251353,
 	
-	["Instant Legendary Egg"] = 3516249015,
-	["Instant Mythic Egg"] = 3516249140,
-	["Exclusive Egg"] = 3516243852,
+	["Instant Legendary Block"] = 3516249015,
+	["Instant Mythic Block"] = 3516249140,
+	["Exclusive Block"] = 3516243852,
 	
 	["x2 Cash (15m)"] = 3525073499,
 	["x2 Luck (15m)"] = 3525080293,

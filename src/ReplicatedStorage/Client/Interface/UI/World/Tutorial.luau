@@ -250,7 +250,7 @@ local Steps = {
 			local Placements = Slots:WaitForChild("Placements")
 
 			for _, Placement in Placements:GetChildren() do
-				if Placement:GetAttribute("Type") == "Egg" then
+				if Placement:GetAttribute("Type") == "Block" then
 					local ParentIndex = Placement:GetAttribute("ParentIndex")
 					if not ParentIndex then continue end
 

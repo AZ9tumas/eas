@@ -3,7 +3,7 @@ local Products = require(ReplicaetdStorage.Shared.Info.Products)
 
 local Egg = {
 	DisplayName = "Blue Lucky Block",
-	Rarity = "Basic",
+	Rarity = "Common", -- Common to Basic
 	Price = 500,
 	HatchTime = 30,
 	SkipProductId = Products["Skip Common Hatch"],

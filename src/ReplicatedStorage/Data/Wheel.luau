@@ -46,7 +46,7 @@ local Module: {[number]: WheelData} = {
 		end,
 	},
 	[3] = {
-		Name = "Ancient Egg", 
+		Name = "Arcane Block", 
 		ImageId = "rbxassetid://109157531183362",
 		Rarity = 7.5,
 		Reward = function(Player: Player)
@@ -58,7 +58,7 @@ local Module: {[number]: WheelData} = {
 		end,
 	},
 	[4] = {
-		Name = "Hell Egg", 
+		Name = "King Block", 
 		ImageId = "rbxassetid://109157531183362",
 		Rarity = 2,
 		Reward = function(Player: Player)
@@ -70,18 +70,6 @@ local Module: {[number]: WheelData} = {
 		end,
 	},
 	[5] = {
-		Name = "Halloween Egg", 
-		ImageId = "rbxassetid://109157531183362",
-		Rarity = 1,
-		Reward = function(Player: Player)
-			if IsServer then
-
-			else
-				-- client doesnt get called here, its not being used atm. (only server works)
-			end
-		end,
-	},
-	[6] = {
 		Name = "SIX SIX SIX", 
 		ImageId = "rbxassetid://109157531183362",
 		Rarity = 0.5,
