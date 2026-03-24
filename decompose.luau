@@ -2,8 +2,8 @@ local fs = require("@lune/fs")
 local roblox = require("@lune/roblox")
 local serde = require("@lune/serde")
 
-local INPUT_FILE = "MiniNotification.rbxm"
-local OUTPUT_FILE = "MiniNotification.json"
+local INPUT_FILE = "Index.rbxm"
+local OUTPUT_FILE = "Index.json"
 
 -- Load reflection database for property enumeration
 local db = roblox.getReflectionDatabase()
