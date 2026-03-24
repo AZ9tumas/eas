@@ -1,6 +1,7 @@
 local Index = {}
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local TweenService = game:GetService("TweenService")
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local playerGui = player.PlayerGui
@@ -33,13 +34,40 @@ local MutationTextColors = require(ReplicatedStorage.Data.TextColors.Mutation)
 local RarityTextColors = require(ReplicatedStorage.Data.TextColors.Rarity)
 local LabubuData = require(ReplicatedStorage.Data.Labubus)
 local Rarity = require(ReplicatedStorage.Data.Rarity)
+local InterfaceTabUtil = require(ReplicatedStorage.Client.Interface.Utility.InterfaceTabUtil)
 
-local gui = playerGui.Tabs.Index
-local sidebar = gui.Container.FilterList
-local gridContainer = gui.Container.PetGrid
+local gui = playerGui:WaitForChild("NewUI").Frames.Index
+local sidebar = gui.Main.Buttons
+local gridContainer = gui.Main.Holder.ScrollingFrame
+local closeButton = gui.Top.Close
 
 local SELECTED_COLOR = Color3.fromRGB(0, 170, 240)
 local DEFAULT_COLOR  = Color3.fromRGB(45, 50, 65)
+
+local tHover = TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+local tClick = TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+local tRelease = TweenInfo.new(0.3, Enum.EasingStyle.Bounce, Enum.EasingDirection.Out)
+
+local function bindButtonAnimations(btn: GuiButton)
+	local scaleObj = btn:FindFirstChild("UIScale")
+	if not scaleObj then
+		scaleObj = Instance.new("UIScale")
+		scaleObj.Parent = btn
+	end
+
+	btn.MouseEnter:Connect(function()
+		TweenService:Create(scaleObj, tHover, {Scale = 1.05}):Play()
+	end)
+	btn.MouseLeave:Connect(function()
+		TweenService:Create(scaleObj, tHover, {Scale = 1.0}):Play()
+	end)
+	btn.MouseButton1Down:Connect(function()
+		TweenService:Create(scaleObj, tClick, {Scale = 0.9}):Play()
+	end)
+	btn.MouseButton1Up:Connect(function()
+		TweenService:Create(scaleObj, tRelease, {Scale = 1.05}):Play()
+	end)
+end
 
 local function clearGrid()
 	for _, child in pairs(gridContainer:GetChildren()) do
@@ -115,13 +143,7 @@ local function createCard(name : string, unlocked: boolean, mutationName : strin
 	clone:PivotTo(clone:GetPivot() * CFrame.Angles(0, math.rad(90), 0) + Vector3.new(0.9, 0, 0))
 
 	if not unlocked then
-		for _, basepart in clone:GetDescendants() do
-			if basepart:IsA("BasePart") then
-				basepart.Color = Color3.new(0,0,0)
-				basepart.Material = Enum.Material.SmoothPlastic
-				basepart.Transparency = 0.5
-			end
-		end
+		viewportFrame.ImageColor3 = Color3.new(0, 0, 0)
 	end
 end
 
@@ -149,15 +171,19 @@ local function updateGrid(filter)
 		end
 	end
 
-	local scale = numUnlocked / ( #ReplicatedStorage.Assets.Hatchables:GetChildren() * 11)
-	game:GetService("TweenService"):Create(gui.Container.Header.Frame.Progress, TweenInfo.new(0.2), 
-		{Size = UDim2.fromScale(scale,1)}):Play()
 end
+
+-- Close button
+bindButtonAnimations(closeButton)
+closeButton.MouseButton1Click:Connect(function()
+	InterfaceTabUtil.closeAllTabs()
+end)
 
 local currentBtn = nil
 
 for _, btn in pairs(sidebar:GetChildren()) do
 	if btn:IsA("TextButton") then
+		bindButtonAnimations(btn)
 
 		if btn.Name == "Default" then
 			currentBtn = btn
@@ -167,11 +193,11 @@ for _, btn in pairs(sidebar:GetChildren()) do
 
 		btn.MouseButton1Click:Connect(function()
 			if currentBtn then
-				game:GetService("TweenService"):Create(currentBtn, TweenInfo.new(0.2), 
+				TweenService:Create(currentBtn, TweenInfo.new(0.2), 
 					{BackgroundColor3 = DEFAULT_COLOR}):Play()
 			end
 			currentBtn = btn
-			game:GetService("TweenService"):Create(currentBtn, TweenInfo.new(0.2), 
+			TweenService:Create(currentBtn, TweenInfo.new(0.2), 
 				{BackgroundColor3 = SELECTED_COLOR}):Play()
 
 			updateGrid(btn.Name)

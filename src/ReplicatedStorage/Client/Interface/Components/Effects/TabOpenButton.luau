@@ -10,13 +10,22 @@ local playerGui = localPlayer.PlayerGui
 local TabOpenButton = {}
 
 function TabOpenButton.tagAdded(button: GuiButton)
-    local screenGui = playerGui.Tabs:FindFirstChild(button.Name) :: ScreenGui?
-    if screenGui == nil then
+    local tab = playerGui.Tabs:FindFirstChild(button.Name)
+    if not tab then
+        local newUI = playerGui:FindFirstChild("NewUI")
+        if newUI then
+            local frames = newUI:FindFirstChild("Frames")
+            if frames then
+                tab = frames:FindFirstChild(button.Name)
+            end
+        end
+    end
+    if tab == nil then
         warn("[Buttons] No screen gui found for:", button.Name)
         return
     end
     button.Activated:Connect(function()
-        InterfaceTabUtil.openTab(screenGui)
+        InterfaceTabUtil.openTab(tab)
     end)
 end
 

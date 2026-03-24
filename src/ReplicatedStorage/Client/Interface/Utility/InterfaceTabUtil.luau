@@ -47,24 +47,58 @@ InterfaceTabUtil.tabOpen = false
 InterfaceTabUtil.OnTabOpen = Signal.new()
 InterfaceTabUtil.OnTabClose = Signal.new()
 
+local function findTab(name: string): Instance?
+	local tab = playerGui.Tabs:FindFirstChild(name)
+	if tab then return tab end
+
+	local newUI = playerGui:FindFirstChild("NewUI")
+	if newUI then
+		local frames = newUI:FindFirstChild("Frames")
+		if frames then
+			return frames:FindFirstChild(name)
+		end
+	end
+	return nil
+end
+
+local function isTabVisible(tab: Instance): boolean
+	if tab:IsA("ScreenGui") then
+		return tab.Enabled
+	else
+		return tab.Visible
+	end
+end
+
+local function setTabVisible(tab: Instance, visible: boolean)
+	if tab:IsA("ScreenGui") then
+		tab.Enabled = visible
+	else
+		tab.Visible = visible
+	end
+end
+
 function InterfaceTabUtil.isTabOpen(name: string)
-	local ScreenGui = typeof(name) == 'string' and playerGui.Tabs:FindFirstChild(name) or name
-	if not ScreenGui then
+	local tab = typeof(name) == 'string' and findTab(name) or name
+	if not tab then
 		return
 	end
-	return ScreenGui.Enabled
+	return isTabVisible(tab)
 end
 
 function InterfaceTabUtil.openTab(screenGui: ScreenGui | string, triggerSound: boolean?)
 	if typeof(screenGui) == 'string' then
-		screenGui = playerGui.Tabs:FindFirstChild(screenGui)
+		screenGui = findTab(screenGui)
 	end
-	
-    local container = screenGui:FindFirstChild("Container") :: Frame?
+	if not screenGui then return end
+
+    local container = screenGui:FindFirstChild("Container") or screenGui:FindFirstChild("Main") :: Frame?
     if container == nil then
         return
     end
-    if screenGui.Parent ~= playerGui.Tabs then
+    local isUnderTabs = screenGui.Parent == playerGui.Tabs
+    local newUI = playerGui:FindFirstChild("NewUI")
+    local isUnderNewUI = newUI and screenGui:IsDescendantOf(newUI)
+    if not isUnderTabs and not isUnderNewUI then
         return
 	end
 	
@@ -72,7 +106,7 @@ function InterfaceTabUtil.openTab(screenGui: ScreenGui | string, triggerSound: b
 		ClickSound:Play()
 	end
 	
-    if screenGui.Enabled then
+    if isTabVisible(screenGui) then
         InterfaceTabUtil.closeAllTabs()
         return
     end
@@ -84,7 +118,7 @@ function InterfaceTabUtil.openTab(screenGui: ScreenGui | string, triggerSound: b
 	InterfaceTabUtil.OnTabOpen:Fire(screenGui.Name)
 	BackpackUIToggle.new()
 
-    screenGui.Enabled = true
+    setTabVisible(screenGui, true)
     playerGui.Overlays.TabDarken.Enabled = true
 	InterfaceTabUtil.blurScreen()
 
@@ -134,6 +168,21 @@ function InterfaceTabUtil.closeAllTabs(triggerSound: boolean?)
 			screenGui.Enabled = false
 			
 			InterfaceTabUtil.OnTabClose:Fire(screenGui.Name)
+		end
+	end
+
+	-- Also close Frame-based tabs under NewUI.Frames
+	local newUI = playerGui:FindFirstChild("NewUI")
+	if newUI then
+		local frames = newUI:FindFirstChild("Frames")
+		if frames then
+			for _, frame in pairs(frames:GetChildren()) do
+				if frame:IsA("Frame") and frame.Visible then
+					AnyTabGotClosed = true
+					frame.Visible = false
+					InterfaceTabUtil.OnTabClose:Fire(frame.Name)
+				end
+			end
 		end
 	end
 	

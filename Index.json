@@ -5124,7 +5124,7 @@
                             "Value": 0
                           },
                           "SourceAssetId": -1,
-                          "Text": "Deafult",
+                          "Text": "Default",
                           "TextColor3": {
                             "B": 255,
                             "G": 255,
@@ -5294,7 +5294,7 @@
                   }
                 ],
                 "ClassName": "TextButton",
-                "Name": "Deafult",
+                "Name": "Default",
                 "Properties": {
                   "Active": true,
                   "AnchorPoint": {
