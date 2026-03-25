@@ -296,7 +296,7 @@ function PlotUtil.getEggPillars(dropper: Folder) : { Model }
 	local tbl: { Model } = {}
 	
 	for _, model in pairs(dropper:GetChildren()) do
-		if model.Name == "EggPillar" then
+		if model.Name == "LuckyblockPillar" then
 			table.insert(tbl, model)
 		end
 	end
@@ -403,12 +403,22 @@ end
 
 function PlotUtil.getEggPillarInfo(eggPillar: Model): { 
 	UpperPart: BasePart, LowerPart: BasePart, Premium: boolean?, Rarity: string?, Index: number? }
-	local UpperPart: BasePart = eggPillar:WaitForChild("Model"):WaitForChild("UpperPart")
-	local LowerPart: BasePart = eggPillar:WaitForChild("BottomPart"):WaitForChild("LowerPart")
+	local LowestPart: BasePart? = nil
+	local LowestY = math.huge
+
+	for _, desc in pairs(eggPillar:GetDescendants()) do
+		if desc:IsA("BasePart") then
+			local y = desc.Position.Y
+			if y < LowestY then
+				LowestY = y
+				LowestPart = desc
+			end
+		end
+	end
 
 	return {
-		UpperPart = UpperPart,
-		LowerPart = LowerPart,
+		UpperPart = LowestPart,
+		LowerPart = LowestPart,
 
 		Premium = eggPillar:GetAttribute("Premium"),
 		Rarity = eggPillar:GetAttribute("Rarity"),
@@ -663,6 +673,22 @@ function PlotUtil.spawnEggRoll(
 	return clone
 end
 
+function PlotUtil.weldModelToPrimaryPart(model: Model)
+	local primaryPart = model.PrimaryPart or model:FindFirstChild("EggPart")
+	if not primaryPart then return end
+
+	primaryPart.Anchored = true
+	for _, desc in pairs(model:GetDescendants()) do
+		if desc:IsA("BasePart") and desc ~= primaryPart then
+			desc.Anchored = false
+			local weld = Instance.new("WeldConstraint")
+			weld.Part0 = primaryPart
+			weld.Part1 = desc
+			weld.Parent = desc
+		end
+	end
+end
+
 function PlotUtil.deployWorldEggRoll(egg: Model, eggPillar: Model) : Model
 	local PillarInfo = PlotUtil.getEggPillarInfo(eggPillar)
 	local GetExtentsSize: Vector3 = egg:GetExtentsSize()
@@ -671,6 +697,8 @@ function PlotUtil.deployWorldEggRoll(egg: Model, eggPillar: Model) : Model
 	egg:PivotTo(
 		PillarInfo.LowerPart.CFrame + Vector3.new(0, GetExtentsSizeY / 2 + PillarInfo.LowerPart.Size.Y/2, 0)
 	)
+
+	PlotUtil.weldModelToPrimaryPart(egg)
 	
 	return egg
 end

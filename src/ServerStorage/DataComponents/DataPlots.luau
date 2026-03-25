@@ -1305,6 +1305,8 @@ function DataPlots.SpawnEggAtSlot(slot: Model, egg: Model | Tool | Types.Egg)
 				GetExtentsSizeY / 2 + getSlotInfo.MainStand.Size.Y/2, 
 			0)
 	)
+
+	PlotUtil.weldModelToPrimaryPart(eggModel)
 	
 	print("WHYYY")
 	eggModel.Parent = slotsPlacement
