@@ -1,0 +1,4065 @@
+[
+  {
+    "Children": [
+      {
+        "ClassName": "UIStroke",
+        "Name": "UIStroke",
+        "Properties": {
+          "ApplyStrokeMode": {
+            "Enum": "Enum.ApplyStrokeMode",
+            "Name": "Contextual",
+            "Type": "EnumItem",
+            "Value": 0
+          },
+          "Archivable": true,
+          "BorderOffset": {
+            "Offset": 0,
+            "Scale": 0,
+            "Type": "UDim"
+          },
+          "BorderStrokePosition": {
+            "Enum": "Enum.BorderStrokePosition",
+            "Name": "Outer",
+            "Type": "EnumItem",
+            "Value": 0
+          },
+          "Color": {
+            "B": 0,
+            "G": 0,
+            "R": 0,
+            "Type": "Color3"
+          },
+          "Enabled": true,
+          "HistoryId": {
+            "Type": "UniqueId",
+            "Value": "00000000000000000000000000000000"
+          },
+          "LineJoinMode": {
+            "Enum": "Enum.LineJoinMode",
+            "Name": "Round",
+            "Type": "EnumItem",
+            "Value": 0
+          },
+          "Sandboxed": false,
+          "SourceAssetId": -1,
+          "StrokeSizingMode": {
+            "Enum": "Enum.StrokeSizingMode",
+            "Name": "FixedSize",
+            "Type": "EnumItem",
+            "Value": 0
+          },
+          "Thickness": 4,
+          "Transparency": 0,
+          "UniqueId": {
+            "Type": "UniqueId",
+            "Value": "00000000000000000000000000000000"
+          },
+          "ZIndex": 1
+        }
+      },
+      {
+        "Children": [
+          {
+            "ClassName": "UIStroke",
+            "Name": "UIStroke",
+            "Properties": {
+              "ApplyStrokeMode": {
+                "Enum": "Enum.ApplyStrokeMode",
+                "Name": "Contextual",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "Archivable": true,
+              "BorderOffset": {
+                "Offset": 0,
+                "Scale": 0,
+                "Type": "UDim"
+              },
+              "BorderStrokePosition": {
+                "Enum": "Enum.BorderStrokePosition",
+                "Name": "Outer",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "Color": {
+                "B": 0,
+                "G": 0,
+                "R": 0,
+                "Type": "Color3"
+              },
+              "Enabled": true,
+              "HistoryId": {
+                "Type": "UniqueId",
+                "Value": "00000000000000000000000000000000"
+              },
+              "LineJoinMode": {
+                "Enum": "Enum.LineJoinMode",
+                "Name": "Round",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "Sandboxed": false,
+              "SourceAssetId": -1,
+              "StrokeSizingMode": {
+                "Enum": "Enum.StrokeSizingMode",
+                "Name": "FixedSize",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "Thickness": 4,
+              "Transparency": 0,
+              "UniqueId": {
+                "Type": "UniqueId",
+                "Value": "00000000000000000000000000000000"
+              },
+              "ZIndex": 1
+            }
+          },
+          {
+            "Children": [
+              {
+                "Children": [
+                  {
+                    "ClassName": "ImageLabel",
+                    "Name": "Texture",
+                    "Properties": {
+                      "Active": false,
+                      "AnchorPoint": {
+                        "Type": "Vector2",
+                        "X": 0.5,
+                        "Y": 0.5
+                      },
+                      "Archivable": true,
+                      "AutoLocalize": true,
+                      "AutomaticSize": {
+                        "Enum": "Enum.AutomaticSize",
+                        "Name": "None",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "BackgroundColor3": {
+                        "B": 255,
+                        "G": 255,
+                        "R": 255,
+                        "Type": "Color3"
+                      },
+                      "BackgroundTransparency": 1,
+                      "BorderColor3": {
+                        "B": 0,
+                        "G": 0,
+                        "R": 0,
+                        "Type": "Color3"
+                      },
+                      "BorderMode": {
+                        "Enum": "Enum.BorderMode",
+                        "Name": "Outline",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "BorderSizePixel": 0,
+                      "ClipsDescendants": false,
+                      "Draggable": false,
+                      "HistoryId": {
+                        "Type": "UniqueId",
+                        "Value": "00000000000000000000000000000000"
+                      },
+                      "ImageColor3": {
+                        "B": 255,
+                        "G": 255,
+                        "R": 255,
+                        "Type": "Color3"
+                      },
+                      "ImageContent": {
+                        "Type": "Content",
+                        "Value": "Content(Uri=rbxassetid://127729151486812)"
+                      },
+                      "ImageRectOffset": {
+                        "Type": "Vector2",
+                        "X": 0,
+                        "Y": 0
+                      },
+                      "ImageRectSize": {
+                        "Type": "Vector2",
+                        "X": 0,
+                        "Y": 0
+                      },
+                      "ImageTransparency": 0.699999988079071,
+                      "Interactable": true,
+                      "LayoutOrder": 0,
+                      "Position": {
+                        "Type": "UDim2",
+                        "X": {
+                          "Offset": 0,
+                          "Scale": 0.5
+                        },
+                        "Y": {
+                          "Offset": 0,
+                          "Scale": 0.5
+                        }
+                      },
+                      "ResampleMode": {
+                        "Enum": "Enum.ResamplerMode",
+                        "Name": "Default",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "Rotation": 0,
+                      "Sandboxed": false,
+                      "ScaleType": {
+                        "Enum": "Enum.ScaleType",
+                        "Name": "Tile",
+                        "Type": "EnumItem",
+                        "Value": 2
+                      },
+                      "Selectable": false,
+                      "SelectionBehaviorDown": {
+                        "Enum": "Enum.SelectionBehavior",
+                        "Name": "Escape",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SelectionBehaviorLeft": {
+                        "Enum": "Enum.SelectionBehavior",
+                        "Name": "Escape",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SelectionBehaviorRight": {
+                        "Enum": "Enum.SelectionBehavior",
+                        "Name": "Escape",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SelectionBehaviorUp": {
+                        "Enum": "Enum.SelectionBehavior",
+                        "Name": "Escape",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SelectionGroup": false,
+                      "SelectionOrder": 0,
+                      "Size": {
+                        "Type": "UDim2",
+                        "X": {
+                          "Offset": 0,
+                          "Scale": 1
+                        },
+                        "Y": {
+                          "Offset": 0,
+                          "Scale": 1
+                        }
+                      },
+                      "SizeConstraint": {
+                        "Enum": "Enum.SizeConstraint",
+                        "Name": "RelativeXY",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SliceCenter": {
+                        "Max": {
+                          "X": 0,
+                          "Y": 0
+                        },
+                        "Min": {
+                          "X": 0,
+                          "Y": 0
+                        },
+                        "Type": "Rect"
+                      },
+                      "SliceScale": 1,
+                      "SourceAssetId": -1,
+                      "TileSize": {
+                        "Type": "UDim2",
+                        "X": {
+                          "Offset": 0,
+                          "Scale": 0.7749999761581421
+                        },
+                        "Y": {
+                          "Offset": 0,
+                          "Scale": 5.25
+                        }
+                      },
+                      "UniqueId": {
+                        "Type": "UniqueId",
+                        "Value": "00000000000000000000000000000000"
+                      },
+                      "Visible": true,
+                      "ZIndex": -1
+                    }
+                  },
+                  {
+                    "ClassName": "UIGradient",
+                    "Name": "UIGradient",
+                    "Properties": {
+                      "Archivable": true,
+                      "Color": {
+                        "Keypoints": [
+                          {
+                            "Color": {
+                              "B": 238,
+                              "G": 221,
+                              "R": 199
+                            },
+                            "Time": 0
+                          },
+                          {
+                            "Color": {
+                              "B": 227,
+                              "G": 210,
+                              "R": 185
+                            },
+                            "Time": 0.529411792755127
+                          },
+                          {
+                            "Color": {
+                              "B": 217,
+                              "G": 200,
+                              "R": 173
+                            },
+                            "Time": 1
+                          }
+                        ],
+                        "Type": "ColorSequence"
+                      },
+                      "Enabled": true,
+                      "HistoryId": {
+                        "Type": "UniqueId",
+                        "Value": "00000000000000000000000000000000"
+                      },
+                      "Offset": {
+                        "Type": "Vector2",
+                        "X": 0,
+                        "Y": 0
+                      },
+                      "Rotation": 90,
+                      "Sandboxed": false,
+                      "SourceAssetId": -1,
+                      "Transparency": {
+                        "Keypoints": [
+                          {
+                            "Envelope": 0,
+                            "Time": 0,
+                            "Value": 0
+                          },
+                          {
+                            "Envelope": 0,
+                            "Time": 1,
+                            "Value": 0
+                          }
+                        ],
+                        "Type": "NumberSequence"
+                      },
+                      "UniqueId": {
+                        "Type": "UniqueId",
+                        "Value": "00000000000000000000000000000000"
+                      }
+                    }
+                  }
+                ],
+                "ClassName": "Frame",
+                "Name": "Color",
+                "Properties": {
+                  "Active": false,
+                  "AnchorPoint": {
+                    "Type": "Vector2",
+                    "X": 0.5,
+                    "Y": 0.5
+                  },
+                  "Archivable": true,
+                  "AutoLocalize": true,
+                  "AutomaticSize": {
+                    "Enum": "Enum.AutomaticSize",
+                    "Name": "None",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "BackgroundColor3": {
+                    "B": 255,
+                    "G": 255,
+                    "R": 255,
+                    "Type": "Color3"
+                  },
+                  "BackgroundTransparency": 0,
+                  "BorderColor3": {
+                    "B": 0,
+                    "G": 0,
+                    "R": 0,
+                    "Type": "Color3"
+                  },
+                  "BorderMode": {
+                    "Enum": "Enum.BorderMode",
+                    "Name": "Outline",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "BorderSizePixel": 0,
+                  "ClipsDescendants": false,
+                  "Draggable": false,
+                  "HistoryId": {
+                    "Type": "UniqueId",
+                    "Value": "00000000000000000000000000000000"
+                  },
+                  "Interactable": true,
+                  "LayoutOrder": 0,
+                  "Position": {
+                    "Type": "UDim2",
+                    "X": {
+                      "Offset": 0,
+                      "Scale": 0.5
+                    },
+                    "Y": {
+                      "Offset": 0,
+                      "Scale": 0.5425404906272888
+                    }
+                  },
+                  "Rotation": 0,
+                  "Sandboxed": false,
+                  "Selectable": false,
+                  "SelectionBehaviorDown": {
+                    "Enum": "Enum.SelectionBehavior",
+                    "Name": "Escape",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SelectionBehaviorLeft": {
+                    "Enum": "Enum.SelectionBehavior",
+                    "Name": "Escape",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SelectionBehaviorRight": {
+                    "Enum": "Enum.SelectionBehavior",
+                    "Name": "Escape",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SelectionBehaviorUp": {
+                    "Enum": "Enum.SelectionBehavior",
+                    "Name": "Escape",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SelectionGroup": false,
+                  "SelectionOrder": 0,
+                  "Size": {
+                    "Type": "UDim2",
+                    "X": {
+                      "Offset": 0,
+                      "Scale": 0.9800000190734863
+                    },
+                    "Y": {
+                      "Offset": 0,
+                      "Scale": 0.9150000214576721
+                    }
+                  },
+                  "SizeConstraint": {
+                    "Enum": "Enum.SizeConstraint",
+                    "Name": "RelativeXY",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SourceAssetId": -1,
+                  "Style": {
+                    "Enum": "Enum.FrameStyle",
+                    "Name": "Custom",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "UniqueId": {
+                    "Type": "UniqueId",
+                    "Value": "00000000000000000000000000000000"
+                  },
+                  "Visible": true,
+                  "ZIndex": -10
+                }
+              },
+              {
+                "ClassName": "UIGradient",
+                "Name": "UIGradient",
+                "Properties": {
+                  "Archivable": true,
+                  "Color": {
+                    "Keypoints": [
+                      {
+                        "Color": {
+                          "B": 255,
+                          "G": 244,
+                          "R": 220
+                        },
+                        "Time": 0
+                      },
+                      {
+                        "Color": {
+                          "B": 243,
+                          "G": 214,
+                          "R": 192
+                        },
+                        "Time": 1
+                      }
+                    ],
+                    "Type": "ColorSequence"
+                  },
+                  "Enabled": true,
+                  "HistoryId": {
+                    "Type": "UniqueId",
+                    "Value": "00000000000000000000000000000000"
+                  },
+                  "Offset": {
+                    "Type": "Vector2",
+                    "X": 0,
+                    "Y": 0
+                  },
+                  "Rotation": 90,
+                  "Sandboxed": false,
+                  "SourceAssetId": -1,
+                  "Transparency": {
+                    "Keypoints": [
+                      {
+                        "Envelope": 0,
+                        "Time": 0,
+                        "Value": 0
+                      },
+                      {
+                        "Envelope": 0,
+                        "Time": 1,
+                        "Value": 0
+                      }
+                    ],
+                    "Type": "NumberSequence"
+                  },
+                  "UniqueId": {
+                    "Type": "UniqueId",
+                    "Value": "00000000000000000000000000000000"
+                  }
+                }
+              },
+              {
+                "Children": [
+                  {
+                    "ClassName": "UIStroke",
+                    "Name": "UIStroke",
+                    "Properties": {
+                      "ApplyStrokeMode": {
+                        "Enum": "Enum.ApplyStrokeMode",
+                        "Name": "Contextual",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "Archivable": true,
+                      "BorderOffset": {
+                        "Offset": 0,
+                        "Scale": 0,
+                        "Type": "UDim"
+                      },
+                      "BorderStrokePosition": {
+                        "Enum": "Enum.BorderStrokePosition",
+                        "Name": "Outer",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "Color": {
+                        "B": 26,
+                        "G": 26,
+                        "R": 26,
+                        "Type": "Color3"
+                      },
+                      "Enabled": true,
+                      "HistoryId": {
+                        "Type": "UniqueId",
+                        "Value": "00000000000000000000000000000000"
+                      },
+                      "LineJoinMode": {
+                        "Enum": "Enum.LineJoinMode",
+                        "Name": "Bevel",
+                        "Type": "EnumItem",
+                        "Value": 1
+                      },
+                      "Sandboxed": false,
+                      "SourceAssetId": -1,
+                      "StrokeSizingMode": {
+                        "Enum": "Enum.StrokeSizingMode",
+                        "Name": "FixedSize",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "Thickness": 3,
+                      "Transparency": 0,
+                      "UniqueId": {
+                        "Type": "UniqueId",
+                        "Value": "00000000000000000000000000000000"
+                      },
+                      "ZIndex": 1
+                    }
+                  }
+                ],
+                "ClassName": "TextLabel",
+                "Name": "Title",
+                "Properties": {
+                  "Active": false,
+                  "AnchorPoint": {
+                    "Type": "Vector2",
+                    "X": 0.5,
+                    "Y": 0.5
+                  },
+                  "Archivable": true,
+                  "AutoLocalize": true,
+                  "AutomaticSize": {
+                    "Enum": "Enum.AutomaticSize",
+                    "Name": "None",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "BackgroundColor3": {
+                    "B": 255,
+                    "G": 255,
+                    "R": 255,
+                    "Type": "Color3"
+                  },
+                  "BackgroundTransparency": 1,
+                  "BorderColor3": {
+                    "B": 0,
+                    "G": 0,
+                    "R": 0,
+                    "Type": "Color3"
+                  },
+                  "BorderMode": {
+                    "Enum": "Enum.BorderMode",
+                    "Name": "Outline",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "BorderSizePixel": 0,
+                  "ClipsDescendants": false,
+                  "Draggable": false,
+                  "FontFace": {
+                    "Family": "rbxasset://fonts/families/GothamSSm.json",
+                    "Style": "Enum.FontStyle.Normal",
+                    "Type": "Font",
+                    "Weight": "Enum.FontWeight.Heavy"
+                  },
+                  "HistoryId": {
+                    "Type": "UniqueId",
+                    "Value": "00000000000000000000000000000000"
+                  },
+                  "Interactable": true,
+                  "LayoutOrder": 0,
+                  "LineHeight": 1,
+                  "LocalizationMatchIdentifier": "",
+                  "LocalizationMatchedSourceText": "",
+                  "MaxVisibleGraphemes": -1,
+                  "OpenTypeFeatures": "",
+                  "Position": {
+                    "Type": "UDim2",
+                    "X": {
+                      "Offset": 0,
+                      "Scale": 0.2830231785774231
+                    },
+                    "Y": {
+                      "Offset": 0,
+                      "Scale": 0.4999997615814209
+                    }
+                  },
+                  "RichText": false,
+                  "Rotation": 0,
+                  "Sandboxed": false,
+                  "Selectable": false,
+                  "SelectionBehaviorDown": {
+                    "Enum": "Enum.SelectionBehavior",
+                    "Name": "Escape",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SelectionBehaviorLeft": {
+                    "Enum": "Enum.SelectionBehavior",
+                    "Name": "Escape",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SelectionBehaviorRight": {
+                    "Enum": "Enum.SelectionBehavior",
+                    "Name": "Escape",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SelectionBehaviorUp": {
+                    "Enum": "Enum.SelectionBehavior",
+                    "Name": "Escape",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SelectionGroup": false,
+                  "SelectionOrder": 0,
+                  "Size": {
+                    "Type": "UDim2",
+                    "X": {
+                      "Offset": 0,
+                      "Scale": 0.5109997391700745
+                    },
+                    "Y": {
+                      "Offset": 0,
+                      "Scale": 0.6689682006835938
+                    }
+                  },
+                  "SizeConstraint": {
+                    "Enum": "Enum.SizeConstraint",
+                    "Name": "RelativeXY",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SourceAssetId": -1,
+                  "Text": "Trade",
+                  "TextColor3": {
+                    "B": 255,
+                    "G": 255,
+                    "R": 255,
+                    "Type": "Color3"
+                  },
+                  "TextDirection": {
+                    "Enum": "Enum.TextDirection",
+                    "Name": "Auto",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "TextScaled": true,
+                  "TextSize": 14,
+                  "TextStrokeColor3": {
+                    "B": 0,
+                    "G": 0,
+                    "R": 0,
+                    "Type": "Color3"
+                  },
+                  "TextStrokeTransparency": 1,
+                  "TextTransparency": 0,
+                  "TextTruncate": {
+                    "Enum": "Enum.TextTruncate",
+                    "Name": "None",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "TextWrapped": true,
+                  "TextXAlignment": {
+                    "Enum": "Enum.TextXAlignment",
+                    "Name": "Left",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "TextYAlignment": {
+                    "Enum": "Enum.TextYAlignment",
+                    "Name": "Center",
+                    "Type": "EnumItem",
+                    "Value": 1
+                  },
+                  "UniqueId": {
+                    "Type": "UniqueId",
+                    "Value": "00000000000000000000000000000000"
+                  },
+                  "Visible": true,
+                  "ZIndex": 1
+                }
+              }
+            ],
+            "ClassName": "Frame",
+            "Name": "Main",
+            "Properties": {
+              "Active": false,
+              "AnchorPoint": {
+                "Type": "Vector2",
+                "X": 0.5,
+                "Y": 0.5
+              },
+              "Archivable": true,
+              "AutoLocalize": true,
+              "AutomaticSize": {
+                "Enum": "Enum.AutomaticSize",
+                "Name": "None",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "BackgroundColor3": {
+                "B": 255,
+                "G": 255,
+                "R": 255,
+                "Type": "Color3"
+              },
+              "BackgroundTransparency": 0,
+              "BorderColor3": {
+                "B": 0,
+                "G": 0,
+                "R": 0,
+                "Type": "Color3"
+              },
+              "BorderMode": {
+                "Enum": "Enum.BorderMode",
+                "Name": "Outline",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "BorderSizePixel": 0,
+              "ClipsDescendants": false,
+              "Draggable": false,
+              "HistoryId": {
+                "Type": "UniqueId",
+                "Value": "00000000000000000000000000000000"
+              },
+              "Interactable": true,
+              "LayoutOrder": 0,
+              "Position": {
+                "Type": "UDim2",
+                "X": {
+                  "Offset": 0,
+                  "Scale": 0.5
+                },
+                "Y": {
+                  "Offset": 0,
+                  "Scale": 0.4718610942363739
+                }
+              },
+              "Rotation": 0,
+              "Sandboxed": false,
+              "Selectable": false,
+              "SelectionBehaviorDown": {
+                "Enum": "Enum.SelectionBehavior",
+                "Name": "Escape",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SelectionBehaviorLeft": {
+                "Enum": "Enum.SelectionBehavior",
+                "Name": "Escape",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SelectionBehaviorRight": {
+                "Enum": "Enum.SelectionBehavior",
+                "Name": "Escape",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SelectionBehaviorUp": {
+                "Enum": "Enum.SelectionBehavior",
+                "Name": "Escape",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SelectionGroup": false,
+              "SelectionOrder": 0,
+              "Size": {
+                "Type": "UDim2",
+                "X": {
+                  "Offset": 0,
+                  "Scale": 1
+                },
+                "Y": {
+                  "Offset": 0,
+                  "Scale": 0.9437204599380493
+                }
+              },
+              "SizeConstraint": {
+                "Enum": "Enum.SizeConstraint",
+                "Name": "RelativeXY",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SourceAssetId": -1,
+              "Style": {
+                "Enum": "Enum.FrameStyle",
+                "Name": "Custom",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "UniqueId": {
+                "Type": "UniqueId",
+                "Value": "00000000000000000000000000000000"
+              },
+              "Visible": true,
+              "ZIndex": 1
+            }
+          },
+          {
+            "Children": [
+              {
+                "Children": [
+                  {
+                    "ClassName": "UIGradient",
+                    "Name": "UIGradient",
+                    "Properties": {
+                      "Archivable": true,
+                      "Color": {
+                        "Keypoints": [
+                          {
+                            "Color": {
+                              "B": 44,
+                              "G": 44,
+                              "R": 255
+                            },
+                            "Time": 0
+                          },
+                          {
+                            "Color": {
+                              "B": 9,
+                              "G": 9,
+                              "R": 225
+                            },
+                            "Time": 1
+                          }
+                        ],
+                        "Type": "ColorSequence"
+                      },
+                      "Enabled": true,
+                      "HistoryId": {
+                        "Type": "UniqueId",
+                        "Value": "00000000000000000000000000000000"
+                      },
+                      "Offset": {
+                        "Type": "Vector2",
+                        "X": 0,
+                        "Y": 0
+                      },
+                      "Rotation": 90,
+                      "Sandboxed": false,
+                      "SourceAssetId": -1,
+                      "Transparency": {
+                        "Keypoints": [
+                          {
+                            "Envelope": 0,
+                            "Time": 0,
+                            "Value": 0
+                          },
+                          {
+                            "Envelope": 0,
+                            "Time": 1,
+                            "Value": 0
+                          }
+                        ],
+                        "Type": "NumberSequence"
+                      },
+                      "UniqueId": {
+                        "Type": "UniqueId",
+                        "Value": "00000000000000000000000000000000"
+                      }
+                    }
+                  },
+                  {
+                    "Children": [
+                      {
+                        "ClassName": "UIStroke",
+                        "Name": "UIStroke",
+                        "Properties": {
+                          "ApplyStrokeMode": {
+                            "Enum": "Enum.ApplyStrokeMode",
+                            "Name": "Contextual",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "Archivable": true,
+                          "BorderOffset": {
+                            "Offset": 0,
+                            "Scale": 0,
+                            "Type": "UDim"
+                          },
+                          "BorderStrokePosition": {
+                            "Enum": "Enum.BorderStrokePosition",
+                            "Name": "Outer",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "Color": {
+                            "B": 6,
+                            "G": 6,
+                            "R": 44,
+                            "Type": "Color3"
+                          },
+                          "Enabled": true,
+                          "HistoryId": {
+                            "Type": "UniqueId",
+                            "Value": "00000000000000000000000000000000"
+                          },
+                          "LineJoinMode": {
+                            "Enum": "Enum.LineJoinMode",
+                            "Name": "Bevel",
+                            "Type": "EnumItem",
+                            "Value": 1
+                          },
+                          "Sandboxed": false,
+                          "SourceAssetId": -1,
+                          "StrokeSizingMode": {
+                            "Enum": "Enum.StrokeSizingMode",
+                            "Name": "FixedSize",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "Thickness": 3,
+                          "Transparency": 0,
+                          "UniqueId": {
+                            "Type": "UniqueId",
+                            "Value": "00000000000000000000000000000000"
+                          },
+                          "ZIndex": 1
+                        }
+                      }
+                    ],
+                    "ClassName": "TextLabel",
+                    "Name": "Title",
+                    "Properties": {
+                      "Active": false,
+                      "AnchorPoint": {
+                        "Type": "Vector2",
+                        "X": 0.5,
+                        "Y": 0.5
+                      },
+                      "Archivable": true,
+                      "AutoLocalize": true,
+                      "AutomaticSize": {
+                        "Enum": "Enum.AutomaticSize",
+                        "Name": "None",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "BackgroundColor3": {
+                        "B": 255,
+                        "G": 255,
+                        "R": 255,
+                        "Type": "Color3"
+                      },
+                      "BackgroundTransparency": 1,
+                      "BorderColor3": {
+                        "B": 0,
+                        "G": 0,
+                        "R": 0,
+                        "Type": "Color3"
+                      },
+                      "BorderMode": {
+                        "Enum": "Enum.BorderMode",
+                        "Name": "Outline",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "BorderSizePixel": 0,
+                      "ClipsDescendants": false,
+                      "Draggable": false,
+                      "FontFace": {
+                        "Family": "rbxasset://fonts/families/GothamSSm.json",
+                        "Style": "Enum.FontStyle.Normal",
+                        "Type": "Font",
+                        "Weight": "Enum.FontWeight.Heavy"
+                      },
+                      "HistoryId": {
+                        "Type": "UniqueId",
+                        "Value": "00000000000000000000000000000000"
+                      },
+                      "Interactable": true,
+                      "LayoutOrder": 0,
+                      "LineHeight": 1,
+                      "LocalizationMatchIdentifier": "",
+                      "LocalizationMatchedSourceText": "",
+                      "MaxVisibleGraphemes": -1,
+                      "OpenTypeFeatures": "",
+                      "Position": {
+                        "Type": "UDim2",
+                        "X": {
+                          "Offset": 0,
+                          "Scale": 0.5
+                        },
+                        "Y": {
+                          "Offset": 0,
+                          "Scale": 0.5
+                        }
+                      },
+                      "RichText": false,
+                      "Rotation": 0,
+                      "Sandboxed": false,
+                      "Selectable": false,
+                      "SelectionBehaviorDown": {
+                        "Enum": "Enum.SelectionBehavior",
+                        "Name": "Escape",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SelectionBehaviorLeft": {
+                        "Enum": "Enum.SelectionBehavior",
+                        "Name": "Escape",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SelectionBehaviorRight": {
+                        "Enum": "Enum.SelectionBehavior",
+                        "Name": "Escape",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SelectionBehaviorUp": {
+                        "Enum": "Enum.SelectionBehavior",
+                        "Name": "Escape",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SelectionGroup": false,
+                      "SelectionOrder": 0,
+                      "Size": {
+                        "Type": "UDim2",
+                        "X": {
+                          "Offset": 0,
+                          "Scale": 0.8500000238418579
+                        },
+                        "Y": {
+                          "Offset": 0,
+                          "Scale": 0.8500000238418579
+                        }
+                      },
+                      "SizeConstraint": {
+                        "Enum": "Enum.SizeConstraint",
+                        "Name": "RelativeXY",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SourceAssetId": -1,
+                      "Text": "X",
+                      "TextColor3": {
+                        "B": 255,
+                        "G": 255,
+                        "R": 255,
+                        "Type": "Color3"
+                      },
+                      "TextDirection": {
+                        "Enum": "Enum.TextDirection",
+                        "Name": "Auto",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "TextScaled": true,
+                      "TextSize": 14,
+                      "TextStrokeColor3": {
+                        "B": 0,
+                        "G": 0,
+                        "R": 0,
+                        "Type": "Color3"
+                      },
+                      "TextStrokeTransparency": 1,
+                      "TextTransparency": 0,
+                      "TextTruncate": {
+                        "Enum": "Enum.TextTruncate",
+                        "Name": "None",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "TextWrapped": true,
+                      "TextXAlignment": {
+                        "Enum": "Enum.TextXAlignment",
+                        "Name": "Center",
+                        "Type": "EnumItem",
+                        "Value": 2
+                      },
+                      "TextYAlignment": {
+                        "Enum": "Enum.TextYAlignment",
+                        "Name": "Center",
+                        "Type": "EnumItem",
+                        "Value": 1
+                      },
+                      "UniqueId": {
+                        "Type": "UniqueId",
+                        "Value": "00000000000000000000000000000000"
+                      },
+                      "Visible": true,
+                      "ZIndex": 1
+                    }
+                  }
+                ],
+                "ClassName": "Frame",
+                "Name": "Main",
+                "Properties": {
+                  "Active": false,
+                  "AnchorPoint": {
+                    "Type": "Vector2",
+                    "X": 0.5,
+                    "Y": 0.5
+                  },
+                  "Archivable": true,
+                  "AutoLocalize": true,
+                  "AutomaticSize": {
+                    "Enum": "Enum.AutomaticSize",
+                    "Name": "None",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "BackgroundColor3": {
+                    "B": 255,
+                    "G": 255,
+                    "R": 255,
+                    "Type": "Color3"
+                  },
+                  "BackgroundTransparency": 0,
+                  "BorderColor3": {
+                    "B": 0,
+                    "G": 0,
+                    "R": 0,
+                    "Type": "Color3"
+                  },
+                  "BorderMode": {
+                    "Enum": "Enum.BorderMode",
+                    "Name": "Outline",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "BorderSizePixel": 0,
+                  "ClipsDescendants": false,
+                  "Draggable": false,
+                  "HistoryId": {
+                    "Type": "UniqueId",
+                    "Value": "00000000000000000000000000000000"
+                  },
+                  "Interactable": true,
+                  "LayoutOrder": 0,
+                  "Position": {
+                    "Type": "UDim2",
+                    "X": {
+                      "Offset": 0,
+                      "Scale": 0.5
+                    },
+                    "Y": {
+                      "Offset": 0,
+                      "Scale": 0.46562811732292175
+                    }
+                  },
+                  "Rotation": 0,
+                  "Sandboxed": false,
+                  "Selectable": false,
+                  "SelectionBehaviorDown": {
+                    "Enum": "Enum.SelectionBehavior",
+                    "Name": "Escape",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SelectionBehaviorLeft": {
+                    "Enum": "Enum.SelectionBehavior",
+                    "Name": "Escape",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SelectionBehaviorRight": {
+                    "Enum": "Enum.SelectionBehavior",
+                    "Name": "Escape",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SelectionBehaviorUp": {
+                    "Enum": "Enum.SelectionBehavior",
+                    "Name": "Escape",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SelectionGroup": false,
+                  "SelectionOrder": 0,
+                  "Size": {
+                    "Type": "UDim2",
+                    "X": {
+                      "Offset": 0,
+                      "Scale": 1
+                    },
+                    "Y": {
+                      "Offset": 0,
+                      "Scale": 0.9312523007392883
+                    }
+                  },
+                  "SizeConstraint": {
+                    "Enum": "Enum.SizeConstraint",
+                    "Name": "RelativeXY",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SourceAssetId": -1,
+                  "Style": {
+                    "Enum": "Enum.FrameStyle",
+                    "Name": "Custom",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "UniqueId": {
+                    "Type": "UniqueId",
+                    "Value": "00000000000000000000000000000000"
+                  },
+                  "Visible": true,
+                  "ZIndex": 1
+                }
+              },
+              {
+                "ClassName": "UIStroke",
+                "Name": "UIStroke",
+                "Properties": {
+                  "ApplyStrokeMode": {
+                    "Enum": "Enum.ApplyStrokeMode",
+                    "Name": "Border",
+                    "Type": "EnumItem",
+                    "Value": 1
+                  },
+                  "Archivable": true,
+                  "BorderOffset": {
+                    "Offset": 0,
+                    "Scale": 0,
+                    "Type": "UDim"
+                  },
+                  "BorderStrokePosition": {
+                    "Enum": "Enum.BorderStrokePosition",
+                    "Name": "Outer",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "Color": {
+                    "B": 9,
+                    "G": 9,
+                    "R": 72,
+                    "Type": "Color3"
+                  },
+                  "Enabled": true,
+                  "HistoryId": {
+                    "Type": "UniqueId",
+                    "Value": "00000000000000000000000000000000"
+                  },
+                  "LineJoinMode": {
+                    "Enum": "Enum.LineJoinMode",
+                    "Name": "Round",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "Sandboxed": false,
+                  "SourceAssetId": -1,
+                  "StrokeSizingMode": {
+                    "Enum": "Enum.StrokeSizingMode",
+                    "Name": "FixedSize",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "Thickness": 4,
+                  "Transparency": 0,
+                  "UniqueId": {
+                    "Type": "UniqueId",
+                    "Value": "00000000000000000000000000000000"
+                  },
+                  "ZIndex": 1
+                }
+              }
+            ],
+            "ClassName": "TextButton",
+            "Name": "Close",
+            "Properties": {
+              "Active": true,
+              "AnchorPoint": {
+                "Type": "Vector2",
+                "X": 0.5,
+                "Y": 0.5
+              },
+              "Archivable": true,
+              "AutoButtonColor": false,
+              "AutoLocalize": true,
+              "AutomaticSize": {
+                "Enum": "Enum.AutomaticSize",
+                "Name": "None",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "BackgroundColor3": {
+                "B": 7,
+                "G": 7,
+                "R": 162,
+                "Type": "Color3"
+              },
+              "BackgroundTransparency": 0,
+              "BorderColor3": {
+                "B": 0,
+                "G": 0,
+                "R": 0,
+                "Type": "Color3"
+              },
+              "BorderMode": {
+                "Enum": "Enum.BorderMode",
+                "Name": "Outline",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "BorderSizePixel": 0,
+              "ClipsDescendants": false,
+              "Draggable": false,
+              "FontFace": {
+                "Family": "rbxasset://fonts/families/SourceSansPro.json",
+                "Style": "Enum.FontStyle.Normal",
+                "Type": "Font",
+                "Weight": "Enum.FontWeight.Regular"
+              },
+              "HistoryId": {
+                "Type": "UniqueId",
+                "Value": "00000000000000000000000000000000"
+              },
+              "Interactable": true,
+              "LayoutOrder": 0,
+              "LineHeight": 1,
+              "LocalizationMatchIdentifier": "",
+              "LocalizationMatchedSourceText": "",
+              "MaxVisibleGraphemes": -1,
+              "Modal": false,
+              "OpenTypeFeatures": "",
+              "Position": {
+                "Type": "UDim2",
+                "X": {
+                  "Offset": 0,
+                  "Scale": 0.945946455001831
+                },
+                "Y": {
+                  "Offset": 0,
+                  "Scale": 0.49999964237213135
+                }
+              },
+              "RichText": false,
+              "Rotation": 0,
+              "Sandboxed": false,
+              "Selectable": true,
+              "Selected": false,
+              "SelectionBehaviorDown": {
+                "Enum": "Enum.SelectionBehavior",
+                "Name": "Escape",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SelectionBehaviorLeft": {
+                "Enum": "Enum.SelectionBehavior",
+                "Name": "Escape",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SelectionBehaviorRight": {
+                "Enum": "Enum.SelectionBehavior",
+                "Name": "Escape",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SelectionBehaviorUp": {
+                "Enum": "Enum.SelectionBehavior",
+                "Name": "Escape",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SelectionGroup": false,
+              "SelectionOrder": 0,
+              "Size": {
+                "Type": "UDim2",
+                "X": {
+                  "Offset": 0,
+                  "Scale": 0.07279694825410843
+                },
+                "Y": {
+                  "Offset": 0,
+                  "Scale": 0.6905350685119629
+                }
+              },
+              "SizeConstraint": {
+                "Enum": "Enum.SizeConstraint",
+                "Name": "RelativeXY",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SourceAssetId": -1,
+              "Style": {
+                "Enum": "Enum.ButtonStyle",
+                "Name": "Custom",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "Text": "",
+              "TextColor3": {
+                "B": 0,
+                "G": 0,
+                "R": 0,
+                "Type": "Color3"
+              },
+              "TextDirection": {
+                "Enum": "Enum.TextDirection",
+                "Name": "Auto",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "TextScaled": false,
+              "TextSize": 14,
+              "TextStrokeColor3": {
+                "B": 0,
+                "G": 0,
+                "R": 0,
+                "Type": "Color3"
+              },
+              "TextStrokeTransparency": 1,
+              "TextTransparency": 0,
+              "TextTruncate": {
+                "Enum": "Enum.TextTruncate",
+                "Name": "None",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "TextWrapped": false,
+              "TextXAlignment": {
+                "Enum": "Enum.TextXAlignment",
+                "Name": "Center",
+                "Type": "EnumItem",
+                "Value": 2
+              },
+              "TextYAlignment": {
+                "Enum": "Enum.TextYAlignment",
+                "Name": "Center",
+                "Type": "EnumItem",
+                "Value": 1
+              },
+              "UniqueId": {
+                "Type": "UniqueId",
+                "Value": "00000000000000000000000000000000"
+              },
+              "Visible": true,
+              "ZIndex": 1
+            }
+          }
+        ],
+        "ClassName": "Frame",
+        "Name": "Top",
+        "Properties": {
+          "Active": false,
+          "AnchorPoint": {
+            "Type": "Vector2",
+            "X": 0.5,
+            "Y": 0.5
+          },
+          "Archivable": true,
+          "AutoLocalize": true,
+          "AutomaticSize": {
+            "Enum": "Enum.AutomaticSize",
+            "Name": "None",
+            "Type": "EnumItem",
+            "Value": 0
+          },
+          "BackgroundColor3": {
+            "B": 177,
+            "G": 163,
+            "R": 140,
+            "Type": "Color3"
+          },
+          "BackgroundTransparency": 0,
+          "BorderColor3": {
+            "B": 0,
+            "G": 0,
+            "R": 0,
+            "Type": "Color3"
+          },
+          "BorderMode": {
+            "Enum": "Enum.BorderMode",
+            "Name": "Outline",
+            "Type": "EnumItem",
+            "Value": 0
+          },
+          "BorderSizePixel": 0,
+          "ClipsDescendants": false,
+          "Draggable": false,
+          "HistoryId": {
+            "Type": "UniqueId",
+            "Value": "00000000000000000000000000000000"
+          },
+          "Interactable": true,
+          "LayoutOrder": 0,
+          "Position": {
+            "Type": "UDim2",
+            "X": {
+              "Offset": 0,
+              "Scale": 0.5
+            },
+            "Y": {
+              "Offset": 0,
+              "Scale": 0.10867855697870255
+            }
+          },
+          "Rotation": 0,
+          "Sandboxed": false,
+          "Selectable": false,
+          "SelectionBehaviorDown": {
+            "Enum": "Enum.SelectionBehavior",
+            "Name": "Escape",
+            "Type": "EnumItem",
+            "Value": 0
+          },
+          "SelectionBehaviorLeft": {
+            "Enum": "Enum.SelectionBehavior",
+            "Name": "Escape",
+            "Type": "EnumItem",
+            "Value": 0
+          },
+          "SelectionBehaviorRight": {
+            "Enum": "Enum.SelectionBehavior",
+            "Name": "Escape",
+            "Type": "EnumItem",
+            "Value": 0
+          },
+          "SelectionBehaviorUp": {
+            "Enum": "Enum.SelectionBehavior",
+            "Name": "Escape",
+            "Type": "EnumItem",
+            "Value": 0
+          },
+          "SelectionGroup": false,
+          "SelectionOrder": 0,
+          "Size": {
+            "Type": "UDim2",
+            "X": {
+              "Offset": 0,
+              "Scale": 1
+            },
+            "Y": {
+              "Offset": 0,
+              "Scale": 0.21735692024230957
+            }
+          },
+          "SizeConstraint": {
+            "Enum": "Enum.SizeConstraint",
+            "Name": "RelativeXY",
+            "Type": "EnumItem",
+            "Value": 0
+          },
+          "SourceAssetId": -1,
+          "Style": {
+            "Enum": "Enum.FrameStyle",
+            "Name": "Custom",
+            "Type": "EnumItem",
+            "Value": 0
+          },
+          "UniqueId": {
+            "Type": "UniqueId",
+            "Value": "00000000000000000000000000000000"
+          },
+          "Visible": true,
+          "ZIndex": 1
+        }
+      },
+      {
+        "Children": [
+          {
+            "Children": [
+              {
+                "ClassName": "UIStroke",
+                "Name": "UIStroke",
+                "Properties": {
+                  "ApplyStrokeMode": {
+                    "Enum": "Enum.ApplyStrokeMode",
+                    "Name": "Border",
+                    "Type": "EnumItem",
+                    "Value": 1
+                  },
+                  "Archivable": true,
+                  "BorderOffset": {
+                    "Offset": 0,
+                    "Scale": 0,
+                    "Type": "UDim"
+                  },
+                  "BorderStrokePosition": {
+                    "Enum": "Enum.BorderStrokePosition",
+                    "Name": "Outer",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "Color": {
+                    "B": 12,
+                    "G": 12,
+                    "R": 86,
+                    "Type": "Color3"
+                  },
+                  "Enabled": true,
+                  "HistoryId": {
+                    "Type": "UniqueId",
+                    "Value": "00000000000000000000000000000000"
+                  },
+                  "LineJoinMode": {
+                    "Enum": "Enum.LineJoinMode",
+                    "Name": "Round",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "Sandboxed": false,
+                  "SourceAssetId": -1,
+                  "StrokeSizingMode": {
+                    "Enum": "Enum.StrokeSizingMode",
+                    "Name": "FixedSize",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "Thickness": 3,
+                  "Transparency": 0,
+                  "UniqueId": {
+                    "Type": "UniqueId",
+                    "Value": "00000000000000000000000000000000"
+                  },
+                  "ZIndex": 1
+                }
+              },
+              {
+                "Children": [
+                  {
+                    "Children": [
+                      {
+                        "ClassName": "ImageLabel",
+                        "Name": "Texture",
+                        "Properties": {
+                          "Active": false,
+                          "AnchorPoint": {
+                            "Type": "Vector2",
+                            "X": 0.5,
+                            "Y": 0.5
+                          },
+                          "Archivable": true,
+                          "AutoLocalize": true,
+                          "AutomaticSize": {
+                            "Enum": "Enum.AutomaticSize",
+                            "Name": "None",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "BackgroundColor3": {
+                            "B": 255,
+                            "G": 255,
+                            "R": 255,
+                            "Type": "Color3"
+                          },
+                          "BackgroundTransparency": 1,
+                          "BorderColor3": {
+                            "B": 0,
+                            "G": 0,
+                            "R": 0,
+                            "Type": "Color3"
+                          },
+                          "BorderMode": {
+                            "Enum": "Enum.BorderMode",
+                            "Name": "Outline",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "BorderSizePixel": 0,
+                          "ClipsDescendants": false,
+                          "Draggable": false,
+                          "HistoryId": {
+                            "Type": "UniqueId",
+                            "Value": "00000000000000000000000000000000"
+                          },
+                          "ImageColor3": {
+                            "B": 255,
+                            "G": 255,
+                            "R": 255,
+                            "Type": "Color3"
+                          },
+                          "ImageContent": {
+                            "Type": "Content",
+                            "Value": "Content(Uri=rbxassetid://127729151486812)"
+                          },
+                          "ImageRectOffset": {
+                            "Type": "Vector2",
+                            "X": 0,
+                            "Y": 0
+                          },
+                          "ImageRectSize": {
+                            "Type": "Vector2",
+                            "X": 0,
+                            "Y": 0
+                          },
+                          "ImageTransparency": 0.699999988079071,
+                          "Interactable": true,
+                          "LayoutOrder": 0,
+                          "Position": {
+                            "Type": "UDim2",
+                            "X": {
+                              "Offset": 0,
+                              "Scale": 0.5
+                            },
+                            "Y": {
+                              "Offset": 0,
+                              "Scale": 0.5
+                            }
+                          },
+                          "ResampleMode": {
+                            "Enum": "Enum.ResamplerMode",
+                            "Name": "Default",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "Rotation": 0,
+                          "Sandboxed": false,
+                          "ScaleType": {
+                            "Enum": "Enum.ScaleType",
+                            "Name": "Tile",
+                            "Type": "EnumItem",
+                            "Value": 2
+                          },
+                          "Selectable": false,
+                          "SelectionBehaviorDown": {
+                            "Enum": "Enum.SelectionBehavior",
+                            "Name": "Escape",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "SelectionBehaviorLeft": {
+                            "Enum": "Enum.SelectionBehavior",
+                            "Name": "Escape",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "SelectionBehaviorRight": {
+                            "Enum": "Enum.SelectionBehavior",
+                            "Name": "Escape",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "SelectionBehaviorUp": {
+                            "Enum": "Enum.SelectionBehavior",
+                            "Name": "Escape",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "SelectionGroup": false,
+                          "SelectionOrder": 0,
+                          "Size": {
+                            "Type": "UDim2",
+                            "X": {
+                              "Offset": 0,
+                              "Scale": 1
+                            },
+                            "Y": {
+                              "Offset": 0,
+                              "Scale": 1
+                            }
+                          },
+                          "SizeConstraint": {
+                            "Enum": "Enum.SizeConstraint",
+                            "Name": "RelativeXY",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "SliceCenter": {
+                            "Max": {
+                              "X": 0,
+                              "Y": 0
+                            },
+                            "Min": {
+                              "X": 0,
+                              "Y": 0
+                            },
+                            "Type": "Rect"
+                          },
+                          "SliceScale": 1,
+                          "SourceAssetId": -1,
+                          "TileSize": {
+                            "Type": "UDim2",
+                            "X": {
+                              "Offset": 0,
+                              "Scale": 2.25
+                            },
+                            "Y": {
+                              "Offset": 0,
+                              "Scale": 5.25
+                            }
+                          },
+                          "UniqueId": {
+                            "Type": "UniqueId",
+                            "Value": "00000000000000000000000000000000"
+                          },
+                          "Visible": true,
+                          "ZIndex": -1
+                        }
+                      },
+                      {
+                        "ClassName": "UIGradient",
+                        "Name": "UIGradient",
+                        "Properties": {
+                          "Archivable": true,
+                          "Color": {
+                            "Keypoints": [
+                              {
+                                "Color": {
+                                  "B": 44,
+                                  "G": 44,
+                                  "R": 255
+                                },
+                                "Time": 0
+                              },
+                              {
+                                "Color": {
+                                  "B": 9,
+                                  "G": 9,
+                                  "R": 225
+                                },
+                                "Time": 1
+                              }
+                            ],
+                            "Type": "ColorSequence"
+                          },
+                          "Enabled": true,
+                          "HistoryId": {
+                            "Type": "UniqueId",
+                            "Value": "00000000000000000000000000000000"
+                          },
+                          "Offset": {
+                            "Type": "Vector2",
+                            "X": 0,
+                            "Y": 0
+                          },
+                          "Rotation": 90,
+                          "Sandboxed": false,
+                          "SourceAssetId": -1,
+                          "Transparency": {
+                            "Keypoints": [
+                              {
+                                "Envelope": 0,
+                                "Time": 0,
+                                "Value": 0
+                              },
+                              {
+                                "Envelope": 0,
+                                "Time": 1,
+                                "Value": 0
+                              }
+                            ],
+                            "Type": "NumberSequence"
+                          },
+                          "UniqueId": {
+                            "Type": "UniqueId",
+                            "Value": "00000000000000000000000000000000"
+                          }
+                        }
+                      }
+                    ],
+                    "ClassName": "Frame",
+                    "Name": "Color",
+                    "Properties": {
+                      "Active": false,
+                      "AnchorPoint": {
+                        "Type": "Vector2",
+                        "X": 0.5,
+                        "Y": 0.5
+                      },
+                      "Archivable": true,
+                      "AutoLocalize": true,
+                      "AutomaticSize": {
+                        "Enum": "Enum.AutomaticSize",
+                        "Name": "None",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "BackgroundColor3": {
+                        "B": 255,
+                        "G": 255,
+                        "R": 255,
+                        "Type": "Color3"
+                      },
+                      "BackgroundTransparency": 0,
+                      "BorderColor3": {
+                        "B": 0,
+                        "G": 0,
+                        "R": 0,
+                        "Type": "Color3"
+                      },
+                      "BorderMode": {
+                        "Enum": "Enum.BorderMode",
+                        "Name": "Outline",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "BorderSizePixel": 0,
+                      "ClipsDescendants": false,
+                      "Draggable": false,
+                      "HistoryId": {
+                        "Type": "UniqueId",
+                        "Value": "00000000000000000000000000000000"
+                      },
+                      "Interactable": true,
+                      "LayoutOrder": 0,
+                      "Position": {
+                        "Type": "UDim2",
+                        "X": {
+                          "Offset": 0,
+                          "Scale": 0.4999999403953552
+                        },
+                        "Y": {
+                          "Offset": 0,
+                          "Scale": 0.5337704420089722
+                        }
+                      },
+                      "Rotation": 0,
+                      "Sandboxed": false,
+                      "Selectable": false,
+                      "SelectionBehaviorDown": {
+                        "Enum": "Enum.SelectionBehavior",
+                        "Name": "Escape",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SelectionBehaviorLeft": {
+                        "Enum": "Enum.SelectionBehavior",
+                        "Name": "Escape",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SelectionBehaviorRight": {
+                        "Enum": "Enum.SelectionBehavior",
+                        "Name": "Escape",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SelectionBehaviorUp": {
+                        "Enum": "Enum.SelectionBehavior",
+                        "Name": "Escape",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SelectionGroup": false,
+                      "SelectionOrder": 0,
+                      "Size": {
+                        "Type": "UDim2",
+                        "X": {
+                          "Offset": 0,
+                          "Scale": 0.9599999785423279
+                        },
+                        "Y": {
+                          "Offset": 0,
+                          "Scale": 0.9319999814033508
+                        }
+                      },
+                      "SizeConstraint": {
+                        "Enum": "Enum.SizeConstraint",
+                        "Name": "RelativeXY",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SourceAssetId": -1,
+                      "Style": {
+                        "Enum": "Enum.FrameStyle",
+                        "Name": "Custom",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "UniqueId": {
+                        "Type": "UniqueId",
+                        "Value": "00000000000000000000000000000000"
+                      },
+                      "Visible": true,
+                      "ZIndex": -10
+                    }
+                  },
+                  {
+                    "ClassName": "UIGradient",
+                    "Name": "UIGradient",
+                    "Properties": {
+                      "Archivable": true,
+                      "Color": {
+                        "Keypoints": [
+                          {
+                            "Color": {
+                              "B": 121,
+                              "G": 121,
+                              "R": 255
+                            },
+                            "Time": 0
+                          },
+                          {
+                            "Color": {
+                              "B": 46,
+                              "G": 46,
+                              "R": 255
+                            },
+                            "Time": 1
+                          }
+                        ],
+                        "Type": "ColorSequence"
+                      },
+                      "Enabled": true,
+                      "HistoryId": {
+                        "Type": "UniqueId",
+                        "Value": "00000000000000000000000000000000"
+                      },
+                      "Offset": {
+                        "Type": "Vector2",
+                        "X": 0,
+                        "Y": 0
+                      },
+                      "Rotation": 90,
+                      "Sandboxed": false,
+                      "SourceAssetId": -1,
+                      "Transparency": {
+                        "Keypoints": [
+                          {
+                            "Envelope": 0,
+                            "Time": 0,
+                            "Value": 0
+                          },
+                          {
+                            "Envelope": 0,
+                            "Time": 1,
+                            "Value": 0
+                          }
+                        ],
+                        "Type": "NumberSequence"
+                      },
+                      "UniqueId": {
+                        "Type": "UniqueId",
+                        "Value": "00000000000000000000000000000000"
+                      }
+                    }
+                  },
+                  {
+                    "Children": [
+                      {
+                        "ClassName": "UIStroke",
+                        "Name": "UIStroke",
+                        "Properties": {
+                          "ApplyStrokeMode": {
+                            "Enum": "Enum.ApplyStrokeMode",
+                            "Name": "Contextual",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "Archivable": true,
+                          "BorderOffset": {
+                            "Offset": 0,
+                            "Scale": 0,
+                            "Type": "UDim"
+                          },
+                          "BorderStrokePosition": {
+                            "Enum": "Enum.BorderStrokePosition",
+                            "Name": "Outer",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "Color": {
+                            "B": 11,
+                            "G": 11,
+                            "R": 53,
+                            "Type": "Color3"
+                          },
+                          "Enabled": true,
+                          "HistoryId": {
+                            "Type": "UniqueId",
+                            "Value": "00000000000000000000000000000000"
+                          },
+                          "LineJoinMode": {
+                            "Enum": "Enum.LineJoinMode",
+                            "Name": "Bevel",
+                            "Type": "EnumItem",
+                            "Value": 1
+                          },
+                          "Sandboxed": false,
+                          "SourceAssetId": -1,
+                          "StrokeSizingMode": {
+                            "Enum": "Enum.StrokeSizingMode",
+                            "Name": "FixedSize",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "Thickness": 3,
+                          "Transparency": 0,
+                          "UniqueId": {
+                            "Type": "UniqueId",
+                            "Value": "00000000000000000000000000000000"
+                          },
+                          "ZIndex": 1
+                        }
+                      }
+                    ],
+                    "ClassName": "TextLabel",
+                    "Name": "Title",
+                    "Properties": {
+                      "Active": false,
+                      "AnchorPoint": {
+                        "Type": "Vector2",
+                        "X": 0.5,
+                        "Y": 0.5
+                      },
+                      "Archivable": true,
+                      "AutoLocalize": true,
+                      "AutomaticSize": {
+                        "Enum": "Enum.AutomaticSize",
+                        "Name": "None",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "BackgroundColor3": {
+                        "B": 255,
+                        "G": 255,
+                        "R": 255,
+                        "Type": "Color3"
+                      },
+                      "BackgroundTransparency": 1,
+                      "BorderColor3": {
+                        "B": 0,
+                        "G": 0,
+                        "R": 0,
+                        "Type": "Color3"
+                      },
+                      "BorderMode": {
+                        "Enum": "Enum.BorderMode",
+                        "Name": "Outline",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "BorderSizePixel": 0,
+                      "ClipsDescendants": false,
+                      "Draggable": false,
+                      "FontFace": {
+                        "Family": "rbxasset://fonts/families/GothamSSm.json",
+                        "Style": "Enum.FontStyle.Normal",
+                        "Type": "Font",
+                        "Weight": "Enum.FontWeight.Heavy"
+                      },
+                      "HistoryId": {
+                        "Type": "UniqueId",
+                        "Value": "00000000000000000000000000000000"
+                      },
+                      "Interactable": true,
+                      "LayoutOrder": 0,
+                      "LineHeight": 1,
+                      "LocalizationMatchIdentifier": "",
+                      "LocalizationMatchedSourceText": "",
+                      "MaxVisibleGraphemes": -1,
+                      "OpenTypeFeatures": "",
+                      "Position": {
+                        "Type": "UDim2",
+                        "X": {
+                          "Offset": 0,
+                          "Scale": 0.5
+                        },
+                        "Y": {
+                          "Offset": 0,
+                          "Scale": 0.5
+                        }
+                      },
+                      "RichText": false,
+                      "Rotation": 0,
+                      "Sandboxed": false,
+                      "Selectable": false,
+                      "SelectionBehaviorDown": {
+                        "Enum": "Enum.SelectionBehavior",
+                        "Name": "Escape",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SelectionBehaviorLeft": {
+                        "Enum": "Enum.SelectionBehavior",
+                        "Name": "Escape",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SelectionBehaviorRight": {
+                        "Enum": "Enum.SelectionBehavior",
+                        "Name": "Escape",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SelectionBehaviorUp": {
+                        "Enum": "Enum.SelectionBehavior",
+                        "Name": "Escape",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SelectionGroup": false,
+                      "SelectionOrder": 0,
+                      "Size": {
+                        "Type": "UDim2",
+                        "X": {
+                          "Offset": 0,
+                          "Scale": 0.949999988079071
+                        },
+                        "Y": {
+                          "Offset": 0,
+                          "Scale": 0.7250000238418579
+                        }
+                      },
+                      "SizeConstraint": {
+                        "Enum": "Enum.SizeConstraint",
+                        "Name": "RelativeXY",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SourceAssetId": -1,
+                      "Text": "No",
+                      "TextColor3": {
+                        "B": 255,
+                        "G": 255,
+                        "R": 255,
+                        "Type": "Color3"
+                      },
+                      "TextDirection": {
+                        "Enum": "Enum.TextDirection",
+                        "Name": "Auto",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "TextScaled": true,
+                      "TextSize": 14,
+                      "TextStrokeColor3": {
+                        "B": 0,
+                        "G": 0,
+                        "R": 0,
+                        "Type": "Color3"
+                      },
+                      "TextStrokeTransparency": 1,
+                      "TextTransparency": 0,
+                      "TextTruncate": {
+                        "Enum": "Enum.TextTruncate",
+                        "Name": "None",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "TextWrapped": true,
+                      "TextXAlignment": {
+                        "Enum": "Enum.TextXAlignment",
+                        "Name": "Center",
+                        "Type": "EnumItem",
+                        "Value": 2
+                      },
+                      "TextYAlignment": {
+                        "Enum": "Enum.TextYAlignment",
+                        "Name": "Center",
+                        "Type": "EnumItem",
+                        "Value": 1
+                      },
+                      "UniqueId": {
+                        "Type": "UniqueId",
+                        "Value": "00000000000000000000000000000000"
+                      },
+                      "Visible": true,
+                      "ZIndex": 1
+                    }
+                  }
+                ],
+                "ClassName": "Frame",
+                "Name": "Main",
+                "Properties": {
+                  "Active": false,
+                  "AnchorPoint": {
+                    "Type": "Vector2",
+                    "X": 0.5,
+                    "Y": 0.5
+                  },
+                  "Archivable": true,
+                  "AutoLocalize": true,
+                  "AutomaticSize": {
+                    "Enum": "Enum.AutomaticSize",
+                    "Name": "None",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "BackgroundColor3": {
+                    "B": 255,
+                    "G": 255,
+                    "R": 255,
+                    "Type": "Color3"
+                  },
+                  "BackgroundTransparency": 0,
+                  "BorderColor3": {
+                    "B": 0,
+                    "G": 0,
+                    "R": 0,
+                    "Type": "Color3"
+                  },
+                  "BorderMode": {
+                    "Enum": "Enum.BorderMode",
+                    "Name": "Outline",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "BorderSizePixel": 0,
+                  "ClipsDescendants": false,
+                  "Draggable": false,
+                  "HistoryId": {
+                    "Type": "UniqueId",
+                    "Value": "00000000000000000000000000000000"
+                  },
+                  "Interactable": true,
+                  "LayoutOrder": 0,
+                  "Position": {
+                    "Type": "UDim2",
+                    "X": {
+                      "Offset": 0,
+                      "Scale": 0.5
+                    },
+                    "Y": {
+                      "Offset": 0,
+                      "Scale": 0.46843233704566956
+                    }
+                  },
+                  "Rotation": 0,
+                  "Sandboxed": false,
+                  "Selectable": false,
+                  "SelectionBehaviorDown": {
+                    "Enum": "Enum.SelectionBehavior",
+                    "Name": "Escape",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SelectionBehaviorLeft": {
+                    "Enum": "Enum.SelectionBehavior",
+                    "Name": "Escape",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SelectionBehaviorRight": {
+                    "Enum": "Enum.SelectionBehavior",
+                    "Name": "Escape",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SelectionBehaviorUp": {
+                    "Enum": "Enum.SelectionBehavior",
+                    "Name": "Escape",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SelectionGroup": false,
+                  "SelectionOrder": 0,
+                  "Size": {
+                    "Type": "UDim2",
+                    "X": {
+                      "Offset": 0,
+                      "Scale": 1
+                    },
+                    "Y": {
+                      "Offset": 0,
+                      "Scale": 0.9368610978126526
+                    }
+                  },
+                  "SizeConstraint": {
+                    "Enum": "Enum.SizeConstraint",
+                    "Name": "RelativeXY",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SourceAssetId": -1,
+                  "Style": {
+                    "Enum": "Enum.FrameStyle",
+                    "Name": "Custom",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "UniqueId": {
+                    "Type": "UniqueId",
+                    "Value": "00000000000000000000000000000000"
+                  },
+                  "Visible": true,
+                  "ZIndex": 1
+                }
+              }
+            ],
+            "ClassName": "TextButton",
+            "Name": "No",
+            "Properties": {
+              "Active": true,
+              "AnchorPoint": {
+                "Type": "Vector2",
+                "X": 0.5,
+                "Y": 0.5
+              },
+              "Archivable": true,
+              "AutoButtonColor": false,
+              "AutoLocalize": true,
+              "AutomaticSize": {
+                "Enum": "Enum.AutomaticSize",
+                "Name": "None",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "BackgroundColor3": {
+                "B": 7,
+                "G": 7,
+                "R": 145,
+                "Type": "Color3"
+              },
+              "BackgroundTransparency": 0,
+              "BorderColor3": {
+                "B": 0,
+                "G": 0,
+                "R": 0,
+                "Type": "Color3"
+              },
+              "BorderMode": {
+                "Enum": "Enum.BorderMode",
+                "Name": "Outline",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "BorderSizePixel": 0,
+              "ClipsDescendants": false,
+              "Draggable": false,
+              "FontFace": {
+                "Family": "rbxasset://fonts/families/SourceSansPro.json",
+                "Style": "Enum.FontStyle.Normal",
+                "Type": "Font",
+                "Weight": "Enum.FontWeight.Regular"
+              },
+              "HistoryId": {
+                "Type": "UniqueId",
+                "Value": "00000000000000000000000000000000"
+              },
+              "Interactable": true,
+              "LayoutOrder": 0,
+              "LineHeight": 1,
+              "LocalizationMatchIdentifier": "",
+              "LocalizationMatchedSourceText": "",
+              "MaxVisibleGraphemes": -1,
+              "Modal": false,
+              "OpenTypeFeatures": "",
+              "Position": {
+                "Type": "UDim2",
+                "X": {
+                  "Offset": 0,
+                  "Scale": 0.6996854543685913
+                },
+                "Y": {
+                  "Offset": 0,
+                  "Scale": 0.7740911841392517
+                }
+              },
+              "RichText": false,
+              "Rotation": 0,
+              "Sandboxed": false,
+              "Selectable": true,
+              "Selected": false,
+              "SelectionBehaviorDown": {
+                "Enum": "Enum.SelectionBehavior",
+                "Name": "Escape",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SelectionBehaviorLeft": {
+                "Enum": "Enum.SelectionBehavior",
+                "Name": "Escape",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SelectionBehaviorRight": {
+                "Enum": "Enum.SelectionBehavior",
+                "Name": "Escape",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SelectionBehaviorUp": {
+                "Enum": "Enum.SelectionBehavior",
+                "Name": "Escape",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SelectionGroup": false,
+              "SelectionOrder": 0,
+              "Size": {
+                "Type": "UDim2",
+                "X": {
+                  "Offset": 0,
+                  "Scale": 0.34944725036621094
+                },
+                "Y": {
+                  "Offset": 0,
+                  "Scale": 0.25335806608200073
+                }
+              },
+              "SizeConstraint": {
+                "Enum": "Enum.SizeConstraint",
+                "Name": "RelativeXY",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SourceAssetId": -1,
+              "Style": {
+                "Enum": "Enum.ButtonStyle",
+                "Name": "Custom",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "Text": "",
+              "TextColor3": {
+                "B": 0,
+                "G": 0,
+                "R": 0,
+                "Type": "Color3"
+              },
+              "TextDirection": {
+                "Enum": "Enum.TextDirection",
+                "Name": "Auto",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "TextScaled": false,
+              "TextSize": 14,
+              "TextStrokeColor3": {
+                "B": 0,
+                "G": 0,
+                "R": 0,
+                "Type": "Color3"
+              },
+              "TextStrokeTransparency": 1,
+              "TextTransparency": 0,
+              "TextTruncate": {
+                "Enum": "Enum.TextTruncate",
+                "Name": "None",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "TextWrapped": false,
+              "TextXAlignment": {
+                "Enum": "Enum.TextXAlignment",
+                "Name": "Center",
+                "Type": "EnumItem",
+                "Value": 2
+              },
+              "TextYAlignment": {
+                "Enum": "Enum.TextYAlignment",
+                "Name": "Center",
+                "Type": "EnumItem",
+                "Value": 1
+              },
+              "UniqueId": {
+                "Type": "UniqueId",
+                "Value": "00000000000000000000000000000000"
+              },
+              "Visible": true,
+              "ZIndex": 1
+            }
+          },
+          {
+            "Children": [
+              {
+                "ClassName": "UIStroke",
+                "Name": "UIStroke",
+                "Properties": {
+                  "ApplyStrokeMode": {
+                    "Enum": "Enum.ApplyStrokeMode",
+                    "Name": "Border",
+                    "Type": "EnumItem",
+                    "Value": 1
+                  },
+                  "Archivable": true,
+                  "BorderOffset": {
+                    "Offset": 0,
+                    "Scale": 0,
+                    "Type": "UDim"
+                  },
+                  "BorderStrokePosition": {
+                    "Enum": "Enum.BorderStrokePosition",
+                    "Name": "Outer",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "Color": {
+                    "B": 0,
+                    "G": 86,
+                    "R": 6,
+                    "Type": "Color3"
+                  },
+                  "Enabled": true,
+                  "HistoryId": {
+                    "Type": "UniqueId",
+                    "Value": "00000000000000000000000000000000"
+                  },
+                  "LineJoinMode": {
+                    "Enum": "Enum.LineJoinMode",
+                    "Name": "Round",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "Sandboxed": false,
+                  "SourceAssetId": -1,
+                  "StrokeSizingMode": {
+                    "Enum": "Enum.StrokeSizingMode",
+                    "Name": "FixedSize",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "Thickness": 3,
+                  "Transparency": 0,
+                  "UniqueId": {
+                    "Type": "UniqueId",
+                    "Value": "00000000000000000000000000000000"
+                  },
+                  "ZIndex": 1
+                }
+              },
+              {
+                "Children": [
+                  {
+                    "Children": [
+                      {
+                        "ClassName": "ImageLabel",
+                        "Name": "Texture",
+                        "Properties": {
+                          "Active": false,
+                          "AnchorPoint": {
+                            "Type": "Vector2",
+                            "X": 0.5,
+                            "Y": 0.5
+                          },
+                          "Archivable": true,
+                          "AutoLocalize": true,
+                          "AutomaticSize": {
+                            "Enum": "Enum.AutomaticSize",
+                            "Name": "None",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "BackgroundColor3": {
+                            "B": 255,
+                            "G": 255,
+                            "R": 255,
+                            "Type": "Color3"
+                          },
+                          "BackgroundTransparency": 1,
+                          "BorderColor3": {
+                            "B": 0,
+                            "G": 0,
+                            "R": 0,
+                            "Type": "Color3"
+                          },
+                          "BorderMode": {
+                            "Enum": "Enum.BorderMode",
+                            "Name": "Outline",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "BorderSizePixel": 0,
+                          "ClipsDescendants": false,
+                          "Draggable": false,
+                          "HistoryId": {
+                            "Type": "UniqueId",
+                            "Value": "00000000000000000000000000000000"
+                          },
+                          "ImageColor3": {
+                            "B": 255,
+                            "G": 255,
+                            "R": 255,
+                            "Type": "Color3"
+                          },
+                          "ImageContent": {
+                            "Type": "Content",
+                            "Value": "Content(Uri=rbxassetid://127729151486812)"
+                          },
+                          "ImageRectOffset": {
+                            "Type": "Vector2",
+                            "X": 0,
+                            "Y": 0
+                          },
+                          "ImageRectSize": {
+                            "Type": "Vector2",
+                            "X": 0,
+                            "Y": 0
+                          },
+                          "ImageTransparency": 0.699999988079071,
+                          "Interactable": true,
+                          "LayoutOrder": 0,
+                          "Position": {
+                            "Type": "UDim2",
+                            "X": {
+                              "Offset": 0,
+                              "Scale": 0.5
+                            },
+                            "Y": {
+                              "Offset": 0,
+                              "Scale": 0.5
+                            }
+                          },
+                          "ResampleMode": {
+                            "Enum": "Enum.ResamplerMode",
+                            "Name": "Default",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "Rotation": 0,
+                          "Sandboxed": false,
+                          "ScaleType": {
+                            "Enum": "Enum.ScaleType",
+                            "Name": "Tile",
+                            "Type": "EnumItem",
+                            "Value": 2
+                          },
+                          "Selectable": false,
+                          "SelectionBehaviorDown": {
+                            "Enum": "Enum.SelectionBehavior",
+                            "Name": "Escape",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "SelectionBehaviorLeft": {
+                            "Enum": "Enum.SelectionBehavior",
+                            "Name": "Escape",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "SelectionBehaviorRight": {
+                            "Enum": "Enum.SelectionBehavior",
+                            "Name": "Escape",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "SelectionBehaviorUp": {
+                            "Enum": "Enum.SelectionBehavior",
+                            "Name": "Escape",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "SelectionGroup": false,
+                          "SelectionOrder": 0,
+                          "Size": {
+                            "Type": "UDim2",
+                            "X": {
+                              "Offset": 0,
+                              "Scale": 1
+                            },
+                            "Y": {
+                              "Offset": 0,
+                              "Scale": 1
+                            }
+                          },
+                          "SizeConstraint": {
+                            "Enum": "Enum.SizeConstraint",
+                            "Name": "RelativeXY",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "SliceCenter": {
+                            "Max": {
+                              "X": 0,
+                              "Y": 0
+                            },
+                            "Min": {
+                              "X": 0,
+                              "Y": 0
+                            },
+                            "Type": "Rect"
+                          },
+                          "SliceScale": 1,
+                          "SourceAssetId": -1,
+                          "TileSize": {
+                            "Type": "UDim2",
+                            "X": {
+                              "Offset": 0,
+                              "Scale": 2.25
+                            },
+                            "Y": {
+                              "Offset": 0,
+                              "Scale": 5.25
+                            }
+                          },
+                          "UniqueId": {
+                            "Type": "UniqueId",
+                            "Value": "00000000000000000000000000000000"
+                          },
+                          "Visible": true,
+                          "ZIndex": -1
+                        }
+                      },
+                      {
+                        "ClassName": "UIGradient",
+                        "Name": "UIGradient",
+                        "Properties": {
+                          "Archivable": true,
+                          "Color": {
+                            "Keypoints": [
+                              {
+                                "Color": {
+                                  "B": 0,
+                                  "G": 255,
+                                  "R": 81
+                                },
+                                "Time": 0
+                              },
+                              {
+                                "Color": {
+                                  "B": 0,
+                                  "G": 227,
+                                  "R": 34
+                                },
+                                "Time": 1
+                              }
+                            ],
+                            "Type": "ColorSequence"
+                          },
+                          "Enabled": true,
+                          "HistoryId": {
+                            "Type": "UniqueId",
+                            "Value": "00000000000000000000000000000000"
+                          },
+                          "Offset": {
+                            "Type": "Vector2",
+                            "X": 0,
+                            "Y": 0
+                          },
+                          "Rotation": 90,
+                          "Sandboxed": false,
+                          "SourceAssetId": -1,
+                          "Transparency": {
+                            "Keypoints": [
+                              {
+                                "Envelope": 0,
+                                "Time": 0,
+                                "Value": 0
+                              },
+                              {
+                                "Envelope": 0,
+                                "Time": 1,
+                                "Value": 0
+                              }
+                            ],
+                            "Type": "NumberSequence"
+                          },
+                          "UniqueId": {
+                            "Type": "UniqueId",
+                            "Value": "00000000000000000000000000000000"
+                          }
+                        }
+                      }
+                    ],
+                    "ClassName": "Frame",
+                    "Name": "Color",
+                    "Properties": {
+                      "Active": false,
+                      "AnchorPoint": {
+                        "Type": "Vector2",
+                        "X": 0.5,
+                        "Y": 0.5
+                      },
+                      "Archivable": true,
+                      "AutoLocalize": true,
+                      "AutomaticSize": {
+                        "Enum": "Enum.AutomaticSize",
+                        "Name": "None",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "BackgroundColor3": {
+                        "B": 255,
+                        "G": 255,
+                        "R": 255,
+                        "Type": "Color3"
+                      },
+                      "BackgroundTransparency": 0,
+                      "BorderColor3": {
+                        "B": 0,
+                        "G": 0,
+                        "R": 0,
+                        "Type": "Color3"
+                      },
+                      "BorderMode": {
+                        "Enum": "Enum.BorderMode",
+                        "Name": "Outline",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "BorderSizePixel": 0,
+                      "ClipsDescendants": false,
+                      "Draggable": false,
+                      "HistoryId": {
+                        "Type": "UniqueId",
+                        "Value": "00000000000000000000000000000000"
+                      },
+                      "Interactable": true,
+                      "LayoutOrder": 0,
+                      "Position": {
+                        "Type": "UDim2",
+                        "X": {
+                          "Offset": 0,
+                          "Scale": 0.4999999403953552
+                        },
+                        "Y": {
+                          "Offset": 0,
+                          "Scale": 0.5337704420089722
+                        }
+                      },
+                      "Rotation": 0,
+                      "Sandboxed": false,
+                      "Selectable": false,
+                      "SelectionBehaviorDown": {
+                        "Enum": "Enum.SelectionBehavior",
+                        "Name": "Escape",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SelectionBehaviorLeft": {
+                        "Enum": "Enum.SelectionBehavior",
+                        "Name": "Escape",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SelectionBehaviorRight": {
+                        "Enum": "Enum.SelectionBehavior",
+                        "Name": "Escape",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SelectionBehaviorUp": {
+                        "Enum": "Enum.SelectionBehavior",
+                        "Name": "Escape",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SelectionGroup": false,
+                      "SelectionOrder": 0,
+                      "Size": {
+                        "Type": "UDim2",
+                        "X": {
+                          "Offset": 0,
+                          "Scale": 0.9599999785423279
+                        },
+                        "Y": {
+                          "Offset": 0,
+                          "Scale": 0.9319999814033508
+                        }
+                      },
+                      "SizeConstraint": {
+                        "Enum": "Enum.SizeConstraint",
+                        "Name": "RelativeXY",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SourceAssetId": -1,
+                      "Style": {
+                        "Enum": "Enum.FrameStyle",
+                        "Name": "Custom",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "UniqueId": {
+                        "Type": "UniqueId",
+                        "Value": "00000000000000000000000000000000"
+                      },
+                      "Visible": true,
+                      "ZIndex": -10
+                    }
+                  },
+                  {
+                    "ClassName": "UIGradient",
+                    "Name": "UIGradient",
+                    "Properties": {
+                      "Archivable": true,
+                      "Color": {
+                        "Keypoints": [
+                          {
+                            "Color": {
+                              "B": 162,
+                              "G": 255,
+                              "R": 176
+                            },
+                            "Time": 0
+                          },
+                          {
+                            "Color": {
+                              "B": 69,
+                              "G": 255,
+                              "R": 78
+                            },
+                            "Time": 1
+                          }
+                        ],
+                        "Type": "ColorSequence"
+                      },
+                      "Enabled": true,
+                      "HistoryId": {
+                        "Type": "UniqueId",
+                        "Value": "00000000000000000000000000000000"
+                      },
+                      "Offset": {
+                        "Type": "Vector2",
+                        "X": 0,
+                        "Y": 0
+                      },
+                      "Rotation": 90,
+                      "Sandboxed": false,
+                      "SourceAssetId": -1,
+                      "Transparency": {
+                        "Keypoints": [
+                          {
+                            "Envelope": 0,
+                            "Time": 0,
+                            "Value": 0
+                          },
+                          {
+                            "Envelope": 0,
+                            "Time": 1,
+                            "Value": 0
+                          }
+                        ],
+                        "Type": "NumberSequence"
+                      },
+                      "UniqueId": {
+                        "Type": "UniqueId",
+                        "Value": "00000000000000000000000000000000"
+                      }
+                    }
+                  },
+                  {
+                    "Children": [
+                      {
+                        "ClassName": "UIStroke",
+                        "Name": "UIStroke",
+                        "Properties": {
+                          "ApplyStrokeMode": {
+                            "Enum": "Enum.ApplyStrokeMode",
+                            "Name": "Contextual",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "Archivable": true,
+                          "BorderOffset": {
+                            "Offset": 0,
+                            "Scale": 0,
+                            "Type": "UDim"
+                          },
+                          "BorderStrokePosition": {
+                            "Enum": "Enum.BorderStrokePosition",
+                            "Name": "Outer",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "Color": {
+                            "B": 0,
+                            "G": 53,
+                            "R": 5,
+                            "Type": "Color3"
+                          },
+                          "Enabled": true,
+                          "HistoryId": {
+                            "Type": "UniqueId",
+                            "Value": "00000000000000000000000000000000"
+                          },
+                          "LineJoinMode": {
+                            "Enum": "Enum.LineJoinMode",
+                            "Name": "Bevel",
+                            "Type": "EnumItem",
+                            "Value": 1
+                          },
+                          "Sandboxed": false,
+                          "SourceAssetId": -1,
+                          "StrokeSizingMode": {
+                            "Enum": "Enum.StrokeSizingMode",
+                            "Name": "FixedSize",
+                            "Type": "EnumItem",
+                            "Value": 0
+                          },
+                          "Thickness": 3,
+                          "Transparency": 0,
+                          "UniqueId": {
+                            "Type": "UniqueId",
+                            "Value": "00000000000000000000000000000000"
+                          },
+                          "ZIndex": 1
+                        }
+                      }
+                    ],
+                    "ClassName": "TextLabel",
+                    "Name": "Title",
+                    "Properties": {
+                      "Active": false,
+                      "AnchorPoint": {
+                        "Type": "Vector2",
+                        "X": 0.5,
+                        "Y": 0.5
+                      },
+                      "Archivable": true,
+                      "AutoLocalize": true,
+                      "AutomaticSize": {
+                        "Enum": "Enum.AutomaticSize",
+                        "Name": "None",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "BackgroundColor3": {
+                        "B": 255,
+                        "G": 255,
+                        "R": 255,
+                        "Type": "Color3"
+                      },
+                      "BackgroundTransparency": 1,
+                      "BorderColor3": {
+                        "B": 0,
+                        "G": 0,
+                        "R": 0,
+                        "Type": "Color3"
+                      },
+                      "BorderMode": {
+                        "Enum": "Enum.BorderMode",
+                        "Name": "Outline",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "BorderSizePixel": 0,
+                      "ClipsDescendants": false,
+                      "Draggable": false,
+                      "FontFace": {
+                        "Family": "rbxasset://fonts/families/GothamSSm.json",
+                        "Style": "Enum.FontStyle.Normal",
+                        "Type": "Font",
+                        "Weight": "Enum.FontWeight.Heavy"
+                      },
+                      "HistoryId": {
+                        "Type": "UniqueId",
+                        "Value": "00000000000000000000000000000000"
+                      },
+                      "Interactable": true,
+                      "LayoutOrder": 0,
+                      "LineHeight": 1,
+                      "LocalizationMatchIdentifier": "",
+                      "LocalizationMatchedSourceText": "",
+                      "MaxVisibleGraphemes": -1,
+                      "OpenTypeFeatures": "",
+                      "Position": {
+                        "Type": "UDim2",
+                        "X": {
+                          "Offset": 0,
+                          "Scale": 0.5
+                        },
+                        "Y": {
+                          "Offset": 0,
+                          "Scale": 0.5
+                        }
+                      },
+                      "RichText": false,
+                      "Rotation": 0,
+                      "Sandboxed": false,
+                      "Selectable": false,
+                      "SelectionBehaviorDown": {
+                        "Enum": "Enum.SelectionBehavior",
+                        "Name": "Escape",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SelectionBehaviorLeft": {
+                        "Enum": "Enum.SelectionBehavior",
+                        "Name": "Escape",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SelectionBehaviorRight": {
+                        "Enum": "Enum.SelectionBehavior",
+                        "Name": "Escape",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SelectionBehaviorUp": {
+                        "Enum": "Enum.SelectionBehavior",
+                        "Name": "Escape",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SelectionGroup": false,
+                      "SelectionOrder": 0,
+                      "Size": {
+                        "Type": "UDim2",
+                        "X": {
+                          "Offset": 0,
+                          "Scale": 0.949999988079071
+                        },
+                        "Y": {
+                          "Offset": 0,
+                          "Scale": 0.7250000238418579
+                        }
+                      },
+                      "SizeConstraint": {
+                        "Enum": "Enum.SizeConstraint",
+                        "Name": "RelativeXY",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "SourceAssetId": -1,
+                      "Text": "Yes",
+                      "TextColor3": {
+                        "B": 255,
+                        "G": 255,
+                        "R": 255,
+                        "Type": "Color3"
+                      },
+                      "TextDirection": {
+                        "Enum": "Enum.TextDirection",
+                        "Name": "Auto",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "TextScaled": true,
+                      "TextSize": 14,
+                      "TextStrokeColor3": {
+                        "B": 0,
+                        "G": 0,
+                        "R": 0,
+                        "Type": "Color3"
+                      },
+                      "TextStrokeTransparency": 1,
+                      "TextTransparency": 0,
+                      "TextTruncate": {
+                        "Enum": "Enum.TextTruncate",
+                        "Name": "None",
+                        "Type": "EnumItem",
+                        "Value": 0
+                      },
+                      "TextWrapped": true,
+                      "TextXAlignment": {
+                        "Enum": "Enum.TextXAlignment",
+                        "Name": "Center",
+                        "Type": "EnumItem",
+                        "Value": 2
+                      },
+                      "TextYAlignment": {
+                        "Enum": "Enum.TextYAlignment",
+                        "Name": "Center",
+                        "Type": "EnumItem",
+                        "Value": 1
+                      },
+                      "UniqueId": {
+                        "Type": "UniqueId",
+                        "Value": "00000000000000000000000000000000"
+                      },
+                      "Visible": true,
+                      "ZIndex": 1
+                    }
+                  }
+                ],
+                "ClassName": "Frame",
+                "Name": "Main",
+                "Properties": {
+                  "Active": false,
+                  "AnchorPoint": {
+                    "Type": "Vector2",
+                    "X": 0.5,
+                    "Y": 0.5
+                  },
+                  "Archivable": true,
+                  "AutoLocalize": true,
+                  "AutomaticSize": {
+                    "Enum": "Enum.AutomaticSize",
+                    "Name": "None",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "BackgroundColor3": {
+                    "B": 255,
+                    "G": 255,
+                    "R": 255,
+                    "Type": "Color3"
+                  },
+                  "BackgroundTransparency": 0,
+                  "BorderColor3": {
+                    "B": 0,
+                    "G": 0,
+                    "R": 0,
+                    "Type": "Color3"
+                  },
+                  "BorderMode": {
+                    "Enum": "Enum.BorderMode",
+                    "Name": "Outline",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "BorderSizePixel": 0,
+                  "ClipsDescendants": false,
+                  "Draggable": false,
+                  "HistoryId": {
+                    "Type": "UniqueId",
+                    "Value": "00000000000000000000000000000000"
+                  },
+                  "Interactable": true,
+                  "LayoutOrder": 0,
+                  "Position": {
+                    "Type": "UDim2",
+                    "X": {
+                      "Offset": 0,
+                      "Scale": 0.5
+                    },
+                    "Y": {
+                      "Offset": 0,
+                      "Scale": 0.46843233704566956
+                    }
+                  },
+                  "Rotation": 0,
+                  "Sandboxed": false,
+                  "Selectable": false,
+                  "SelectionBehaviorDown": {
+                    "Enum": "Enum.SelectionBehavior",
+                    "Name": "Escape",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SelectionBehaviorLeft": {
+                    "Enum": "Enum.SelectionBehavior",
+                    "Name": "Escape",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SelectionBehaviorRight": {
+                    "Enum": "Enum.SelectionBehavior",
+                    "Name": "Escape",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SelectionBehaviorUp": {
+                    "Enum": "Enum.SelectionBehavior",
+                    "Name": "Escape",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SelectionGroup": false,
+                  "SelectionOrder": 0,
+                  "Size": {
+                    "Type": "UDim2",
+                    "X": {
+                      "Offset": 0,
+                      "Scale": 1
+                    },
+                    "Y": {
+                      "Offset": 0,
+                      "Scale": 0.9368610978126526
+                    }
+                  },
+                  "SizeConstraint": {
+                    "Enum": "Enum.SizeConstraint",
+                    "Name": "RelativeXY",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "SourceAssetId": -1,
+                  "Style": {
+                    "Enum": "Enum.FrameStyle",
+                    "Name": "Custom",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "UniqueId": {
+                    "Type": "UniqueId",
+                    "Value": "00000000000000000000000000000000"
+                  },
+                  "Visible": true,
+                  "ZIndex": 1
+                }
+              }
+            ],
+            "ClassName": "TextButton",
+            "Name": "Yes",
+            "Properties": {
+              "Active": true,
+              "AnchorPoint": {
+                "Type": "Vector2",
+                "X": 0.5,
+                "Y": 0.5
+              },
+              "Archivable": true,
+              "AutoButtonColor": false,
+              "AutoLocalize": true,
+              "AutomaticSize": {
+                "Enum": "Enum.AutomaticSize",
+                "Name": "None",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "BackgroundColor3": {
+                "B": 0,
+                "G": 182,
+                "R": 24,
+                "Type": "Color3"
+              },
+              "BackgroundTransparency": 0,
+              "BorderColor3": {
+                "B": 0,
+                "G": 0,
+                "R": 0,
+                "Type": "Color3"
+              },
+              "BorderMode": {
+                "Enum": "Enum.BorderMode",
+                "Name": "Outline",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "BorderSizePixel": 0,
+              "ClipsDescendants": false,
+              "Draggable": false,
+              "FontFace": {
+                "Family": "rbxasset://fonts/families/SourceSansPro.json",
+                "Style": "Enum.FontStyle.Normal",
+                "Type": "Font",
+                "Weight": "Enum.FontWeight.Regular"
+              },
+              "HistoryId": {
+                "Type": "UniqueId",
+                "Value": "00000000000000000000000000000000"
+              },
+              "Interactable": true,
+              "LayoutOrder": 0,
+              "LineHeight": 1,
+              "LocalizationMatchIdentifier": "",
+              "LocalizationMatchedSourceText": "",
+              "MaxVisibleGraphemes": -1,
+              "Modal": false,
+              "OpenTypeFeatures": "",
+              "Position": {
+                "Type": "UDim2",
+                "X": {
+                  "Offset": 0,
+                  "Scale": 0.29979267716407776
+                },
+                "Y": {
+                  "Offset": 0,
+                  "Scale": 0.7740911841392517
+                }
+              },
+              "RichText": false,
+              "Rotation": 0,
+              "Sandboxed": false,
+              "Selectable": true,
+              "Selected": false,
+              "SelectionBehaviorDown": {
+                "Enum": "Enum.SelectionBehavior",
+                "Name": "Escape",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SelectionBehaviorLeft": {
+                "Enum": "Enum.SelectionBehavior",
+                "Name": "Escape",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SelectionBehaviorRight": {
+                "Enum": "Enum.SelectionBehavior",
+                "Name": "Escape",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SelectionBehaviorUp": {
+                "Enum": "Enum.SelectionBehavior",
+                "Name": "Escape",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SelectionGroup": false,
+              "SelectionOrder": 0,
+              "Size": {
+                "Type": "UDim2",
+                "X": {
+                  "Offset": 0,
+                  "Scale": 0.3494472801685333
+                },
+                "Y": {
+                  "Offset": 0,
+                  "Scale": 0.25335806608200073
+                }
+              },
+              "SizeConstraint": {
+                "Enum": "Enum.SizeConstraint",
+                "Name": "RelativeXY",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SourceAssetId": -1,
+              "Style": {
+                "Enum": "Enum.ButtonStyle",
+                "Name": "Custom",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "Text": "",
+              "TextColor3": {
+                "B": 0,
+                "G": 0,
+                "R": 0,
+                "Type": "Color3"
+              },
+              "TextDirection": {
+                "Enum": "Enum.TextDirection",
+                "Name": "Auto",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "TextScaled": false,
+              "TextSize": 14,
+              "TextStrokeColor3": {
+                "B": 0,
+                "G": 0,
+                "R": 0,
+                "Type": "Color3"
+              },
+              "TextStrokeTransparency": 1,
+              "TextTransparency": 0,
+              "TextTruncate": {
+                "Enum": "Enum.TextTruncate",
+                "Name": "None",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "TextWrapped": false,
+              "TextXAlignment": {
+                "Enum": "Enum.TextXAlignment",
+                "Name": "Center",
+                "Type": "EnumItem",
+                "Value": 2
+              },
+              "TextYAlignment": {
+                "Enum": "Enum.TextYAlignment",
+                "Name": "Center",
+                "Type": "EnumItem",
+                "Value": 1
+              },
+              "UniqueId": {
+                "Type": "UniqueId",
+                "Value": "00000000000000000000000000000000"
+              },
+              "Visible": true,
+              "ZIndex": 1
+            }
+          },
+          {
+            "Children": [
+              {
+                "ClassName": "UIStroke",
+                "Name": "UIStroke",
+                "Properties": {
+                  "ApplyStrokeMode": {
+                    "Enum": "Enum.ApplyStrokeMode",
+                    "Name": "Contextual",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "Archivable": true,
+                  "BorderOffset": {
+                    "Offset": 0,
+                    "Scale": 0,
+                    "Type": "UDim"
+                  },
+                  "BorderStrokePosition": {
+                    "Enum": "Enum.BorderStrokePosition",
+                    "Name": "Outer",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "Color": {
+                    "B": 26,
+                    "G": 26,
+                    "R": 26,
+                    "Type": "Color3"
+                  },
+                  "Enabled": true,
+                  "HistoryId": {
+                    "Type": "UniqueId",
+                    "Value": "00000000000000000000000000000000"
+                  },
+                  "LineJoinMode": {
+                    "Enum": "Enum.LineJoinMode",
+                    "Name": "Bevel",
+                    "Type": "EnumItem",
+                    "Value": 1
+                  },
+                  "Sandboxed": false,
+                  "SourceAssetId": -1,
+                  "StrokeSizingMode": {
+                    "Enum": "Enum.StrokeSizingMode",
+                    "Name": "FixedSize",
+                    "Type": "EnumItem",
+                    "Value": 0
+                  },
+                  "Thickness": 2.75,
+                  "Transparency": 0,
+                  "UniqueId": {
+                    "Type": "UniqueId",
+                    "Value": "00000000000000000000000000000000"
+                  },
+                  "ZIndex": 1
+                }
+              }
+            ],
+            "ClassName": "TextLabel",
+            "Name": "Title",
+            "Properties": {
+              "Active": false,
+              "AnchorPoint": {
+                "Type": "Vector2",
+                "X": 0.5,
+                "Y": 0.5
+              },
+              "Archivable": true,
+              "AutoLocalize": true,
+              "AutomaticSize": {
+                "Enum": "Enum.AutomaticSize",
+                "Name": "None",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "BackgroundColor3": {
+                "B": 255,
+                "G": 255,
+                "R": 255,
+                "Type": "Color3"
+              },
+              "BackgroundTransparency": 1,
+              "BorderColor3": {
+                "B": 0,
+                "G": 0,
+                "R": 0,
+                "Type": "Color3"
+              },
+              "BorderMode": {
+                "Enum": "Enum.BorderMode",
+                "Name": "Outline",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "BorderSizePixel": 0,
+              "ClipsDescendants": false,
+              "Draggable": false,
+              "FontFace": {
+                "Family": "rbxasset://fonts/families/GothamSSm.json",
+                "Style": "Enum.FontStyle.Normal",
+                "Type": "Font",
+                "Weight": "Enum.FontWeight.Heavy"
+              },
+              "HistoryId": {
+                "Type": "UniqueId",
+                "Value": "00000000000000000000000000000000"
+              },
+              "Interactable": true,
+              "LayoutOrder": 0,
+              "LineHeight": 1,
+              "LocalizationMatchIdentifier": "",
+              "LocalizationMatchedSourceText": "",
+              "MaxVisibleGraphemes": -1,
+              "OpenTypeFeatures": "",
+              "Position": {
+                "Type": "UDim2",
+                "X": {
+                  "Offset": 0,
+                  "Scale": 0.498337060213089
+                },
+                "Y": {
+                  "Offset": 0,
+                  "Scale": 0.3549903929233551
+                }
+              },
+              "RichText": false,
+              "Rotation": 0,
+              "Sandboxed": false,
+              "Selectable": false,
+              "SelectionBehaviorDown": {
+                "Enum": "Enum.SelectionBehavior",
+                "Name": "Escape",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SelectionBehaviorLeft": {
+                "Enum": "Enum.SelectionBehavior",
+                "Name": "Escape",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SelectionBehaviorRight": {
+                "Enum": "Enum.SelectionBehavior",
+                "Name": "Escape",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SelectionBehaviorUp": {
+                "Enum": "Enum.SelectionBehavior",
+                "Name": "Escape",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SelectionGroup": false,
+              "SelectionOrder": 0,
+              "Size": {
+                "Type": "UDim2",
+                "X": {
+                  "Offset": 0,
+                  "Scale": 0.9500001072883606
+                },
+                "Y": {
+                  "Offset": 0,
+                  "Scale": 0.2596820890903473
+                }
+              },
+              "SizeConstraint": {
+                "Enum": "Enum.SizeConstraint",
+                "Name": "RelativeXY",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "SourceAssetId": -1,
+              "Text": "@szavrk sent you a trade reqest, do you want to accept?",
+              "TextColor3": {
+                "B": 255,
+                "G": 255,
+                "R": 255,
+                "Type": "Color3"
+              },
+              "TextDirection": {
+                "Enum": "Enum.TextDirection",
+                "Name": "Auto",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "TextScaled": true,
+              "TextSize": 14,
+              "TextStrokeColor3": {
+                "B": 0,
+                "G": 0,
+                "R": 0,
+                "Type": "Color3"
+              },
+              "TextStrokeTransparency": 1,
+              "TextTransparency": 0,
+              "TextTruncate": {
+                "Enum": "Enum.TextTruncate",
+                "Name": "None",
+                "Type": "EnumItem",
+                "Value": 0
+              },
+              "TextWrapped": true,
+              "TextXAlignment": {
+                "Enum": "Enum.TextXAlignment",
+                "Name": "Center",
+                "Type": "EnumItem",
+                "Value": 2
+              },
+              "TextYAlignment": {
+                "Enum": "Enum.TextYAlignment",
+                "Name": "Center",
+                "Type": "EnumItem",
+                "Value": 1
+              },
+              "UniqueId": {
+                "Type": "UniqueId",
+                "Value": "00000000000000000000000000000000"
+              },
+              "Visible": true,
+              "ZIndex": 1
+            }
+          }
+        ],
+        "ClassName": "Frame",
+        "Name": "Main",
+        "Properties": {
+          "Active": false,
+          "AnchorPoint": {
+            "Type": "Vector2",
+            "X": 0.5,
+            "Y": 0.5
+          },
+          "Archivable": true,
+          "AutoLocalize": true,
+          "AutomaticSize": {
+            "Enum": "Enum.AutomaticSize",
+            "Name": "None",
+            "Type": "EnumItem",
+            "Value": 0
+          },
+          "BackgroundColor3": {
+            "B": 236,
+            "G": 219,
+            "R": 193,
+            "Type": "Color3"
+          },
+          "BackgroundTransparency": 0.20000000298023224,
+          "BorderColor3": {
+            "B": 0,
+            "G": 0,
+            "R": 0,
+            "Type": "Color3"
+          },
+          "BorderMode": {
+            "Enum": "Enum.BorderMode",
+            "Name": "Outline",
+            "Type": "EnumItem",
+            "Value": 0
+          },
+          "BorderSizePixel": 0,
+          "ClipsDescendants": false,
+          "Draggable": false,
+          "HistoryId": {
+            "Type": "UniqueId",
+            "Value": "00000000000000000000000000000000"
+          },
+          "Interactable": true,
+          "LayoutOrder": 0,
+          "Position": {
+            "Type": "UDim2",
+            "X": {
+              "Offset": 0,
+              "Scale": 0.5
+            },
+            "Y": {
+              "Offset": 0,
+              "Scale": 0.5498488545417786
+            }
+          },
+          "Rotation": 0,
+          "Sandboxed": false,
+          "Selectable": false,
+          "SelectionBehaviorDown": {
+            "Enum": "Enum.SelectionBehavior",
+            "Name": "Escape",
+            "Type": "EnumItem",
+            "Value": 0
+          },
+          "SelectionBehaviorLeft": {
+            "Enum": "Enum.SelectionBehavior",
+            "Name": "Escape",
+            "Type": "EnumItem",
+            "Value": 0
+          },
+          "SelectionBehaviorRight": {
+            "Enum": "Enum.SelectionBehavior",
+            "Name": "Escape",
+            "Type": "EnumItem",
+            "Value": 0
+          },
+          "SelectionBehaviorUp": {
+            "Enum": "Enum.SelectionBehavior",
+            "Name": "Escape",
+            "Type": "EnumItem",
+            "Value": 0
+          },
+          "SelectionGroup": false,
+          "SelectionOrder": 0,
+          "Size": {
+            "Type": "UDim2",
+            "X": {
+              "Offset": 0,
+              "Scale": 0.9800000190734863
+            },
+            "Y": {
+              "Offset": 0,
+              "Scale": 0.8476981520652771
+            }
+          },
+          "SizeConstraint": {
+            "Enum": "Enum.SizeConstraint",
+            "Name": "RelativeXY",
+            "Type": "EnumItem",
+            "Value": 0
+          },
+          "SourceAssetId": -1,
+          "Style": {
+            "Enum": "Enum.FrameStyle",
+            "Name": "Custom",
+            "Type": "EnumItem",
+            "Value": 0
+          },
+          "UniqueId": {
+            "Type": "UniqueId",
+            "Value": "00000000000000000000000000000000"
+          },
+          "Visible": true,
+          "ZIndex": -10
+        }
+      }
+    ],
+    "ClassName": "Frame",
+    "Name": "TradeRequest",
+    "Properties": {
+      "Active": false,
+      "AnchorPoint": {
+        "Type": "Vector2",
+        "X": 0.5,
+        "Y": 0.5
+      },
+      "Archivable": true,
+      "AutoLocalize": true,
+      "AutomaticSize": {
+        "Enum": "Enum.AutomaticSize",
+        "Name": "None",
+        "Type": "EnumItem",
+        "Value": 0
+      },
+      "BackgroundColor3": {
+        "B": 255,
+        "G": 228,
+        "R": 220,
+        "Type": "Color3"
+      },
+      "BackgroundTransparency": 0.4000000059604645,
+      "BorderColor3": {
+        "B": 0,
+        "G": 0,
+        "R": 0,
+        "Type": "Color3"
+      },
+      "BorderMode": {
+        "Enum": "Enum.BorderMode",
+        "Name": "Outline",
+        "Type": "EnumItem",
+        "Value": 0
+      },
+      "BorderSizePixel": 0,
+      "ClipsDescendants": false,
+      "Draggable": false,
+      "HistoryId": {
+        "Type": "UniqueId",
+        "Value": "00000000000000000000000000000000"
+      },
+      "Interactable": true,
+      "LayoutOrder": 0,
+      "Position": {
+        "Type": "UDim2",
+        "X": {
+          "Offset": 0,
+          "Scale": 0.34065186977386475
+        },
+        "Y": {
+          "Offset": 0,
+          "Scale": 0.5
+        }
+      },
+      "Rotation": 0,
+      "Sandboxed": false,
+      "Selectable": false,
+      "SelectionBehaviorDown": {
+        "Enum": "Enum.SelectionBehavior",
+        "Name": "Escape",
+        "Type": "EnumItem",
+        "Value": 0
+      },
+      "SelectionBehaviorLeft": {
+        "Enum": "Enum.SelectionBehavior",
+        "Name": "Escape",
+        "Type": "EnumItem",
+        "Value": 0
+      },
+      "SelectionBehaviorRight": {
+        "Enum": "Enum.SelectionBehavior",
+        "Name": "Escape",
+        "Type": "EnumItem",
+        "Value": 0
+      },
+      "SelectionBehaviorUp": {
+        "Enum": "Enum.SelectionBehavior",
+        "Name": "Escape",
+        "Type": "EnumItem",
+        "Value": 0
+      },
+      "SelectionGroup": false,
+      "SelectionOrder": 0,
+      "Size": {
+        "Type": "UDim2",
+        "X": {
+          "Offset": 0,
+          "Scale": 5.68130350112915
+        },
+        "Y": {
+          "Offset": 0,
+          "Scale": 2.9499218463897705
+        }
+      },
+      "SizeConstraint": {
+        "Enum": "Enum.SizeConstraint",
+        "Name": "RelativeXY",
+        "Type": "EnumItem",
+        "Value": 0
+      },
+      "SourceAssetId": -1,
+      "Style": {
+        "Enum": "Enum.FrameStyle",
+        "Name": "Custom",
+        "Type": "EnumItem",
+        "Value": 0
+      },
+      "UniqueId": {
+        "Type": "UniqueId",
+        "Value": "00000000000000000000000000000000"
+      },
+      "Visible": false,
+      "ZIndex": 1
+    }
+  }
+]

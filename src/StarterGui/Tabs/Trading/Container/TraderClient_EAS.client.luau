@@ -1,3 +1,7 @@
+-- DISABLED: Trading UI has been migrated to NewUI.Frames (Trade, TradeList, TradeRequest)
+-- See ReplicatedStorage.Client.Interface.UI.Tabs.Trade for the new implementation
+do return end
+
 local TweenService = game:GetService("TweenService")
 local UI = script.Parent.Parent
 local Main = script.Parent

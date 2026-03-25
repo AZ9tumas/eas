@@ -47,7 +47,27 @@ InterfaceTabUtil.tabOpen = false
 InterfaceTabUtil.OnTabOpen = Signal.new()
 InterfaceTabUtil.OnTabClose = Signal.new()
 
+-- Tab redirects: old tab name -> new tab name (to support migrating tabs to NewUI)
+local TAB_REDIRECTS = {
+	Rebirth = "Rebirths", -- Old Rebirth tab now lives at NewUI.Frames.Rebirths
+	Trading = "TradeList", -- Old Trading tab now lives at NewUI.Frames.TradeList
+	Shop = "Store", -- Old Shop tab now lives at NewUI.Frames.Store
+}
+
 local function findTab(name: string): Instance?
+	-- Check for redirects first
+	local redirected = TAB_REDIRECTS[name]
+	if redirected then
+		local newUI = playerGui:FindFirstChild("NewUI")
+		if newUI then
+			local frames = newUI:FindFirstChild("Frames")
+			if frames then
+				local tab = frames:FindFirstChild(redirected)
+				if tab then return tab end
+			end
+		end
+	end
+
 	local tab = playerGui.Tabs:FindFirstChild(name)
 	if tab then return tab end
 
@@ -91,10 +111,7 @@ function InterfaceTabUtil.openTab(screenGui: ScreenGui | string, triggerSound: b
 	end
 	if not screenGui then return end
 
-    local container = screenGui:FindFirstChild("Container") or screenGui:FindFirstChild("Main") :: Frame?
-    if container == nil then
-        return
-    end
+    local container = screenGui:FindFirstChild("Container") or screenGui:FindFirstChild("Main") or screenGui :: Frame?
     local isUnderTabs = screenGui.Parent == playerGui.Tabs
     local newUI = playerGui:FindFirstChild("NewUI")
     local isUnderNewUI = newUI and screenGui:IsDescendantOf(newUI)
