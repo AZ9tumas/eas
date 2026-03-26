@@ -2,8 +2,8 @@ local fs = require("@lune/fs")
 local roblox = require("@lune/roblox")
 local serde = require("@lune/serde")
 
-local INPUT_FILE = "Dropper.rbxm"
-local OUTPUT_FILE = "Dropper.json"
+local INPUT_FILE = "Container.rbxm"
+local OUTPUT_FILE = "Container.json"
 
 -- Load reflection database for property enumeration
 local db = roblox.getReflectionDatabase()

@@ -182,8 +182,8 @@ function DataBackpack.Labubus.EquipAll(player: Player)
 		if MutationName == nil then continue end
 
 		local LabubuToolClone = LabubuTool:Clone()
-		PlotUtil.setHatchableInfoUI(LabubuTool, MutationName,
-			labubu.IsMutating
+		PlotUtil.setHatchableInfoUI(LabubuToolClone, MutationName,
+			labubu.IsMutating, labubu
 		)
 
 		for name, value in labubu do
@@ -214,6 +214,9 @@ function DataBackpack.Labubus.addToBackpackByInstance(
 			Labubu:SetAttribute("Placeable", true)
 			
 			PlotUtil.addMutationEffect(Labubu, LabubuInfo.MutationTier)
+
+			local MutationName = PlotUtil.MutationTierToName(LabubuInfo.MutationTier)
+			PlotUtil.setHatchableInfoUI(Labubu, MutationName, LabubuInfo.IsMutating, LabubuInfo)
 			
 			local PlayerBackpack = player:FindFirstChild("Backpack")
 			if PlayerBackpack then

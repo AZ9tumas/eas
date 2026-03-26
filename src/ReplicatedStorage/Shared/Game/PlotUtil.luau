@@ -44,6 +44,8 @@ local shuffleTable = require(ReplicatedStorage.Shared.Utility.Table.shuffleTable
 
 local GlobalSettings = require(ReplicatedStorage.GlobalSettings)
 
+local EGG_PILLAR_Y_OFFSET = 1.5
+
 local ButtonRatelimit = RatelimitUtil.new(0.1)
 
 local EggInfoUI: BillboardGui = ReplicatedStorage.Assets.Interface.BillboardGui.InfoUI
@@ -402,11 +404,14 @@ function PlotUtil.getEggFromIndex(eggRolls: Folder, index: number) : Model?
 end
 
 function PlotUtil.getEggPillarInfo(eggPillar: Model): { 
-	UpperPart: BasePart, LowerPart: BasePart, Premium: boolean?, Rarity: string?, Index: number? }
+	UpperPart: BasePart, LowerPart: BasePart, BottomPart: Model?, Premium: boolean?, Rarity: string?, Index: number? }
+	local bottomPart = eggPillar:FindFirstChild("BottomPart")
+
 	local LowestPart: BasePart? = nil
 	local LowestY = math.huge
 
-	for _, desc in pairs(eggPillar:GetDescendants()) do
+	local searchIn = bottomPart or eggPillar
+	for _, desc in pairs(searchIn:GetDescendants()) do
 		if desc:IsA("BasePart") then
 			local y = desc.Position.Y
 			if y < LowestY then
@@ -419,6 +424,7 @@ function PlotUtil.getEggPillarInfo(eggPillar: Model): {
 	return {
 		UpperPart = LowestPart,
 		LowerPart = LowestPart,
+		BottomPart = bottomPart,
 
 		Premium = eggPillar:GetAttribute("Premium"),
 		Rarity = eggPillar:GetAttribute("Rarity"),
@@ -694,9 +700,15 @@ function PlotUtil.deployWorldEggRoll(egg: Model, eggPillar: Model) : Model
 	local GetExtentsSize: Vector3 = egg:GetExtentsSize()
 	local GetExtentsSizeY: number = GetExtentsSize.Y
 
+	local floorPart = PillarInfo.LowerPart
 	egg:PivotTo(
-		PillarInfo.LowerPart.CFrame + Vector3.new(0, GetExtentsSizeY / 2 + PillarInfo.LowerPart.Size.Y/2, 0)
+		floorPart.CFrame + Vector3.new(0, GetExtentsSizeY / 2 + EGG_PILLAR_Y_OFFSET, 0)
 	)
+
+	local eggPrimaryPart = egg.PrimaryPart or egg:FindFirstChild("EggPart")
+	if eggPrimaryPart then
+		eggPrimaryPart.Anchored = true
+	end
 
 	PlotUtil.weldModelToPrimaryPart(egg)
 	

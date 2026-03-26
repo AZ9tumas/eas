@@ -7,6 +7,7 @@ local Charm = require(ReplicatedStorage.Packages.Charm)
 local Trove = require(ReplicatedStorage.Shared.Classes.Trove)
 local Constants = require(ReplicatedStorage.Shared.Constants)
 local SyncedTime = require(ReplicatedStorage.Shared.Modules.SyncedTime)
+local GroupRewardConfig = require(ReplicatedStorage.Data.GroupRewardConfig)
 
 local GroupChestAsset = ReplicatedStorage.Assets.Chests.GroupChest
 
@@ -67,6 +68,14 @@ function GroupChest.tagAdded(groupChest: BasePart)
 		if not HasClaimed then
 			GroupChestAsset:PivotTo(GroupChestPart.CFrame)
 			GroupChestAsset.Parent = GroupChestPart
+			
+			-- Auto-open the GroupReward tab after configured delay
+			trove:Add(task.delay(GroupRewardConfig.PopupDelay, function()
+				if ClientData.GroupRewardClaimTime() > 0 then return end
+				if interfaceTabUtil.isTabOpen("GroupReward") then return end
+				interfaceTabUtil.openTab("GroupReward")
+				ReplicatedStorage.Assets.Sounds.Interface.ButtonClick:Play()
+			end))
 			
 			local LastTabClose = 0
 			
