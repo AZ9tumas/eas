@@ -2,7 +2,7 @@ local fs = require("@lune/fs")
 local roblox = require("@lune/roblox")
 local serde = require("@lune/serde")
 
-local INPUT_FILE = "WormHole.rbxm"
+local INPUT_FILE = "Mutation.rbxm"
 local OUTPUT_DIR = "Disassembly"
 local OUTPUT_FILE = OUTPUT_DIR .. "/WormHole.json"
 
