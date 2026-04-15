@@ -2,8 +2,14 @@ local fs = require("@lune/fs")
 local roblox = require("@lune/roblox")
 local serde = require("@lune/serde")
 
-local INPUT_FILE = "Container.rbxm"
-local OUTPUT_FILE = "Container.json"
+local INPUT_FILE = "WormHole.rbxm"
+local OUTPUT_DIR = "Disassembly"
+local OUTPUT_FILE = OUTPUT_DIR .. "/WormHole.json"
+
+-- Ensure output directory exists
+if not fs.isDir(OUTPUT_DIR) then
+	fs.writeDir(OUTPUT_DIR)
+end
 
 -- Load reflection database for property enumeration
 local db = roblox.getReflectionDatabase()
@@ -223,6 +229,87 @@ local function decomposeInstance(instance: roblox.Instance): { [string]: any }
 	return node
 end
 
+-- Custom JSON encoder with controlled key ordering
+local function encodeJson(value: any, indent: number?): string
+	local level = indent or 0
+	local tab = string.rep("  ", level)
+	local tabInner = string.rep("  ", level + 1)
+
+	if value == nil then
+		return "null"
+	end
+
+	local t = type(value)
+
+	if t == "string" then
+		-- Escape special characters
+		local escaped = value:gsub('\\', '\\\\'):gsub('"', '\\"'):gsub('\n', '\\n'):gsub('\r', '\\r'):gsub('\t', '\\t')
+		return '"' .. escaped .. '"'
+	elseif t == "number" then
+		if value ~= value then return "null" end -- NaN
+		if value == math.huge then return "1e309" end
+		if value == -math.huge then return "-1e309" end
+		return tostring(value)
+	elseif t == "boolean" then
+		return tostring(value)
+	elseif t == "table" then
+		-- Check if it's an array (sequential integer keys starting at 1)
+		local isArray = #value > 0
+		if isArray then
+			-- Verify it's a proper array
+			for k in pairs(value) do
+				if type(k) ~= "number" then
+					isArray = false
+					break
+				end
+			end
+		end
+
+		if isArray then
+			local parts = {}
+			for _, v in ipairs(value) do
+				table.insert(parts, tabInner .. encodeJson(v, level + 1))
+			end
+			if #parts == 0 then return "[]" end
+			return "[\n" .. table.concat(parts, ",\n") .. "\n" .. tab .. "]"
+		else
+			-- Object: order keys so ClassName, Name, Properties, Attributes, Tags come before Children
+			local priorityKeys = { "ClassName", "Name", "Properties", "Attributes", "Tags" }
+			local orderedKeys = {}
+			local seen = {}
+
+			-- Add priority keys first (if they exist)
+			for _, key in ipairs(priorityKeys) do
+				if value[key] ~= nil then
+					table.insert(orderedKeys, key)
+					seen[key] = true
+				end
+			end
+
+			-- Add remaining keys sorted alphabetically
+			local remainingKeys = {}
+			for key in pairs(value) do
+				if not seen[key] then
+					table.insert(remainingKeys, key)
+				end
+			end
+			table.sort(remainingKeys)
+			for _, key in ipairs(remainingKeys) do
+				table.insert(orderedKeys, key)
+			end
+
+			local parts = {}
+			for _, key in ipairs(orderedKeys) do
+				table.insert(parts, tabInner .. '"' .. key .. '": ' .. encodeJson(value[key], level + 1))
+			end
+			if #parts == 0 then return "{}" end
+			return "{\n" .. table.concat(parts, ",\n") .. "\n" .. tab .. "}"
+		end
+	end
+
+	return '"' .. tostring(value) .. '"'
+end
+
 -- Main
 print("Reading " .. INPUT_FILE .. "...")
 local fileContents = fs.readFile(INPUT_FILE)
@@ -234,6 +321,6 @@ for _, instance in instances do
 	table.insert(result, decomposeInstance(instance))
 end
 
-local json = serde.encode("json", result, true)
+local json = encodeJson(result, 0)
 fs.writeFile(OUTPUT_FILE, json)
 print("Written to " .. OUTPUT_FILE)

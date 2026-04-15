@@ -2730,13 +2730,12 @@ function DataPlots.InitAllPlots()
 			end
 
 			local EffectClone = CachedEggsFusionEffect[plot]:Clone()
-			local EggCombineComplete = EffectClone:WaitForChild("EggCombineComplete")
 
 			EffectClone.Parent = EggsRolls.Parent:WaitForChild("Effects")
 			EffectClone.Script.Enabled = true
 
 			PlayerCooldowns.setCooldown(player, "EggRollSpinCooldown", cooldown)
-			repeat task.wait(0.05) until EggCombineComplete.Value == true
+			repeat task.wait(0.05) until EffectClone:GetAttribute("CombineComplete") == true
 
 			-- Show eggs again after fusion
 			setEggsParents(true)
