@@ -2,9 +2,9 @@ local fs = require("@lune/fs")
 local roblox = require("@lune/roblox")
 local serde = require("@lune/serde")
 
-local INPUT_FILE = "Mutation.rbxm"
+local INPUT_FILE = "MutationLoss.rbxm"
 local OUTPUT_DIR = "Disassembly"
-local OUTPUT_FILE = OUTPUT_DIR .. "/WormHole.json"
+local OUTPUT_FILE = OUTPUT_DIR .. "/MutationLoss.json"
 
 -- Ensure output directory exists
 if not fs.isDir(OUTPUT_DIR) then
