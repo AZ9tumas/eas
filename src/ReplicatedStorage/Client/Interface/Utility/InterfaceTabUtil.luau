@@ -28,7 +28,7 @@ local fovConfig = { frequency = 0.3, tension = 1000, friction = 12, damping = 1 
 
 local fovMotion = ripple.createMotion(70)
 fovMotion:onStep(function(value)
-    currentCamera.FieldOfView = value
+	currentCamera.FieldOfView = value
 end)
 fovMotion:start()
 
@@ -111,79 +111,79 @@ function InterfaceTabUtil.openTab(screenGui: ScreenGui | string, triggerSound: b
 	end
 	if not screenGui then return end
 
-    local container = screenGui:FindFirstChild("Container") or screenGui:FindFirstChild("Main") or screenGui :: Frame?
-    local isUnderTabs = screenGui.Parent == playerGui.Tabs
-    local newUI = playerGui:FindFirstChild("NewUI")
-    local isUnderNewUI = newUI and screenGui:IsDescendantOf(newUI)
-    if not isUnderTabs and not isUnderNewUI then
-        return
+	local container = screenGui:FindFirstChild("Container") or screenGui:FindFirstChild("Main") or screenGui :: Frame?
+	local isUnderTabs = screenGui.Parent == playerGui.Tabs
+	local newUI = playerGui:FindFirstChild("NewUI")
+	local isUnderNewUI = newUI and screenGui:IsDescendantOf(newUI)
+	if not isUnderTabs and not isUnderNewUI then
+		return
 	end
-	
+
 	if triggerSound then
 		ClickSound:Play()
 	end
-	
-    if isTabVisible(screenGui) then
-        InterfaceTabUtil.closeAllTabs()
-        return
-    end
+
+	if isTabVisible(screenGui) then
+		InterfaceTabUtil.closeAllTabs()
+		return
+	end
 	InterfaceTabUtil.closeAllTabs()
-    
+
 	trove:Clean()
-	
+
 	-- Fire the signal with the opened tab
 	InterfaceTabUtil.OnTabOpen:Fire(screenGui.Name)
 	BackpackUIToggle.new()
 
-    setTabVisible(screenGui, true)
-    playerGui.Overlays.TabDarken.Enabled = true
+	setTabVisible(screenGui, true)
+	playerGui.Overlays.TabDarken.Enabled = true
 	InterfaceTabUtil.blurScreen()
 
 
-    local originalPosition = container:GetAttribute("Position") :: UDim2?
-    if originalPosition == nil then
-        container:SetAttribute("Position", container.Position)
-        originalPosition = container.Position
-    end
-    if originalPosition == nil then
-        return
-    end
+	local originalPosition = container:GetAttribute("Position") :: UDim2?
+	if originalPosition == nil then
+		container:SetAttribute("Position", container.Position)
+		originalPosition = container.Position
+	end
+	if originalPosition == nil then
+		return
+	end
 
-    local motion = ripple.createMotion(originalPosition + UDim2.fromScale(0, 0.05))
-    motion:onStep(function(value)
-        container.Position = value
-    end)
-    trove:Add(motion.destroy)
+	local motion = ripple.createMotion(originalPosition + UDim2.fromScale(0, 0.05))
+	motion:onStep(function(value)
+		container.Position = value
+	end)
+	trove:Add(motion.destroy)
 
-    motion:spring(originalPosition, { frequency = 0.3, tension = 1000, friction = 12, damping = 0.6, restingVelocity = 0.0000001, restingPosition = 0.00000001 })
-    motion:step(0)
+	motion:spring(originalPosition, { frequency = 0.3, tension = 1000, friction = 12, damping = 0.6, restingVelocity = 0.0000001, restingPosition = 0.00000001 })
+	motion:step(0)
 
-    InterfaceTabUtil.tabOpen = true
+	InterfaceTabUtil.tabOpen = true
 end
 
 function InterfaceTabUtil.closeAllTabs(triggerSound: boolean?)
 	if triggerSound then
 		ClickSound:Play()
 	end
-	
-    trove:Clean()
+
+	trove:Clean()
 	InterfaceTabUtil.tabOpen = false
 
-    playerGui.Overlays.TabDarken.Enabled = false
+	playerGui.Overlays.TabDarken.Enabled = false
 	InterfaceTabUtil.unblurScreen()
 
 	local AnyTabGotClosed: boolean = false
 
-    for _, screenGui in pairs(playerGui.Tabs:GetChildren()) do
-        if not screenGui:IsA("ScreenGui") then
-            continue
+	for _, screenGui in pairs(playerGui.Tabs:GetChildren()) do
+		if not screenGui:IsA("ScreenGui") then
+			continue
 		end
-		
+
 		-- Fire the OnTabClose signal only if the tab was enabled
 		if screenGui.Enabled then
 			AnyTabGotClosed = true
 			screenGui.Enabled = false
-			
+
 			InterfaceTabUtil.OnTabClose:Fire(screenGui.Name)
 		end
 	end
@@ -202,7 +202,7 @@ function InterfaceTabUtil.closeAllTabs(triggerSound: boolean?)
 			end
 		end
 	end
-	
+
 	if AnyTabGotClosed then
 		BackpackUIToggle.destroy()
 	end
@@ -224,10 +224,10 @@ local function getGuiAtPosition(position)
 	local guiObjects = playerGui:GetGuiObjectsAtPosition(position.X, position.Y)
 	if #guiObjects > 0 then
 		--return guiObjects[1] -- top-most GUI
-		
+
 		for _, gui in ipairs(guiObjects) do
 			if gui.Name == "TouchControlFrame" then continue end
-			
+
 			if not gui:HasTag("IgnoreGui") then
 				return gui -- first GUI that doesn't have the IgnoreGui tag
 			end
@@ -246,7 +246,7 @@ local function onInput(input, processed)
 
 		if gui then
 			--print("Clicked GUI:", gui:GetFullName())
-			
+
 			if gui.Parent and gui.Parent.Name == "TabDarken" then
 				InterfaceTabUtil.closeAllTabs()
 			end

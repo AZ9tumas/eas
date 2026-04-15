@@ -131,7 +131,7 @@ local EggMutations = {
 			Divine      = { Cost = 4096000000, FusionChance = 0.25 },
 		}
 	},
-	
+
 	-- this needs to be adjusted
 	Exclusive = {
 		HatchTime = 300,

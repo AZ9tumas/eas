@@ -209,7 +209,7 @@ end
 function Index.Update()
 	CachedIndexData = ClientData.Index()
 	if not CachedIndexData then return end
-	
+
 	updateGrid(currentBtn.Name)
 end
 

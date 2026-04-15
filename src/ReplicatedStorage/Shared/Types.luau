@@ -125,7 +125,7 @@ local Settings = {
 }
 export type Settings = typeof(Settings)
 Types.Settings = Settings :: Settings & {
-    [string]: Setting
+	[string]: Setting
 }
 
 export type StringList = { string }
@@ -172,7 +172,7 @@ export type Labubu = {
 
 	-- Final Calculated Output
 	CPS: number,                -- BaseCPS × mutation × traits × rebirth
-	
+
 	-- Collection & Rules
 	IsStealable: boolean,       -- false if mutating / exclusive / event
 	Traits: { [string]: boolean },
@@ -269,14 +269,14 @@ export type Egg = {
 	Id: string,
 	Name: string?,
 	Type: string?,
-	
+
 	EggMutationTier: number?,
 
 	IsExclusive: boolean?,
 
 	-- Acquisition
 	ObtainedFrom: "SpinRoll" | "Shop" | "Event" | "SpinWheel" | "Admin" | "Unknown",
-	
+
 	-- Hatching
 	IsHatching: boolean?,
 	HatchTimeLeft: number?,
@@ -303,7 +303,7 @@ export type Egg = {
 	--MutationRolls: {
 	--	[Tier: number]: number -- % chance
 	--},
-	
+
 	-- UI / Info
 	PriceOnly: boolean?,
 

@@ -9,9 +9,9 @@ local ShakeEvent = ReplicatedStorage:WaitForChild("ExplosionShake")
 -- REFERENCES
 local EggsFolder = script.Parent
 local EggCombineComplete = EggsFolder:WaitForChild("EggCombineComplete")
-local Egg1 = EggsFolder:WaitForChild("Egg1")
-local Egg2 = EggsFolder:WaitForChild("Egg2")
-local Egg3 = EggsFolder:WaitForChild("Egg3")
+local Egg1 = EggsFolder:WaitForChild("LuckyBlock1")
+local Egg2 = EggsFolder:WaitForChild("LuckyBlock2")
+local Egg3 = EggsFolder:WaitForChild("LuckyBlock3")
 local EggCombine = EggsFolder:WaitForChild("EggCombine")
 
 local ExplosionPart = EggsFolder:WaitForChild("ExplosionPart")

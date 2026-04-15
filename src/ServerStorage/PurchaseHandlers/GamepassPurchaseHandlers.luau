@@ -11,12 +11,12 @@ local PlotUtil = require(ReplicatedStorage.Shared.Game.PlotUtil)
 
 
 local GamepassPurchaseHandlers = {} :: { 
-    [string]: ( (player: Player) -> () )?,
+	[string]: ( (player: Player) -> () )?,
 }
 
 -- automatically in place
 GamepassPurchaseHandlers["Auto-Collect"] = function(player: Player, OnPurchase: boolean?)
-	
+
 end
 
 GamepassPurchaseHandlers["Magic Shield (Perm)"] = function(player: Player, OnPurchase: boolean?)

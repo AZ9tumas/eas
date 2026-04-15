@@ -115,7 +115,7 @@ folder:WaitForChild("Trigger").Event:Connect(function(
 	if isStateNormal then
 		return
 	end
-	
+
 	if TurnOn then
 		-- Disable Fire VFX and Sparks2
 		enableFire(false)

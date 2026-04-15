@@ -8,7 +8,7 @@ local GiveSpin
 if IsServer then
 	local ServerScriptService = game:GetService("ServerScriptService")
 	local ServerStorage = game:GetService("ServerStorage")
-	
+
 	GiveSpin = ServerStorage:WaitForChild("BindableEvents"):WaitForChild("GiveSpin")
 end
 
@@ -27,7 +27,7 @@ local Module: {[number]: WheelData} = {
 		Rarity = 55,
 		Reward = function(Player: Player)
 			if IsServer then
-				
+
 			else
 				-- client doesnt get called here, its not being used atm. (only server works)
 			end

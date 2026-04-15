@@ -8,7 +8,6 @@ local SyncedTime = require(ReplicatedStorage.Shared.Modules.SyncedTime)
 local DataHandler = require(ServerStorage.DataHandler)
 local DataCash = require(ServerStorage.DataComponents.DataCash)
 local DataPlots = require(ServerStorage.DataComponents.DataPlots)
-local GroupRewardConfig = require(ReplicatedStorage.Data.GroupRewardConfig)
 
 local NotifyError = Network.Notifications.Error
 local NotifySuccess = Network.Notifications.Success
@@ -48,11 +47,11 @@ function DataGroupRewards.claimGroupReward(player: Player, dontshowPrompt: boole
 	profileData.GroupRewardClaimTime = os.time() -- update datastore
 	clientData.GroupRewardClaimTime(profileData.GroupRewardClaimTime) -- sync updated data with client
 	
-	NotifySuccess:FireClient(player, GroupRewardConfig.NotifyMessage)
+	NotifySuccess:FireClient(player, "You’ve claimed your Group Reward!")
 	
 	-- Reward Player Here
 	
-	DataPlots.GiveLabubuByRarity(player, GroupRewardConfig.Reward.Rarity, GroupRewardConfig.Reward.MutationTier, GroupRewardConfig.Reward.ObtainedFrom)
+	DataPlots.GiveLabubuByRarity(player, "Exclusive", 1, "GroupReward")
 	
 	return true
 end

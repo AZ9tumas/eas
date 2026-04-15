@@ -83,7 +83,7 @@ local RepairProduct = Products["Repair Button"]
 --	getProductInfo(BuyMythicInstantProduct, Enum.InfoType.Product):andThen(function(productInfo)
 --		BuyMythicInstantProductPrice = productInfo.PriceInRobux or 0
 --	end)
-	
+
 --	getProductInfo(BuyVIPSlotProduct, Enum.InfoType.Product):andThen(function(productInfo)
 --		BuyVIPSlotPrice = productInfo.PriceInRobux or 0
 --	end)
@@ -96,9 +96,9 @@ local PlotUtil = {
 	EggsData = {},
 	EggChances = {},
 	EggChancesRarity = {},
-	
+
 	ButtonRatelimit = ButtonRatelimit,
-	
+
 	ProductsInfo = {
 		BuyVIPSlot = BuyVIPSlotProductInfo,
 		BuyLegendaryInstant = BuyLegendaryInstantProductInfo,
@@ -157,13 +157,13 @@ export type WorldPlotData = {
 for _, module in pairs(Data.Eggs:GetChildren()) do
 	if module:IsA("ModuleScript") then
 		PlotUtil.EggsData[module.Name] = require(module) :: Types.EggData
-		
+
 		local Weight = PlotUtil.EggsData[module.Name].Weight
 		local Rarity = PlotUtil.EggsData[module.Name].Rarity
-		
+
 		if Weight ~= nil then
 			PlotUtil.EggChances[module.Name] = PlotUtil.EggsData[module.Name].Weight
-			
+
 			PlotUtil.EggChancesRarity[Rarity] = PlotUtil.EggChancesRarity[Rarity] or {}
 			PlotUtil.EggChancesRarity[Rarity][module.Name] = Weight
 		end
@@ -191,7 +191,7 @@ end
 
 function PlotUtil.getLabubusWithRarity(rarity: string) : { [string]: LabubuType }?
 	local Labubus: { [string]: LabubuType } = {}
-	
+
 	for name, tbl: LabubuType in LabubusData do
 		if tbl.Rarity == rarity then -- Common to Basic
 			if HatchableAssets:FindFirstChild(name) then
@@ -201,7 +201,7 @@ function PlotUtil.getLabubusWithRarity(rarity: string) : { [string]: LabubuType 
 			end
 		end
 	end
-	
+
 	return Labubus
 end
 
@@ -214,11 +214,11 @@ function PlotUtil.CreateLabubuTemplateFromEggData(
 
 	local eggRarity: string? = eggRarity
 	local eggNameSplit: string? = eggName:split(" ")[1]
-	
+
 	local MutationTier = labubuData.MutationTier or 1
 	local MutationName = PlotUtil.MutationTierToName(MutationTier)
 	local MutationTierInfo = PlotUtil.getMutationInfo(MutationName)
-	
+
 	local traits = labubuData.Traits or Types.Traits
 
 	local Template = {
@@ -261,28 +261,28 @@ function PlotUtil.TranslateEggToHatchable(egg: Model | string) : (string?, Labub
 	local eggName = typeof(egg) == "string" and egg or egg.Name
 	local eggData = PlotUtil.EggsData[eggName]
 	if not eggData then return end
-	
+
 	local eggRarity = eggData.Rarity
 	if not eggRarity then return end
-	
+
 	local Labubus = PlotUtil.getLabubusWithRarity(eggRarity)
-	
+
 	if not Labubus then return end
-	
+
 	local SortedByWeights: { [string]: number } = {}
-	
+
 	for name, tbl: LabubuType in pairs(Labubus) do
 		SortedByWeights[name] = tbl.Weight
 	end
-	
+
 	local RNG = RngUtil(SortedByWeights)
-	
+
 	for name, tbl: LabubuType in pairs(Labubus) do
 		if RNG == name then
 			return RNG, tbl
 		end
 	end
-	
+
 	return RNG
 end
 
@@ -296,13 +296,13 @@ end
 
 function PlotUtil.getEggPillars(dropper: Folder) : { Model }
 	local tbl: { Model } = {}
-	
+
 	for _, model in pairs(dropper:GetChildren()) do
 		if model.Name == "LuckyblockPillar" then
 			table.insert(tbl, model)
 		end
 	end
-	
+
 	return tbl
 end
 
@@ -358,12 +358,12 @@ export type EggMutationInfo = {
 function PlotUtil.getEggMutationInfo(eggName: string) : EggMutationInfo
 	return EggsMutation[eggName]
 end
-	
+
 function PlotUtil.getEggPillarFromIndex(eggPillars: { Model }, index: number) : Model?
 	for _, eggPillar in pairs(eggPillars) do
 		local EggPillarIndex = eggPillar:GetAttribute("Index")
 		if not EggPillarIndex then continue end
-		
+
 		if EggPillarIndex == index then
 			return eggPillar
 		end
@@ -374,7 +374,7 @@ function PlotUtil.getPlacementFromIndex(placements: Folder, index: number) : Mod
 	for _, placement in pairs(placements:GetChildren()) do
 		local PlacementIndex = placement:GetAttribute("ParentIndex")
 		if not PlacementIndex then continue end
-		
+
 		if PlacementIndex == index then
 			return placement
 		end
@@ -434,13 +434,13 @@ end
 
 function PlotUtil.RollFusionMutation(eggName: string, luck: number?, seed: number?)
 	: (string?, number?)
-	
+
 	local tier = EggsMutation[eggName]
 	if not tier then
 		eggName = eggName:split(" ")[1]
 		tier = EggsMutation[eggName]
 	end
-	
+
 	if not tier then
 		error(("Invalid mutation tier: %s"):format(eggName))
 	end
@@ -455,7 +455,7 @@ function PlotUtil.RollFusionMutation(eggName: string, luck: number?, seed: numbe
 
 	-- Roll mutation
 	local result = RngUtil(rngTable, luck or 1, seed)
-	
+
 	local MutationTier = result and PlotUtil.MutationNameToTier(result) or 1
 
 	-- Fallback safety
@@ -471,20 +471,20 @@ function PlotUtil.getLabubuTraits(labubu: Types.Labubu)
 	--if typeof(model) == "Instance" then
 	--	local Attributes = model:GetAttributes()
 	--	if not Attributes then return end
-		
+
 	--	local Traits = {}
-		
+
 	--	for name, value in pairs(Attributes) do
 	--		if Events.Events[name] then
 	--			Traits[name] = true
 	--		end
 	--	end
-		
+
 	--	return Traits
 	--else
 	--return model.Traits
 	--end
-	
+
 	return labubu.Traits or {}
 end
 
@@ -503,25 +503,25 @@ function PlotUtil.setHatchableInfoUI(hatchable: Model, mutation: string?, isMuta
 	end
 
 	local CPS = formatCommaValue(HatchableData.CPS)
-	
+
 	if mutation then 
 		local CalculatedCPS = PlotUtil.CalculateCPSbyName(hatchable.Name, mutation,
 			nil, labubuData and PlotUtil.getLabubuTraits(labubuData)
 		)
 		CPS = formatCommaValue(CalculatedCPS)
 	end
-	
+
 	local WasAnyTraitFound = false
 	if labubuData then
 		local Traits = PlotUtil.getLabubuTraits(labubuData)
 		if Traits then
 			for name, value in pairs(Traits) do
 				WasAnyTraitFound = true
-				
+
 				if InfoUI.Traits:FindFirstChild(name) then continue end
-				
+
 				local Icon = PlotUtil.getTraitData(name).Icon
-				
+
 				local ImageLabel = Instance.new("ImageLabel")
 				ImageLabel.Image = Icon
 				ImageLabel.ScaleType = Enum.ScaleType.Fit
@@ -530,28 +530,28 @@ function PlotUtil.setHatchableInfoUI(hatchable: Model, mutation: string?, isMuta
 			end
 		end
 	end
-	
+
 	InfoUI.Traits.Visible = WasAnyTraitFound
 
 	InfoUI.NameLabel.Text = HatchableData.DisplayName
 	InfoUI.RarityLabel.Text = HatchableData.Rarity
 	InfoUI.RarityLabel.TextColor3 = RarityTextColors[HatchableData.Rarity]
 	InfoUI.CPSLabel.Text = "$" .. CPS .. "/s"
-	
+
 	if mutation and mutation ~= "Default" then
 		PlotUtil.addMutationEffect(hatchable, mutation)
 		InfoUI.MutationLabel.Text = mutation
-		
+
 		local color = MutationTextColors[mutation]
 		if color then
 			InfoUI.MutationLabel.TextColor3 = color
 		end
-		
+
 		InfoUI.MutationLabel.Visible = true
 	else
 		InfoUI.MutationLabel.Visible = false
 	end
-	
+
 	InfoUI.IsMutatingLabel.Visible = isMutating
 end
 
@@ -560,17 +560,17 @@ function PlotUtil.setEggPriceInfoUI(egg: Model, priceOnly: boolean?, hidePrice: 
 
 	local EggPart: BasePart = egg:FindFirstChild("EggPart") or egg.PrimaryPart
 	local InfoUI: BillboardGui = EggPart:FindFirstChild("InfoUI")
-	
+
 	if not InfoUI then
 		InfoUI = EggInfoUI:Clone()
 		InfoUI.Parent = EggPart
 	end
-	
+
 	local MutationTier = egg:GetAttribute("EggMutationTier") or 1
 	local MutationName = PlotUtil.MutationTierToName(MutationTier)
-	
+
 	PlotUtil.addMutationEffect(egg, MutationTier)
-	
+
 	local EggCost, EggSellerCost = PlotUtil.CalculateCost({
 		Name = egg.Name,
 		EggMutationTier = MutationTier,
@@ -583,7 +583,7 @@ function PlotUtil.setEggPriceInfoUI(egg: Model, priceOnly: boolean?, hidePrice: 
 	InfoUI.NameLabel.Text = EggData.DisplayName
 	InfoUI.RarityLabel.Text = EggData.Rarity
 	InfoUI.RarityLabel.TextColor3 = RarityTextColors[EggData.Rarity]
-	
+
 	if MutationName and MutationName ~= "Default" then
 		InfoUI.MutationLabel.Text = MutationName
 
@@ -608,12 +608,12 @@ function PlotUtil.setEggPriceInfoUI(egg: Model, priceOnly: boolean?, hidePrice: 
 		InfoUI.PriceLabel.TextColor3 = Color3.fromRGB(0, 255, 150)
 	else
 		InfoUI.PriceLabel.Text = "$" .. Price
-		
+
 		if priceOnly then
 			egg:SetAttribute("PriceOnly", true)
 		end
 	end
-	
+
 	InfoUI.PriceLabel.Visible = not hidePrice
 end
 
@@ -621,20 +621,20 @@ function PlotUtil.getMutationEffect(mutation: (number | string))
 	if typeof(mutation) == "number" then
 		mutation = PlotUtil.MutationTierToName(mutation)
 	end
-	
+
 	local Effect = ModelsMutationEffects:FindFirstChild(mutation)
 	if not Effect and mutation ~= "Default" then
 		warn("Mutation effect not found: " .. tostring(mutation))
 		return nil
 	end
-	
+
 	return Effect
 end
 
 function PlotUtil.addMutationEffect(model: Model | Tool, mutation: (number | string))
 	local Effect = PlotUtil.getMutationEffect(mutation)
 	if not Effect then return end
-	
+
 	for _, effect in pairs(Effect:GetChildren()) do
 		if not model:FindFirstChild(effect.Name) then
 			local EffectClone = effect:Clone()
@@ -658,7 +658,7 @@ function PlotUtil.spawnEggRoll(
 	end
 
 	local clone = egg:Clone()
-	
+
 	local ParentIndex = parent and parent:GetAttribute("Index")
 	if ParentIndex then
 		clone:SetAttribute("ParentIndex", ParentIndex)
@@ -668,7 +668,7 @@ function PlotUtil.spawnEggRoll(
 	end
 	clone:SetAttribute("Type", "Block")
 	clone:SetAttribute("EggMutationTier", mutationTier)
-	
+
 	PlotUtil.setEggPriceInfoUI(clone, priceOnly)
 
 	clone:AddTag("EggModel")
@@ -711,20 +711,20 @@ function PlotUtil.deployWorldEggRoll(egg: Model, eggPillar: Model) : Model
 	end
 
 	PlotUtil.weldModelToPrimaryPart(egg)
-	
+
 	return egg
 end
 
 function PlotUtil.getEggRollsScreen(dropper: Folder) : (BasePart?, BillboardGui?)
 	local EggRollsInfo: Model = dropper:FindFirstChild("EggRollsInfo")
 	if not EggRollsInfo then return end
-	
+
 	local Screen: Model = EggRollsInfo:FindFirstChild("Screen")
 	if not Screen then return end
-	
+
 	local LuckBoardUI: BillboardGui = Screen:FindFirstChild("LuckBoardUI")
 	if not LuckBoardUI then return end
-	
+
 	return Screen, LuckBoardUI
 end
 
@@ -743,19 +743,19 @@ function PlotUtil.getDropperSpinScreen(dropper: Folder) :
 	(Model?, BasePart?, BillboardGui?, BillboardGui?)
 	local SpinEggs: Model = dropper:FindFirstChild("SpinEggs")
 	if not SpinEggs then return end
-	
+
 	local Screen: Model = SpinEggs:FindFirstChild("Screen")
 	if not Screen then return end
-	
+
 	local Button: BasePart = Screen:FindFirstChild("Button")
 	if not Button then return end
-	
+
 	local GoButtonUI: BillboardGui = Button:FindFirstChild("GoButtonUI")
 	if not GoButtonUI then return end
-	
+
 	local BarUI: BillboardGui = Button:FindFirstChild("BarUI")
 	if not BarUI then return end
-	
+
 	return Screen, Button, GoButtonUI, BarUI
 end
 
@@ -786,7 +786,7 @@ function PlotUtil.getSlotWorldData(slot: Model) : SlotsWorldPartsData
 
 	local NextMutationUI: BillboardGui = ScreenMain:FindFirstChild("NextMutationUI")
 	if not NextMutationUI then return end
-	
+
 	return {
 		Display = Display,
 		CollectPart = CollectPart,
@@ -803,17 +803,17 @@ end
 function PlotUtil.getPlotOwner(plot: Model) : Player?
 	local plotOwnerUserId = plot:GetAttribute("OwnerUserId")
 	if not plotOwnerUserId then return end
-	
+
 	local plotOwner = Players:GetPlayerByUserId(plotOwnerUserId)
 	if not plotOwner then return end
-	
+
 	return plotOwner
 end
 
 function PlotUtil.getPlotOwnerFromSlot(slot: Model) : Player?
 	local plot = slot.Parent.Parent
 	if not plot then return end
-	
+
 	return PlotUtil.getPlotOwner(plot)
 end
 
@@ -828,7 +828,7 @@ end
 function PlotUtil.getSlotData(slot: Model): SlotWorldData
 	local floor = slot.Parent.Parent
 	local floorNum = tonumber(string.match(floor.Name, "%d+"))
-	
+
 	local IsOccupied = slot:GetAttribute("Occupied")
 	local IsForSale = slot:GetAttribute("ForSale")
 	local IsVipSlot = slot:GetAttribute("VipSlot")
@@ -839,16 +839,16 @@ function PlotUtil.getSlotData(slot: Model): SlotWorldData
 	local ReadyToBeginMutate = slot:GetAttribute("ReadyToBeginMutate")
 	local ReadyToMutate = slot:GetAttribute("ReadyToMutate")
 	local IsMutating = slot:GetAttribute("IsMutating")
-	
+
 	local MainStand = slot:FindFirstChild("MainStand")
 	if not MainStand then return end
-	
+
 	local Main: BasePart = MainStand:FindFirstChild("Main")
 	if not Main then return end
-	
+
 	-- check if a valid slot
 	if IsOccupied == nil and IsForSale == nil and IsVipSlot == nil and Price == nil	 then return end
-	
+
 	return {
 		SlotNum = tonumber(slot.Name),
 		floorNum = floorNum,
@@ -888,9 +888,9 @@ function PlotUtil.getWorldPlotData(plot: Model): WorldPlotData
 	local BackSurface: BasePart = Architecture:WaitForChild("BackSurface")
 	local SurfaceGui: SurfaceGui = BackSurface:WaitForChild("SurfaceGui")
 	local TextLabel: TextLabel = SurfaceGui:WaitForChild("TextLabel")
-	
+
 	local SpawnPart: BasePart = Floor1:WaitForChild("Spawn")
-	
+
 	local floors = plot:GetChildren()
 	local floorsCount = #floors
 
@@ -944,7 +944,7 @@ end
 
 function PlotUtil.ConvertEggModelToEggTool(eggModel: Model)
 	assert(eggModel and eggModel:IsA("Model"), "Invalid egg model")
-	
+
 	local EggPart: BasePart = eggModel:FindFirstChild("EggPart")
 	if not EggPart then return end
 
@@ -957,9 +957,9 @@ function PlotUtil.ConvertEggModelToEggTool(eggModel: Model)
 	for attributeName, attributeValue in pairs(eggModel:GetAttributes()) do
 		tool:SetAttribute(attributeName, attributeValue)
 	end
-	
+
 	EggPart.Name = "Handle"
-	
+
 	for _, obj in pairs(eggModel:GetChildren()) do
 		obj.Parent = tool
 	end
@@ -972,9 +972,9 @@ function PlotUtil.ConvertEggModelToEggTool(eggModel: Model)
 			obj.Massless = true
 		end
 	end
-	
+
 	tool.PrimaryPart = EggPart
-	
+
 	eggModel:Destroy()
 
 	return tool
@@ -1024,38 +1024,38 @@ end
 
 function PlotUtil.GetAllPlacements(plot: Model) : { Model }
 	local Placements = {}
-	
+
 	for _, floor in pairs(plot:GetChildren()) do
 		local Slots: Folder = floor:FindFirstChild("Slots")
 		if not Slots then continue end
-		
+
 		local PlacementsFolder = Slots:FindFirstChild("Placements")
 		if not PlacementsFolder then continue end
-		
+
 		Placements = mergeTables(Placements, PlacementsFolder:GetChildren())
 	end
-	
+
 	return Placements
 end
 
 function PlotUtil.GetAllSlots(plot: Model) : { Model }
 	local Slots = {}
-	
+
 	local SlotsOnlyTbl = {}
-	
+
 	for _, floor in pairs(plot:GetChildren()) do
 		local SlotsFolder: Folder = floor:FindFirstChild("Slots")
 		if not SlotsFolder then continue end
-		
+
 		for _, slot in pairs(SlotsFolder:GetChildren()) do
 			if slot:IsA("Model") and slot:FindFirstChild("Button") then
 				table.insert(SlotsOnlyTbl, slot)
 			end
 		end
 	end
-	
+
 	Slots = mergeTables(Slots, SlotsOnlyTbl)
-	
+
 	return Slots
 end
 
@@ -1074,22 +1074,22 @@ function PlotUtil.FindWorkingLabubuSlot(plot: Model, floor: number?) : Model?
 			end
 		end
 	end
-	
+
 	Slots = shuffleTable(Slots)
 
 	for _, slot in pairs(Slots) do
 		local Placements = slot.Parent:WaitForChild("Placements")
-		
+
 		local slotPlacement = PlotUtil.getPlacementFromIndex(Placements,
 			tonumber(slot.Name)
 		)
 		if not slotPlacement then continue end
-		
+
 		if slot:GetAttribute("Occupied") and not slot:GetAttribute("ForSale") 
 			and slotPlacement:GetAttribute("Type") == "Labubu" and not slotPlacement:GetAttribute("IsMutating")
 		then
 			local floorNum = tonumber(string.match(slot.Parent.Parent.Name, "%d+"))
-			
+
 			return slot, floorNum
 		end
 	end
@@ -1097,24 +1097,24 @@ end
 
 function PlotUtil.FindEmptySlotAvailable(plot: Model, floor: number?) : Model?
 	local Slots: { Model } = {}
-	
+
 	if not floor then
 		Slots = PlotUtil.GetAllSlots(plot)
 	else
 		local floor = PlotUtil.getFloor(plot, floor)
 		if not floor then return end
-		
+
 		for _, slot in pairs(floor:WaitForChild("Slots"):GetChildren()) do
 			if slot:IsA("Model") and slot:FindFirstChild("Button") then
 				table.insert(Slots, slot)
 			end
 		end
 	end
-	
+
 	for _, slot in pairs(Slots) do
 		if not slot:GetAttribute("Occupied") and not slot:GetAttribute("ForSale") then
 			local floorNum = tonumber(string.match(slot.Parent.Parent.Name, "%d+"))
-			
+
 			return slot, floorNum
 		end
 	end
@@ -1124,25 +1124,25 @@ function PlotUtil.LabubuPlacementFilterBy(placements: { Model }, rarity: string?
 	: ( { Model }?, number )
 	-- Mutation Tier: placement:GetAttribute("MutationTier")
 	-- Mutation Rarity: placement:GetAttribute("EggType")
-	
+
 	-- Common to Basic: old placements may still have EggRarity="Basic"
 	local FilteredPlacements = {}
-	
+
 	for _, placement in pairs(placements) do
 		if rarity and placement:GetAttribute("EggRarity") ~= rarity then continue end
 		if mutation and placement:GetAttribute("MutationTier") ~=
 			PlotUtil.MutationNameToTier(mutation) then continue end
-		
+
 		table.insert(FilteredPlacements, placement)
 	end
-	
+
 	return FilteredPlacements, #FilteredPlacements
 end
 
 function PlotUtil.GetRarity(data: Types.Labubu | Types.Egg) : (string, Color3)
 	if data.Type == "Block" then
 		local Rarity = data.Rarity or PlotUtil.EggsData[data.Name].Rarity
-		
+
 		return Rarity, RarityTextColors[Rarity]
 	elseif data.Type == "Labubu" then
 		return data.EggRarity, RarityTextColors[data.EggRarity]
@@ -1160,64 +1160,64 @@ function PlotUtil.CalculateCost(data: Types.Labubu | Types.Egg) : (number?, numb
 		if not info then
 			error(("Invalid mutation tier: %s"):format(name))
 		end
-		
+
 		local MutationTier = data.EggMutationTier or 1
 		local MutationName = PlotUtil.MutationTierToName(MutationTier)
-		
+
 		local Cost = info.Mutations[MutationName].Cost
-		
+
 		return math.floor(Cost), 
-			math.floor(Cost * (GlobalSettings.SellerPricePercentage / 100))
+		math.floor(Cost * (GlobalSettings.SellerPricePercentage / 100))
 	elseif data.Type == "Labubu" then
 		local EggData = PlotUtil.EggsData[data.EggType .. " Block"]
 		local BaseEggPrice = EggData.Price
-		
+
 		local LabubuMutationTier = data.MutationTier
 		local LabubuMutation = PlotUtil.MutationTierToName(LabubuMutationTier)
-		
+
 		local MutationTierInfo = PlotUtil.getMutationInfo(LabubuMutation)
-		
+
 		local CostMultiplier = MutationTierInfo.CostMultiplier or 1
-		
+
 		local Traits = PlotUtil.getLabubuTraits(data)
 		for name, trait in pairs(Traits) do
 			local TraitData = PlotUtil.getTraitData(name)
 			CostMultiplier += (TraitData.CashBonus - 1)
 		end
-		
+
 		local Cost = BaseEggPrice * CostMultiplier
-		
+
 		return math.floor(Cost), math.floor(Cost * (GlobalSettings.SellerPricePercentage / 100))
 	end
 end
 
 function PlotUtil.CalculateCPS(labubu: Types.Labubu, boostMulti: number?)
 	boostMulti = boostMulti or 1
-	
+
 	local MutationName = PlotUtil.MutationTierToName(labubu.MutationTier)
 	if not MutationName then return end
-	
+
 	local MutationTierInfo = PlotUtil.getMutationInfo(MutationName)
 	if not MutationTierInfo then return end
-	
+
 	local Traits = PlotUtil.getLabubuTraits(labubu)
 	for name, trait in pairs(Traits) do
 		local TraitData = PlotUtil.getTraitData(name)
 		boostMulti += (TraitData.CashBonus - 1)
 	end
-	
+
 	return math.floor(labubu.BaseCPS * MutationTierInfo.Multiplier * boostMulti)
 end
 
 function PlotUtil.CalculateCPSbyName(labubuName: string, mutation: string, boostMulti: number?, traits: any?)
 	boostMulti = boostMulti or 1
-	
+
 	local MutationTierInfo = PlotUtil.getMutationInfo(mutation)
 	if not MutationTierInfo then return end
-	
+
 	local LabubuData = PlotUtil.getLabubuData(labubuName)
 	if not LabubuData then return end
-	
+
 	if traits then
 		for name, trait in pairs(traits) do
 			local TraitData = PlotUtil.getTraitData(name)
@@ -1232,7 +1232,7 @@ export type MutationInfo = {
 	CurrentMutationName: string,
 	NextMutationName: string?,
 	FailureMutationName: string,
-	
+
 	CurrentMutationTier: number,
 	NextMutationTier: number?,
 	PrevMutationTier: number?,
@@ -1253,36 +1253,36 @@ export type MutationInfo = {
 function PlotUtil.UpdateMutationInfoUI(mutationData: MutationInfo)
 	local playerGui = LocalPlayer.PlayerGui
 	if not playerGui then return end
-	
+
 	local Tabs = playerGui:FindFirstChild("Tabs")
 	if not Tabs then return end
-	
+
 	local MutationInfo = Tabs:FindFirstChild("MutationInfo")
 	if not MutationInfo then return end
-	
+
 	local Container = MutationInfo:FindFirstChild("Container")
 	if not Container then return end
-	
+
 	local SuccessChance: TextLabel = Container:FindFirstChild("SuccessChance")
 	local FailChance: TextLabel = Container:FindFirstChild("FailChance")
 	local MutationTime: TextLabel = Container:FindFirstChild("MutationTime")
 	if not SuccessChance or not FailChance or not MutationTime then return end
-	
+
 	local FailItemFrame = Container:FindFirstChild("FailItem")
 	if not FailItemFrame then return end
-	
+
 	local OriginalItemFrame = Container:FindFirstChild("OriginalItem")
 	if not OriginalItemFrame then return end
-	
+
 	local SuccessItemFrame = Container:FindFirstChild("SuccessItem")
 	if not SuccessItemFrame then return end
-	
+
 	local Buttons = Container:FindFirstChild("Buttons")
 	if not Buttons then return end
-	
+
 	local OkButton = Buttons:FindFirstChild("Ok")
 	if not OkButton then return end
-	
+
 	OriginalItemFrame.NameLabel.Text = mutationData.CurrentMutationName
 	OriginalItemFrame.NameLabel.TextColor3 = MutationTextColors[mutationData.CurrentMutationName]
 	OriginalItemFrame.CPSLabel.Text = 
@@ -1292,17 +1292,17 @@ function PlotUtil.UpdateMutationInfoUI(mutationData: MutationInfo)
 	SuccessItemFrame.NameLabel.TextColor3 = MutationTextColors[mutationData.NextMutationName]
 	SuccessItemFrame.CPSLabel.Text = 
 		"$" .. formatCommaValue(mutationData.NextMutationCPS) .. "/s"
-	
+
 	FailItemFrame.NameLabel.Text = mutationData.FailureMutationName
 	FailItemFrame.NameLabel.TextColor3 = MutationTextColors[mutationData.FailureMutationName]
 	FailItemFrame.CPSLabel.Text = 
 		"$" .. formatCommaValue(mutationData.FailureMutationCPS) .. "/s"
-	
+
 	MutationTime.Text = `Mutation time: {TimeFormat.formatDuration(mutationData.MutationTime)}`
-	
+
 	SuccessChance.Text = mutationData.SuccessRate .. "%"
 	FailChance.Text = mutationData.FailureRate .. "%"
-	
+
 	OkButton.Text = "$" .. formatCommaValue(mutationData.Cost)
 end
 
@@ -1325,37 +1325,37 @@ function PlotUtil.GetMutationExtraInfo(labubu: Types.Labubu) : MutationInfo
 
 	local EggMutationInfo = EggMutationData.Mutations[MutationName]
 	if not EggMutationInfo then return end
-	
+
 	local SuccessRate = MutationTierInfo.SuccessRateNext
 	local FailureRate = 0
-	
+
 	FailureRate = SuccessRate and 100 - SuccessRate or 0
-	
+
 	local PrevMutationTier = labubu.MutationTier - 1
 	local PrevMutationName = PlotUtil.MutationTierToName(PrevMutationTier)
 
 	local PrevMutationTierInfo = PrevMutationName
 		and PlotUtil.getMutationInfo(PrevMutationName)
-	
+
 	return {
 		CurrentMutationName = MutationName,
 		NextMutationName = NextMutationName,
 		FailureMutationName = MutationTierInfo.FailureDowngrade,
-		
+
 		CurrentMutationTier = labubu.MutationTier,
 		NextMutationTier = NextMutationTierInfo and NextMutationTierInfo.Tier,
 		PrevMutationTier = PrevMutationTierInfo and PrevMutationTierInfo.Tier,
-		
+
 		CurrentMutationCPS = PlotUtil.CalculateCPSbyName(labubu.Name, MutationName, nil, labubu.Traits),
 		NextMutationCPS = PlotUtil.CalculateCPSbyName(labubu.Name, NextMutationName, nil, labubu.Traits),
 		FailureMutationCPS = PlotUtil.CalculateCPSbyName(labubu.Name, 
 			MutationTierInfo.FailureDowngrade, nil, labubu.Traits),
-		
+
 		Cost = EggMutationInfo.Cost,
 		MutationTime = MutationTierInfo.MutationTime,
 		NextMutationTime = NextMutationTierInfo and NextMutationTierInfo.MutationTime,
 		PrevMutationTime = PrevMutationTierInfo and PrevMutationTierInfo.MutationTime,
-		
+
 		SuccessRate = SuccessRate,
 		FailureRate = FailureRate
 	}
@@ -1364,7 +1364,7 @@ end
 function PlotUtil.SetClientSpin(plot: Model)
 	if not plot or not plot.Parent then return end
 	if not CachedClientPlotData then return end
-	
+
 	local Dropper: Folder? = PlotUtil.getPlotDropper(plot)
 	if not Dropper then return end
 
@@ -1373,18 +1373,18 @@ function PlotUtil.SetClientSpin(plot: Model)
 	GoButtonUI: BillboardGui?, BarUI: BillboardGui? = PlotUtil.getDropperSpinScreen(Dropper)
 
 	if not SpinScreen or not Button or not GoButtonUI or not BarUI then return end
-	
+
 	local EggPillars: { Model } = PlotUtil.getEggPillars(Dropper)
 	if not EggPillars then return end
 
 	GoButtonUI.Enabled = CachedClientPlotData.SpinInfo.CanSpin
 	BarUI.Enabled = CachedClientPlotData.SpinInfo.SpinBroken
-	
+
 	local ScreenGoClick: ClickDetector = Button:FindFirstChild("ClickDetector")
 
 	if not ScreenGoClick then
 		local RepairProximityPrompt: ProximityPrompt = Button:FindFirstChild("ProximityPrompt")
-			:: ProximityPrompt
+		:: ProximityPrompt
 
 		if not RepairProximityPrompt then
 			local NewRepairProximityPrompt: ProximityPrompt = Instance.new("ProximityPrompt")
@@ -1399,24 +1399,24 @@ function PlotUtil.SetClientSpin(plot: Model)
 				if not plot:GetAttribute("Initialized") then return end
 				if CachedClientPlotData.SpinInfo.CanSpin then return end
 				if not BarUI.Enabled then return end
-				
+
 				if not ButtonRatelimit:Try() then return end
 
 				ClickSound:Play()
-				
+
 				PromptUtil.promptProduct(
 					RepairProduct,
 					true
 				)
 			end)
-			
+
 			RepairProximityPrompt = NewRepairProximityPrompt
 		end
 
-		
+
 		local function UpdateBarUI()
 			RepairProximityPrompt.Enabled = BarUI.Enabled
-			
+
 			if not BarUI.Enabled then 
 				return 
 			end
@@ -1426,20 +1426,20 @@ function PlotUtil.SetClientSpin(plot: Model)
 			if not Container then return end
 			local FillBar: Frame = Container:FindFirstChild("FillBar")
 			if not FillBar then return end
-			
+
 			FillBar.BackgroundColor3 = Color3.fromRGB(255, 0, 4)
 			FillBar.Size = UDim2.new(1, 0, 1, 0)
 			task.spawn(function()
 				while true do
 					if not BarUI.Enabled then break end
-					
+
 					local SpinCooldown: number = CachedClientPlotData.SpinInfo.SpinCooldown
 					local Remaining: number = SpinCooldown - getUTCtime()
 
 					if Remaining <= 0 then break end
 
 					TimerText.Text = "Broken for: " .. TimeFormat.formatDuration(Remaining)
-					
+
 					local BarSizeX = math.clamp(Remaining / GlobalSettings.BreakForSeconds, 0, 1)
 					FillBar.Size = UDim2.new(BarSizeX, 0, 1, 0)
 
@@ -1447,24 +1447,24 @@ function PlotUtil.SetClientSpin(plot: Model)
 				end
 			end)
 		end
-		
+
 		BarUI:GetPropertyChangedSignal("Enabled"):Connect(function()
 			UpdateBarUI()
 		end)
-		
+
 		UpdateBarUI()
-		
+
 		local NewScreenGoClick: ClickDetector = Instance.new("ClickDetector")
 
 		ScreenGoClick = NewScreenGoClick
-		
+
 		ScreenGoClick.MouseClick:Connect(function(player: Player)
 			if player ~= LocalPlayer then return end
 			if not plot:GetAttribute("Initialized") then return end
 			if not CachedClientPlotData.SpinInfo.CanSpin then return end
-			
+
 			if not ButtonRatelimit:Try() then return end
-			
+
 			ClickSound:Play()
 
 			Network.Plots.EggRoll:FireServer()
@@ -1483,7 +1483,7 @@ function PlotUtil.SetClientSpin(plot: Model)
 				Highlight.FillTransparency = 0.9
 				Highlight.Parent = Button
 			end
-			
+
 			HoverSound:Play()
 		end)
 
@@ -1495,52 +1495,52 @@ function PlotUtil.SetClientSpin(plot: Model)
 				Highlight = nil
 			end
 		end)
-		
-		
+
+
 		-- Eggs ProximityPrompt
 		local EggRolls: Folder = PlotUtil.getDropperEggsFolder(Dropper)
 		if EggRolls then
 			local function SetupEggRollProximityPrompt(egg: Model)
 				if not egg.Parent then return end
-				
+
 				local eggRollTrove = Trove.new()
-				
+
 				local EggRollProximityPrompt: ProximityPrompt = egg:FindFirstChild("EggRollProximityPrompt")
-				
+
 				if not EggRollProximityPrompt then
 					local NewEggRollProximityPrompt: ProximityPrompt = Instance.new("ProximityPrompt")
 					NewEggRollProximityPrompt.RequiresLineOfSight = false
 					NewEggRollProximityPrompt.MaxActivationDistance = 10
 					NewEggRollProximityPrompt.HoldDuration = 0.25
 					NewEggRollProximityPrompt.ActionText = "Buy Egg"
-					
+
 					eggRollTrove:Add(
 						NewEggRollProximityPrompt.Triggered:Connect(function(player: Player)
 							if player ~= LocalPlayer then return end
 							if not plot:GetAttribute("Initialized") then return end
 							if not ButtonRatelimit:Try() then return end
-							
+
 							local ParentIndex: number? = egg:GetAttribute("ParentIndex")
 							if not ParentIndex then return end
-						
+
 							local eggPillar: Model? = PlotUtil.getEggPillarFromIndex(
 								EggPillars, ParentIndex
 							)
 							if not eggPillar then return end
-						
+
 							ClickSound:Play()
-							
+
 							Network.Plots.BuyEggRoll:FireServer(egg.Name, ParentIndex)
 						end)
 					)
-					
+
 					EggRollProximityPrompt = NewEggRollProximityPrompt
 					EggRollProximityPrompt.Parent = egg
 				end
-				
+
 				eggRollTrove:AttachToInstance(egg)
 			end
-			
+
 			EggRolls.ChildAdded:Connect(function(egg: Model)
 				SetupEggRollProximityPrompt(egg)
 			end)			
@@ -1550,14 +1550,14 @@ function PlotUtil.SetClientSpin(plot: Model)
 			end
 		end
 	end
-	
+
 	if not CachedClientPlotData.SpinInfo.CanSpin then 
 		local Highlight: Highlight = Button:FindFirstChild("Highlight")
 		if Highlight then
 			Highlight:Destroy()
 		end
 	end
-	
+
 	if ScreenGoClick then
 		ScreenGoClick.MaxActivationDistance = CachedClientPlotData.SpinInfo.CanSpin and 25 or 0
 		ScreenGoClick.Parent = Button
@@ -1572,7 +1572,7 @@ local MutationInfoTabCache = {
 
 function PlotUtil.initClientPlot(plot: Model)
 	if not plot or not plot.Parent then return end
-	
+
 	if CurrentlyInitializingPlotClient then
 		repeat 
 			warn("Waiting for other plot init to complete")
@@ -1580,10 +1580,10 @@ function PlotUtil.initClientPlot(plot: Model)
 		until not CurrentlyInitializingPlotClient
 	end
 	CurrentlyInitializingPlotClient = true
-	
+
 	if not ClientInitialized then
 		constantTrove:Clean()
-		
+
 		local function SetupFloor(floor)
 			local floorNum = tonumber(string.match(floor.Name, "%d+"))
 
@@ -1599,18 +1599,18 @@ function PlotUtil.initClientPlot(plot: Model)
 				end)
 			)
 		end
-		
+
 		constantTrove:Add(
 			plot.ChildAdded:Connect(function(floor: Model)
 				SetupFloor(floor)
 				PlotUtil.initClientPlot(plot)
 			end)
 		)
-		
+
 		for _, floor in ipairs(plot:GetChildren()) do
 			SetupFloor(floor)
 		end
-		
+
 		-- MutationInfo Ok Button
 		local function InitMutationInfo()
 			local playerGui = LocalPlayer.PlayerGui
@@ -1644,39 +1644,39 @@ function PlotUtil.initClientPlot(plot: Model)
 
 			local OkButton = Buttons:FindFirstChild("Ok")
 			if not OkButton then return end
-			
+
 			OkButton.Activated:Connect(function()
 				if not plot:GetAttribute("Initialized") then return end
 
 				if not ButtonRatelimit:Try() then return end
-				
+
 				Network.Plots.Mutate:FireServer(MutationInfoTabCache.Placement.Name, 
 					MutationInfoTabCache.FloorNum, MutationInfoTabCache.SlotNum)
-				
+
 				InterfaceTabUtil.closeAllTabs(true)
 			end)
 		end
-		
+
 		InitMutationInfo()
 	end
-	
+
 	ClientInitialized = true
 
 	slotTrove:Clean()
-	
+
 	for _, floor in ipairs(plot:GetChildren()) do
 		local floorNum = tonumber(string.match(floor.Name, "%d+"))
 
 		local Slots: Folder = floor:FindFirstChild("Slots")
 		if not Slots then continue end
-		
+
 		local Placements: Folder = PlotUtil.getSlotsPlacements(Slots)
 		if not Placements then continue end
 
 		for _, slot in ipairs(Slots:GetChildren()) do
 			local Button: Model = slot:FindFirstChild("Button")
 			if not Button then continue end
-			
+
 			local slotNum = tonumber(slot.Name)
 
 			local SlotWorldPartsData = PlotUtil.getSlotWorldData(slot)
@@ -1705,7 +1705,7 @@ function PlotUtil.initClientPlot(plot: Model)
 
 			local NextMutationUI: BillboardGui = SlotWorldPartsData.NextMutationUI
 			if not NextMutationUI then continue end
-			
+
 			local function ResetCachedStuff()
 				local ScreenGoClick: ClickDetector = ScreenGo:FindFirstChild("ClickDetector")
 
@@ -1717,7 +1717,7 @@ function PlotUtil.initClientPlot(plot: Model)
 				if Highlight then
 					Highlight:Destroy()
 				end
-				
+
 				if MutationInfoTabCache then
 					if MutationInfoTabCache.SlotNum == slotNum then
 						if MutationInfoTabCache.FloorNum == floorNum then
@@ -1749,28 +1749,28 @@ function PlotUtil.initClientPlot(plot: Model)
 					PlotUtil.initClientPlot(plot)
 				end)
 			)
-			
+
 			slotTrove:Add(slot:GetAttributeChangedSignal("IsMutatable"):Connect(
 				function()
 					ResetCachedStuff()
 					PlotUtil.initClientPlot(plot)
 				end)
 			)
-			
+
 			slotTrove:Add(slot:GetAttributeChangedSignal("ReadyToBeginMutate"):Connect(
 				function()
 					ResetCachedStuff()
 					PlotUtil.initClientPlot(plot)
 				end)
 			)
-			
+
 			slotTrove:Add(slot:GetAttributeChangedSignal("ReadyToMutate"):Connect(
 				function()
 					ResetCachedStuff()
 					PlotUtil.initClientPlot(plot)
 				end)
 			)
-			
+
 			slotTrove:Add(slot:GetAttributeChangedSignal("IsMutating"):Connect(
 				function()
 					ResetCachedStuff()
@@ -1797,10 +1797,10 @@ function PlotUtil.initClientPlot(plot: Model)
 				else
 					NewProximityPrompt.ActionText = "Buy Vip Slot"
 				end
-				
+
 				local PriceAttribute = formatCommaValue(PriceAttribute)
 				local BuyVIPSlotPrice = formatCommaValue(BuyVIPSlotPrice)
-				
+
 				NewProximityPrompt.ObjectText =
 					"Slot " .. slotNum .. " | " ..
 					(IsVipSlot and ("R$" .. BuyVIPSlotPrice) or ("$" .. PriceAttribute))
@@ -1818,39 +1818,39 @@ function PlotUtil.initClientPlot(plot: Model)
 			else
 				ProximityPrompt.Enabled = false
 			end
-			
+
 			if IsHatching or IsMutating then
 				GoButtonUI.Background.Frame.GoText.Text = "SKIP"
 			else
 				GoButtonUI.Background.Frame.GoText.Text = "GO"
 			end
-		
+
 			FloatingCollectUI.Enabled = IsMutatable
 			--FloatingCollectUI.Enabled = IsMutatable and 
 			--	(not IsMutating and not ReadyToMutate)
-			
+
 			local Placement = PlotUtil.getPlacementFromIndex(
 				Placements, slotNum
 			)
-			
+
 			local PlacementAndPlacementMutatinTierNotDefault = Placement and 
 				Placement:GetAttribute("MutationTier") and
 				Placement:GetAttribute("MutationTier") > 1
-			
+
 			if not IsSlotForSale and IsSlotOccupied and 
 				(IsHatchable or IsHatching or ReadyToBeginMutate or 
 					(ReadyToMutate or (IsMutating and PlacementAndPlacementMutatinTierNotDefault))
 				) then
 				local ScreenGoClick: ClickDetector = ScreenGo:FindFirstChild("ClickDetector")
-				
+
 				if not ScreenGoClick then
 					local NewScreenGoClick: ClickDetector = Instance.new("ClickDetector")
 					NewScreenGoClick.MaxActivationDistance = 25
 					NewScreenGoClick.Parent = ScreenGo
-					
+
 					ScreenGoClick = NewScreenGoClick
 				end
-				
+
 				slotTrove:Add(Placements.ChildAdded:Connect(
 					function()
 						ResetCachedStuff()
@@ -1864,41 +1864,41 @@ function PlotUtil.initClientPlot(plot: Model)
 						PlotUtil.initClientPlot(plot)
 					end)
 				)
-				
+
 				slotTrove:Add(
 					ScreenGoClick.MouseClick:Connect(function(player: Player)
 						if player ~= LocalPlayer then return end
 						if not plot:GetAttribute("Initialized") then return end
-						
+
 						if not ButtonRatelimit:Try() then return end
-						
+
 						if IsHatchable then
 							if Placement then
 								Network.Plots.HatchEgg:FireServer(Placement.Name, floorNum, slotNum)
-								
+
 								ClickSound:Play()
 							end
 						else
 							if IsHatching then
 								Network.Plots.SkipEggHatch:FireServer(floorNum, slotNum)
-								
+
 								ClickSound:Play()
 							end
-							
+
 							if ReadyToBeginMutate then
 								if Placement then
 									local Attributes = Placement:GetAttributes()
-						
+
 									local MutationInfo = PlotUtil.GetMutationExtraInfo(Attributes)
-									
+
 									PlotUtil.UpdateMutationInfoUI(
 										MutationInfo
 									)
-									
+
 									MutationInfoTabCache.Placement = Placement
 									MutationInfoTabCache.SlotNum = slotNum
 									MutationInfoTabCache.FloorNum = floorNum
-									
+
 									InterfaceTabUtil.openTab("MutationInfo", true)
 								end
 							else
@@ -1907,7 +1907,7 @@ function PlotUtil.initClientPlot(plot: Model)
 										Network.Plots.RevealMutation:FireServer(
 											Placement.Name, floorNum, slotNum
 										)
-										
+
 										ClickSound:Play()
 									end
 								else
@@ -1925,9 +1925,9 @@ function PlotUtil.initClientPlot(plot: Model)
 						end
 					end)
 				)
-				
+
 				local Highlight: Highlight? = nil
-				
+
 				slotTrove:Add(
 					ScreenGoClick.MouseHoverEnter:Connect(function(player: Player)
 						if player ~= LocalPlayer then return end
@@ -1939,11 +1939,11 @@ function PlotUtil.initClientPlot(plot: Model)
 							Highlight.FillTransparency = 0.9
 							Highlight.Parent = ScreenGo
 						end
-						
+
 						HoverSound:Play()
 					end)
 				)
-				
+
 				slotTrove:Add(
 					ScreenGoClick.MouseHoverLeave:Connect(function(player: Player)
 						if player ~= LocalPlayer then return end
@@ -1954,7 +1954,7 @@ function PlotUtil.initClientPlot(plot: Model)
 						end
 					end)
 				)
-				
+
 				slotTrove:Add(
 					ScreenGoClick.Destroying:Connect(function()
 						if Highlight then
@@ -1963,20 +1963,20 @@ function PlotUtil.initClientPlot(plot: Model)
 						end
 					end)
 				)
-				
+
 				GoButtonUI.Enabled = true
 			else
 				ResetCachedStuff()
-				
+
 				GoButtonUI.Enabled = false
 			end
-			
+
 			if ProximityPrompt.Enabled then
 				slotTrove:Add(
 					ProximityPrompt.Triggered:Connect(function(player: Player)
 						if player ~= LocalPlayer then return end
 						if not plot:GetAttribute("Initialized") then return end
-						
+
 						--warn("Trigger Buy Slot:" .. slotNum, floorNum)
 						Network.Plots.BuySlot:FireServer(floorNum, slotNum)
 					end)
@@ -1984,7 +1984,7 @@ function PlotUtil.initClientPlot(plot: Model)
 			end
 		end
 	end
-	
+
 	CurrentlyInitializingPlotClient = false
 end
 

@@ -44,7 +44,7 @@ end
 function DataSpin.UpdateNextSpin(player: Player)
 	local profileData, clientData = DataHandler.getProfileData(player)
 	if profileData == nil or clientData == nil then return end
-	
+
 	profileData.NextSpinAt = os.time() + NextFreeSpinTimeAfter
 	clientData.NextSpinAt(profileData.NextSpinAt)
 end
@@ -52,11 +52,11 @@ end
 function DataSpin.playerAdded(player: Player) -- automatic
 	local profileData, clientData = DataHandler.getProfileData(player)
 	if profileData == nil or clientData == nil then return end
-	
+
 	if profileData.NextSpinAt == 0 then
 		DataSpin.UpdateNextSpin(player)
 	end
-	
+
 	--warn(player.Name, "data loaded")
 	--print(profileData, clientData)
 end
@@ -64,7 +64,7 @@ end
 function DataSpin.playerRemoving(player: Player) -- automatic
 	local profileData, clientData = DataHandler.getProfileData(player)
 	if profileData == nil or clientData == nil then return end
-	
+
 	--warn(player.Name, "data unloading")
 end
 
@@ -81,13 +81,13 @@ SpinWheel.OnServerInvoke = function(player: Player)
 	local RewardFunc = Reward.Reward
 
 	RewardFunc(player)
-	
+
 	--Name = "30,000 Cash", 
 	--Name = "+1,000 Candies", 
 	--Name = "Arcane Block", 
 	--Name = "King Block", 
 	--Name = "SIX SIX SIX", 
-	
+
 	if RewardName == "30,000 Cash" then
 		DataCash.giveCash(player, 30000)
 	elseif RewardName == "+1,000 Candies" then
@@ -112,10 +112,10 @@ task.spawn(function()
 	while task.wait(1) do
 		for i, player in pairs(Players:GetPlayers()) do
 			if not player:GetAttribute("ClientSignaledLoaded") then continue end
-			
+
 			local profileData, clientData = DataHandler.getProfileData(player)
 			if profileData == nil or clientData == nil then continue end
-			
+
 			if profileData.NextSpinAt then
 				if os.time() >= profileData.NextSpinAt then
 					DataSpin.UpdateNextSpin(player)

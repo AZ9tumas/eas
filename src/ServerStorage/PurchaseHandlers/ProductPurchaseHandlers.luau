@@ -70,7 +70,7 @@ end
 ProductPurchaseHandlers["Instant Legendary Block"] = function(player: Player)
 	local EggTool, eggPillar, egg = nil, nil, nil
 	local eggPillarIndex: number = 1 -- for legendary
-	
+
 	local plot: Model = DataPlots.GetPlayerPlot(player)
 	if plot then
 		local dropper: Folder = PlotUtil.getPlotDropper(plot)
@@ -80,7 +80,7 @@ ProductPurchaseHandlers["Instant Legendary Block"] = function(player: Player)
 				local Egg: Model? = PlotUtil.getEggFromIndex(EggRolls, eggPillarIndex)
 				if Egg then
 					egg = Egg
-					
+
 					local eggPillars: { Model } = PlotUtil.getEggPillars(dropper)
 					if eggPillars then
 						eggPillar = PlotUtil.getEggPillarFromIndex(eggPillars, eggPillarIndex)
@@ -89,7 +89,7 @@ ProductPurchaseHandlers["Instant Legendary Block"] = function(player: Player)
 							DataPlots.RemoveEggFromPillar(player, eggPillar)
 						end
 						DataBackpack.Eggs.addBackpackEggByInstance(player, EggToolClone, true)
-						
+
 						DataPlots.EggRoll(player, nil, eggPillars, EggRolls, 1)
 					end
 				end
@@ -122,7 +122,7 @@ ProductPurchaseHandlers["Instant Mythic Block"] = function(player: Player)
 							DataPlots.RemoveEggFromPillar(player, eggPillar)
 						end
 						DataBackpack.Eggs.addBackpackEggByInstance(player, EggToolClone, true)
-						
+
 						DataPlots.EggRoll(player, nil, eggPillars, EggRolls, 5)
 					end
 				end
@@ -136,35 +136,35 @@ end
 ProductPurchaseHandlers["Repair Button"] = function(player: Player)
 	DataPlots.EnableSpin(player)
 end
-	
+
 
 -- Plot -> Floor -> VIP Slot
 
 ProductPurchaseHandlers["BuyVIPSlot"] = function(player: Player)
 	local TargetVIPSlot = PlayerAttributes.getAttribute(player, "TargetVIPSlot")
 	local TargetVIPSlotFloor = PlayerAttributes.getAttribute(player, "TargetVIPSlotFloor")
-	
+
 	if TargetVIPSlot == nil or TargetVIPSlotFloor == nil then return end
-	
+
 	local Plot: Model? = DataPlots.GetPlayerPlot(player)
 	if not Plot then return end
-	
+
 	local Floor: Model? = PlotUtil.getFloor(Plot, TargetVIPSlotFloor)
 	if not Floor then return end
-	
+
 	local Slots = Floor:FindFirstChild("Slots")
 	if not Slots then return end
-	
+
 	local Slot = Slots:FindFirstChild(TargetVIPSlot)
 	if not Slot then return end
-	
+
 	local GetSlotInfo = PlotUtil.getSlotData(Slot)
 	if not GetSlotInfo then return end
-	
+
 	if not GetSlotInfo.IsVipSlot then return end
 	if not GetSlotInfo.IsForSale then return end
 	if GetSlotInfo.IsOccupied then return end
-	
+
 	DataPlots.SetSlotState(Slot, false, false)
 	DataPlots.AddSlotToPlayerData(player, TargetVIPSlotFloor, TargetVIPSlot)
 end
@@ -191,15 +191,15 @@ local function SkipEggHatch(player: Player)
 
 	local GetSlotInfo = PlotUtil.getSlotData(Slot)
 	if not GetSlotInfo then return end
-	
+
 	if GetSlotInfo.IsForSale then return end
 	if not GetSlotInfo.IsOccupied then return end
 	--if GetSlotInfo.IsHatchable then return end
 	--if not GetSlotInfo.IsHatching then return end
-	
+
 	local Placements: Folder = PlotUtil.getSlotsPlacements(Slots)
 	if not Placements then return end
-	
+
 	local Placement = PlotUtil.getPlacementFromIndex(
 		Placements, TargetSlotNum
 	)
@@ -209,7 +209,7 @@ local function SkipEggHatch(player: Player)
 
 	local EggData = PlotUtil.EggsData[Placement.Name]
 	if not EggData then return end
-	
+
 	DataPlots.HatchEgg(Placement, Slot, player)
 end
 
@@ -225,7 +225,7 @@ ProductPurchaseHandlers["Skip Exclusive Hatch"] = SkipEggHatch
 local function SkipLabubuMutation(player: Player, tier: number)
 	local profileData, clientData = DataHandler.getProfileData(player)
 	if not profileData then return end
-	
+
 	local TargetSlotNum = PlayerAttributes.getAttribute(player, "SkipMutationSlotNum")
 	local TargetSlotFloor = PlayerAttributes.getAttribute(player, "SkipMutationFloorNum")
 
@@ -257,7 +257,7 @@ local function SkipLabubuMutation(player: Player, tier: number)
 	local Screen, Button, GoButtonUI, BarUI, NextMutationUI = 
 		PlotUtil.getDropperSpinScreen(dropper)
 	if not Screen then return end
-	
+
 	local Placements: Folder = PlotUtil.getSlotsPlacements(Slots)
 	if not Placements then return end
 
@@ -266,15 +266,15 @@ local function SkipLabubuMutation(player: Player, tier: number)
 	)
 	if not Placement then return end
 	if Placement:GetAttribute("Type") ~= "Labubu" then return end
-	
+
 	local floorNum, slotNum = TargetSlotFloor, TargetSlotNum
-	
+
 	local labubuData = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement :: Types.Labubu?
 	if not labubuData then return end
 
 	local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(labubuData)
 	if not GetMutationExtraInfo then return end
-	
+
 	if not GetMutationExtraInfo.NextMutationTier then return end
 	if GetMutationExtraInfo.CurrentMutationTier ~= tier then return end
 
@@ -479,7 +479,7 @@ task.spawn(function()
 			if player:GetAttribute("MagicShield") ~= active then
 				player:SetAttribute("MagicShield", active)
 			end
-			
+
 			task.wait()
 		end
 
@@ -490,10 +490,10 @@ end)
 ProductPurchaseHandlers["x2 Cash (15m)"] = function(player: Player)
 	local profileData, clientData = DataHandler.getProfileData(player)
 	if profileData == nil then return end
-	
+
 	local trove = Trove.new()
 	trove:AttachToInstance(player)
-	
+
 	local x2CashDuration = GlobalSettings.x2CashDuration
 	local x2CashAttribute = player:GetAttribute("x2Cash")
 
@@ -504,17 +504,17 @@ ProductPurchaseHandlers["x2 Cash (15m)"] = function(player: Player)
 	else
 		player:SetAttribute("x2Cash", x2CashAttribute + x2CashDuration)
 	end
-	
+
 	trove:Add(
 		task.spawn(function()
 			local now = getUTCtime()
 			local remaining = player:GetAttribute("x2Cash") - now
-			
+
 			task.wait(remaining)
-			
+
 			local now = getUTCtime()
 			local remaining = player:GetAttribute("x2Cash") - now
-			
+
 			if remaining <= 0 then
 				player:SetAttribute("x2Cash", nil)
 			end
@@ -560,7 +560,7 @@ end
 -- Spins
 
 ProductPurchaseHandlers["1 Spin"] = function(player: Player)
- 	DataSpin.RewardSpin(player, 1)
+	DataSpin.RewardSpin(player, 1)
 end
 
 ProductPurchaseHandlers["3 Spins"] = function(player: Player)
@@ -607,11 +607,11 @@ local GiftItems = ExtractGifts(Products)
 
 for _, gift in ipairs(GiftItems) do
 	--print(gift.Name, gift.Id, gift.Type, gift.FullName)
-	
+
 	ProductPurchaseHandlers[gift.FullName] = function(player: Player)
 		local profileData, clientData = DataHandler.getProfileData(player)
 		if profileData == nil then return end
-		
+
 		local TargetGiftPlayerId = PlayerAttributes.getAttribute(player, "GiftTarget")
 		if not TargetGiftPlayerId then return end
 
@@ -620,17 +620,17 @@ for _, gift in ipairs(GiftItems) do
 		if TargetPlayer then
 			if gift.Type == "Product" then
 				local ProductFunc = ProductPurchaseHandlers[gift.Name]
-				
+
 				if ProductFunc then
 					ProductFunc(TargetPlayer)
-					
+
 					NotifySuccess:FireClient(player, 
 						`You gifted {gift.Name} to @{TargetPlayer.Name}`
 					)
 					NotifyInfo:FireClient(TargetPlayer, 
 						`@{player.Name} gifted you {gift.Name}`
 					)
-					
+
 					Network.Purchases.ConfettiEffect:FireClient(TargetPlayer)
 				end
 			else
@@ -643,7 +643,7 @@ for _, gift in ipairs(GiftItems) do
 					NotifyInfo:FireClient(TargetPlayer, 
 						`@{player.Name} gifted you {gift.Name} Pass`
 					)
-					
+
 					Network.Purchases.ConfettiEffect:FireClient(TargetPlayer)
 				end
 			end

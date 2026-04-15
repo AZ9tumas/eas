@@ -101,35 +101,35 @@ for _, plot in ipairs(Bases:GetChildren()) do
 	table.insert(PlotModels, plot)
 	table.insert(AllPlots, plot)
 	PlotStates[plot] = nil
-	
+
 	local Floor1: Model = plot:WaitForChild("Floor1")
 	local Architecture: Folder = Floor1:WaitForChild("Architecture")
 	local BackSurface: BasePart = Architecture:WaitForChild("BackSurface")
 	local SurfaceGui: SurfaceGui = BackSurface:WaitForChild("SurfaceGui")
 	local TextLabel: TextLabel = SurfaceGui:WaitForChild("TextLabel")
-	
+
 	CachedPlotsTextsUI[plot] = TextLabel
-	
+
 	-- Floors
 	CachedPlotsFloors[plot] = CachedPlotsFloors[plot] or {}
-	
+
 	for _, Floor in pairs(plot:GetChildren()) do
 		if Floor:IsA("Model") then
 			table.insert(CachedPlotsFloors[plot], Floor)
 		end
 	end
-	
+
 	local EggsEffects = Floor1:WaitForChild("Dropper")
 		:WaitForChild("Effects"):WaitForChild("EggsFusion")
 	CachedEggsFusionEffect[plot] = EggsEffects
-	
+
 	EggsEffects.Parent = nil
 end
 
 -- Init Eggs
 for _, egg in pairs(Eggs:GetChildren()) do
 	PlotUtil.setEggPriceInfoUI(egg)
-	
+
 	local clone = egg:Clone()
 	local eggTool = PlotUtil.ConvertEggModelToEggTool(clone)
 	eggTool.Parent = EggTools
@@ -179,7 +179,7 @@ function DataPlots.AssignPlot(player: Player)
 	if PlayerPlots[player] then
 		return PlayerPlots[player]
 	end
-	
+
 	if not PlotsInitialized then
 		repeat 
 			warn("Waiting for plots to initialize")
@@ -190,10 +190,10 @@ function DataPlots.AssignPlot(player: Player)
 	local plot = DataPlots.GetEmptyPlot()
 	if not plot then
 		warn("No free plots available")
-		
+
 		repeat task.wait(0.1) until DataPlots.GetEmptyPlot() or not player:IsDescendantOf(Players)
 		plot = DataPlots.GetEmptyPlot()
-		
+
 		if not plot or not player:IsDescendantOf(Players) then
 			warn("No free plots available #2")
 			return nil
@@ -202,18 +202,18 @@ function DataPlots.AssignPlot(player: Player)
 
 	-- remove from free cache
 	table.remove(PlotModels, 1)
-	
+
 	--CachedPlotsTextsUI[plot].Text = player.Name
 	CachedPlotsTextsUI[plot].Text = player.DisplayName .. "'s Plot"
 
 	PlayerPlots[player] = plot
 	PlotStates[plot] = player
-	
+
 	--local profileData, clientData = DataHandler.getProfileData(player)
 	--if profileData ~= nil and clientData ~= nil then
 	--	clientData.Plot(plot)
 	--end
-	
+
 	DataPlots.ClearPlot(plot)
 
 	return plot
@@ -227,10 +227,10 @@ function DataPlots.UnassignPlot(player: Player)
 	if not plot then
 		return nil
 	end
-	
+
 	PlayerPlots[player] = nil
 	PlotStates[plot] = nil
-	
+
 	DataPlots.ClearPlot(plot, true)
 
 	-- return plot back to free cache
@@ -254,18 +254,18 @@ end
 function DataPlots.EnableSpin(player: Player)
 	local plot: Model = DataPlots.GetPlayerPlot(player)
 	if not plot then return end
-	
+
 	local profileData, clientData = DataHandler.getProfileData(player)
 	if not profileData or not clientData then return end
-	
+
 	local dropper = PlotUtil.getPlotDropper(plot)
 	if not dropper then return end
-	
+
 	local Screen, Button, GoButtonUI, BarUI = PlotUtil.getDropperSpinScreen(dropper)
 	if not Button then return end
-	
+
 	Button.Trigger:Fire(false, true)
-	
+
 	DataPlots.SetPlotSpinState(plot, "on")
 
 	if not profileData.PlotData.SpinInfo.CanSpin or profileData.PlotData.SpinInfo.SpinBroken then
@@ -279,54 +279,54 @@ end
 function DataPlots.UpdatePlayerSpinInfo(player: Player, onJoin: boolean?)
 	local profileData, clientData = DataHandler.getProfileData(player)
 	if not profileData or not clientData then return end
-	
+
 	local plot: Model = DataPlots.GetPlayerPlot(player)
 	if not plot then return end
 
 	local SpinCooldown: number = profileData.PlotData.SpinInfo.SpinCooldown
 	local Remaining: number = SpinCooldown - getUTCtime()
-	
+
 	if Remaining > 0 then
 		if Remaining <= GlobalSettings.SpinCooldown and not onJoin then
 			DataPlots.SetPlotSpinState(plot, "idle", profileData.PlotData.SpinInfo.SpinCooldown)
 		else
 			DataPlots.SetPlotSpinState(plot, "off", profileData.PlotData.SpinInfo.SpinCooldown)
 		end
-		
+
 		task.wait(Remaining)
 	end
-	
+
 	local NewSpinCooldown: number = profileData.PlotData.SpinInfo.SpinCooldown
 	if NewSpinCooldown ~= SpinCooldown then
 		return
 	end
-	
+
 	DataPlots.EnableSpin(player)
 end
 
 function DataPlots.UpdateRollsInfo(plot: Model, RollsInfo: Types.PlotRollsInfo, SpawnEggs: boolean?)
 	if not plot or not plot.Parent then return end
 	if not RollsInfo then return end
-	
+
 	local dropper: Model = PlotUtil.getPlotDropper(plot)
 	if not dropper then return end
-	
+
 	local EggsRollInfoScreen: BasePart?, LuckBoardUI: BillboardGui? 
 		= PlotUtil.getEggRollsScreen(dropper)
-	
+
 	if not EggsRollInfoScreen or not LuckBoardUI then return end
-	
+
 	local BoardFrame: Frame = LuckBoardUI:FindFirstChild("BoardFrame")
 	if not BoardFrame then return end
-	
+
 	local EpicLabel: TextLabel = BoardFrame:FindFirstChild("EpicLabel")
 	local LegendaryLabel: TextLabel = BoardFrame:FindFirstChild("LegendaryLabel")
 	local MythicalLabel: TextLabel = BoardFrame:FindFirstChild("MythicalLabel")
-	
+
 	if not EpicLabel or not LegendaryLabel or not MythicalLabel then return end
-	
+
 	local RollsAmount: number = RollsInfo.EggRollsCount
-	
+
 	local EpicRolls: number = PlotUtil.getRollsLeft(RollsAmount, Pity.Epic)
 	local LegendaryRolls: number = PlotUtil.getRollsLeft(RollsAmount, Pity.Legendary)
 	local MythicalRolls: number = PlotUtil.getRollsLeft(RollsAmount, Pity.Mythic)
@@ -339,7 +339,7 @@ function DataPlots.UpdateRollsInfo(plot: Model, RollsInfo: Types.PlotRollsInfo, 
 
 	MythicalLabel.Text =
 		`<font color="#ff0000">Mythical</font> Egg In {MythicalRolls} Rolls`
-	
+
 	if SpawnEggs then
 		local EggPillars: { Model } = PlotUtil.getEggPillars(dropper)
 		if not EggPillars then return end
@@ -348,24 +348,24 @@ function DataPlots.UpdateRollsInfo(plot: Model, RollsInfo: Types.PlotRollsInfo, 
 		if not EggsRolls then return end
 
 		EggsRolls:ClearAllChildren()
-		
+
 		local EggPillarsByIndex: { [number]: Model } = {}
 
 		for _, pillar in pairs(EggPillars) do
 			local EggPillarInfo = PlotUtil.getEggPillarInfo(pillar)
 			if not EggPillarInfo then continue end
-			
+
 			EggPillarsByIndex[EggPillarInfo.Index] = pillar
 		end
-		
+
 		for index, eggName in pairs(RollsInfo.EggRolls) do
 			if not EggPillarsByIndex[index] then
 				warn("Egg pillar not found for index: " .. index)
 				continue
 			end
-			
+
 			local EggPillarInfo = PlotUtil.getEggPillarInfo(EggPillarsByIndex[index])
-			
+
 			local egg: Model = PlotUtil.spawnEggRoll(eggName, 
 				EggPillarsByIndex[index], not EggPillarInfo.Premium, "SpinRoll")
 			egg.Parent = EggsRolls
@@ -380,7 +380,7 @@ function DataPlots.CollectAllSlotCash(profileSlotData: Types.Slot, player: Playe
 		profileSlotData.OfflineCash = 0
 		profileSlotData.LastOfflineCashCollected = os.time()
 		profileSlotData.HasBeenHoldingOfflineCash = false
-		
+
 		if player then
 			DataCash.giveCash(player, CashToCollect)
 		end
@@ -390,13 +390,13 @@ end
 function DataPlots.SetPlotSpinState(plot: Model, state: string, cooldown: number?)
 	local Dropper: Folder? = PlotUtil.getPlotDropper(plot)
 	if not Dropper then return end
-	
+
 	local SpinScreen: Model?, 
-		Button: BasePart?, 
-		GoButtonUI: BillboardGui? = PlotUtil.getDropperSpinScreen(Dropper)
-		
+	Button: BasePart?, 
+	GoButtonUI: BillboardGui? = PlotUtil.getDropperSpinScreen(Dropper)
+
 	if not SpinScreen or not Button or not GoButtonUI then return end
-	
+
 	if state == "on" then
 		Button.Color = Color3.fromRGB(75, 151, 75)
 	elseif state == "off" then
@@ -425,21 +425,21 @@ function DataPlots.SpawnHatchableAtSlot(slot: Model, labubuData: Types.Labubu, p
 
 	labubuModel = PlotUtil.getHatchableModel(labubuData.Name)
 	if not labubuModel then return warn("No hatchable model found for: " .. labubuData.Name) end
-	
+
 	local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(labubuData)
 	if not GetMutationExtraInfo then return end
-	
+
 	labubuModel = labubuModel:Clone()
 
 	copyAttributesFromTable(labubuData, labubuModel)
-	
+
 	for _, part in pairs(labubuModel:GetDescendants()) do
 		if part:IsA("BasePart") then
 			part.Anchored = true
 			part.CanCollide = false
 		end
 	end
-	
+
 	for _, fx in pairs(labubuModel:GetDescendants()) do
 		if fx:HasTag("FX") then
 			fx:Destroy()
@@ -467,10 +467,10 @@ end
 function DataPlots.HatchEgg(egg: Model, slot: Model, player: Player?, mutationTier: number?)
 	local labubuName, labubuData = PlotUtil.TranslateEggToHatchable(egg)
 	if not labubuName or not labubuData then return end
-	
+
 	local slots = slot.Parent
 	if not slots then return end
-	
+
 	local slotsPlacement = PlotUtil.getSlotsPlacements(slots)
 	if not slotsPlacement then return end
 
@@ -479,16 +479,16 @@ function DataPlots.HatchEgg(egg: Model, slot: Model, player: Player?, mutationTi
 
 	local getSlotPartsInfo = PlotUtil.getSlotWorldData(slot)
 	if not getSlotPartsInfo then return end
-	
+
 	if getSlotInfo.IsForSale then return end
 	local placement: Model? = PlotUtil.getPlacementFromIndex(slotsPlacement, tonumber(slot.Name))
 	if not placement then return end
-	
+
 	local eggData = PlotUtil.EggsData[egg.Name]
 	if not eggData then return end
-	
+
 	mutationTier = mutationTier or egg:GetAttribute("EggMutationTier")
-	
+
 	if player then
 		local profileData, clientData = DataHandler.getProfileData(player)
 		if profileData then
@@ -499,29 +499,29 @@ function DataPlots.HatchEgg(egg: Model, slot: Model, player: Player?, mutationTi
 					MutationTier = mutationTier
 				}, eggData.Rarity, egg.Name
 			)
-			
+
 			profileData.PlotData.Floors[getSlotInfo.floorNum].Slots[getSlotInfo.SlotNum].Placement
 				= LabubuTemplate
-			
+
 			placement:Destroy()
-			
+
 			DataPlots.SpawnHatchableAtSlot(slot, 
 				profileData.PlotData.Floors[getSlotInfo.floorNum].Slots[getSlotInfo.SlotNum].Placement,
 				player
 			)
 			DataPlots.SetSlotState(slot, false, true, 
 				profileData.PlotData.Floors[getSlotInfo.floorNum].Slots[getSlotInfo.SlotNum], player)
-			
+
 			DataIndex.AddLabubuToIndex(player, LabubuTemplate)
-			
+
 			profileData.EggsHatched += 1
-			
+
 			if clientData then
 				clientData.PlotData(deepCopy(profileData.PlotData))
 				clientData.EggsHatched(profileData.EggsHatched)
 			end
 		end
-		
+
 		NotifySuccess:FireClient(player, "Successfully hatched egg!")
 	end
 end
@@ -531,19 +531,19 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 	profileSlotData: Types.Slot, player: Player?
 )
 	local slotPlacement = profileSlotData and profileSlotData.Placement
-	
+
 	isForSale = isForSale or false
 	isOccupied = isOccupied or false
-	
+
 	local Slots = slot.Parent
 	if not Slots then return end
-	
+
 	local getSlotWorldData = PlotUtil.getSlotWorldData(slot)
 	if not getSlotWorldData then return end
-	
+
 	local getSlotData = PlotUtil.getSlotData(slot)
 	if not getSlotData then return end
-	
+
 	local Button: Model = getSlotWorldData.Button
 	if not Button then return end
 
@@ -573,13 +573,13 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 
 	local NextMutationUI: BillboardGui = getSlotWorldData.NextMutationUI
 	if not NextMutationUI then return end
-	
+
 	SlotsTroves[slot] = SlotsTroves[slot] or Trove.new()
 	SlotsTroves[slot]:Clean()
 
 	slot:SetAttribute("Occupied", isOccupied)
 	slot:SetAttribute("ForSale", isForSale)
-	
+
 	if slotPlacement and slotPlacement.Type == "Block" then
 		if slotPlacement.IsHatching and slotPlacement.HatchTimeLeft 
 			and slotPlacement.HatchTimeLeft <= 0 then
@@ -587,13 +587,13 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 		else
 			slot:SetAttribute("Hatchable", false)
 		end
-		
+
 		if slotPlacement.IsHatching and slotPlacement.HatchTimeLeft > 0 then
 			slot:SetAttribute("IsHatching", true)
 		else
 			slot:SetAttribute("IsHatching", false)
 		end
-		
+
 		slot:SetAttribute("ReadyToBeginMutate", nil)
 		slot:SetAttribute("IsMutatable", nil)
 		slot:SetAttribute("ReadyToMutate", nil)
@@ -601,16 +601,16 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 	else
 		slot:SetAttribute("Hatchable", nil)
 		slot:SetAttribute("IsHatching", nil)
-		
+
 		if slotPlacement and slotPlacement.Type == "Labubu" then
 			slot:SetAttribute("ReadyToBeginMutate", not slotPlacement.IsMutating
 				and (not slotPlacement.MutationTime or 
 					(slotPlacement.MutationTime and slotPlacement.MutationTime > 0))
 			)
 			slot:SetAttribute("IsMutatable", true)
-			
+
 			slot:SetAttribute("IsMutating", slotPlacement.IsMutating or nil)
-			
+
 			slot:SetAttribute("ReadyToMutate", slotPlacement.IsMutating and slotPlacement.MutationTime
 				and slotPlacement.MutationTime <= 0
 			)
@@ -621,56 +621,56 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 			slot:SetAttribute("IsMutating", nil)
 		end
 	end
-		
+
 	if not isForSale then -- Not For Sale
 		if not isOccupied then -- Unoccupied
 			--FloatingCollectUI.Enabled = true
 			--GoButtonUI.Enabled = true
-			
+
 			ScreenGo.Color = Color3.fromRGB(255, 0, 0)
 			GoButtonUI.Enabled = false
 			FloatingCollectUI.Enabled = false
-			
+
 			NextMutationUI.DisplayScreen.PriceText.Text = "- - -"
 			NextMutationUI.DisplayScreen.PriceText.TextColor3 = Color3.fromRGB(255, 255, 255)
 			NextMutationUI.TitleLabel.Text = "Empty Slot"
-			
+
 			--ScreenGo.Color = Color3.fromRGB(0, 255, 0)
 		else -- Not For Sale & Occupied
 			local player: Player? = player or PlotUtil.getPlotOwnerFromSlot(slot)
 			if not player then return end
-			
+
 			local profileData, clientData = DataHandler.getProfileData(player)
 			if not profileData then return end
-			
+
 			if slotPlacement then
 				local PlacementFolder: Folder = PlotUtil.getSlotsPlacements(Slots)
 				if not PlacementFolder then return end
-				
+
 				local placementModel = PlotUtil.getPlacementFromIndex(
 					PlacementFolder, getSlotData.SlotNum
 				)
 				if not placementModel then return end
-				
+
 				if slotPlacement.Type == "Block" then
 					local eggPlacement: Types.Egg = slotPlacement
-					
+
 					-- Egg
-					
+
 					if eggPlacement.IsHatching then
 						ScreenGo.Color = Color3.fromRGB(255, 0, 0)
 						GoButtonUI.Enabled = false
 						FloatingCollectUI.Enabled = false
 
 						NextMutationUI.TitleLabel.Text = "Hatching in"
-						
+
 						local function UpdateHatchTimeState()
 							if player:IsDescendantOf(Players) then
 								local newPlacementModel = PlotUtil.getPlacementFromIndex(
 									PlacementFolder, getSlotData.SlotNum
 								)
 								if placementModel ~= newPlacementModel then return end
-								
+
 								if eggPlacement.HatchTimeLeft > 0 then
 									NextMutationUI.DisplayScreen.PriceText.Text = 
 										TimeFormat.short(eggPlacement.HatchTimeLeft)
@@ -681,41 +681,41 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 									NextMutationUI.DisplayScreen.PriceText.Text = "READY!"
 									NextMutationUI.DisplayScreen.PriceText.TextColor3 = 
 										Color3.fromRGB(0, 255, 0)
-									
+
 									ScreenGo.Color = Color3.fromRGB(0, 255, 0)
-									
+
 									slot:SetAttribute("Hatchable", true)
 									slot:SetAttribute("IsHatching", nil)
-									
+
 									return true
 								end
 							end
 						end
-						
+
 						if not UpdateHatchTimeState() then
 							local trove = Trove.new()
 							local onDisconnect = trove:AttachToInstance(placementModel, 
 								function()
 									eggPlacement.HatchTimeLeft = 0
-									
+
 									UpdateHatchTimeState()
 								end
 							)
-							
+
 							trove:Add(
 								task.spawn(function()
 									while task.wait(1) do
 										if UpdateHatchTimeState() then break end
-										
+
 										--local TripleHatchMultiplier = profileData.Gamepasses["Triple Hatch"]
 										--	and 3 or 1
-										
+
 										local IsSuperSpeed = player:GetAttribute("SuperSpeed")
 										eggPlacement.HatchTimeLeft -= 
 											math.floor((IsSuperSpeed and 
 												1 * GlobalSettings.SuperSpeedMultiplier or 1))
-													--* TripleHatchMultiplier)
-										
+										--* TripleHatchMultiplier)
+
 										if UpdateHatchTimeState() then break end
 									end
 								end)
@@ -726,9 +726,9 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 					end
 				elseif slotPlacement.Type == "Labubu" then
 					-- Labubu
-					
+
 					local LabubuPlacement: Types.Labubu = slotPlacement
-					
+
 					local MutationName = PlotUtil.MutationTierToName(LabubuPlacement.MutationTier)
 					if not MutationName then return end
 
@@ -737,20 +737,20 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 
 					local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(LabubuPlacement)
 					if not GetMutationExtraInfo then return end
-					
+
 					local NextMutationTier = GetMutationExtraInfo.NextMutationTier
 					local NextMutationName = GetMutationExtraInfo.NextMutationName
-					
+
 					local NextMutationTierInfo = NextMutationName
 						and PlotUtil.getMutationInfo(NextMutationName)
-					
+
 					local EggMutationData = PlotUtil.getEggMutationInfo(LabubuPlacement.EggType)
 					if not EggMutationData then return end
-					
+
 					local EggMutationInfo = EggMutationData.Mutations[MutationName]
 					if not EggMutationInfo then return end
-					
-					
+
+
 					local function UpdateRevealingIn(): true?
 						if not player:IsDescendantOf(Players) then
 							return nil
@@ -766,7 +766,7 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 							NextMutationUI.DisplayScreen.PriceText.TextColor3 = 
 								Color3.fromRGB(255, 0, 0)
 							ScreenGo.Color = Color3.fromRGB(255, 0, 0)
-							
+
 							slot:SetAttribute("IsMutating", true)
 							placementModel:SetAttribute("IsMutating", true)
 
@@ -777,7 +777,7 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 							NextMutationUI.DisplayScreen.PriceText.TextColor3 = 
 								Color3.fromRGB(0, 255, 0)
 							ScreenGo.Color = Color3.fromRGB(0, 255, 0)
-							
+
 							NextMutationUI.TitleLabel.Text = "Reveal Mutation"
 							slot:SetAttribute("IsMutating", nil)
 							slot:SetAttribute("ReadyToMutate", true)
@@ -785,7 +785,7 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 							return true
 						end
 					end
-					
+
 					if LabubuPlacement.IsMutating then
 						if not UpdateRevealingIn() then
 							PlotUtil.setHatchableInfoUI(
@@ -793,16 +793,16 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 								LabubuPlacement
 							)
 							NextMutationUI.TitleLabel.Text = "Mutating in"
-							
+
 							SlotsTroves[slot]:Add(
 								task.spawn(function()
 									while task.wait(1) do
 										if UpdateRevealingIn() then break end
-										
+
 										local IsSuperSpeed = player:GetAttribute("SuperSpeed")
 										LabubuPlacement.MutationTime -= math.floor(IsSuperSpeed and 
 											1 * GlobalSettings.SuperSpeedMultiplier or 1)
-										
+
 										if UpdateRevealingIn() then break end
 									end
 								end)
@@ -815,7 +815,7 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 						end
 
 						ScreenGo.Color = Color3.fromRGB(0, 255, 0)
-						
+
 						NextMutationUI.TitleLabel.Text = "Next Mutation"
 						if NextMutationTierInfo and NextMutationTier then
 							NextMutationUI.DisplayScreen.PriceText.Text = 
@@ -830,13 +830,13 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 							ScreenGo.Color = Color3.fromRGB(255, 0, 0)
 						end
 					end
-					
+
 					local OfflineCashToCollect = profileSlotData.OfflineCash
 					local LastOfflineCashHolderLeaveSession = 
 						profileSlotData.LastOfflineCashHolderLeaveSession
 					if LastOfflineCashHolderLeaveSession then
 						local passed = os.time() - LastOfflineCashHolderLeaveSession
-						
+
 						FloatingCollectUI.OfflineCashLabel.Text = 
 							"Offline Cash: $" .. formatCommaValue(OfflineCashToCollect)
 							.. ` ({TimeFormat.compact2(passed)})`
@@ -845,8 +845,8 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 							"Offline Cash: $" .. formatCommaValue(OfflineCashToCollect)
 					end
 					FloatingCollectUI.OfflineCashLabel.Visible = OfflineCashToCollect > 0
-					
-					
+
+
 					local function UpdateCashUI()
 						if player:IsDescendantOf(Players) then
 							FloatingCollectUI.PriceText.Text =
@@ -857,7 +857,7 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 					end
 
 					UpdateCashUI()
-					
+
 					--FloatingCollectUI.Enabled = true
 
 					SlotsTroves[slot]:Add(
@@ -883,7 +883,7 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 
 						UpdateCashUI()
 					end
-					
+
 					SlotsTroves[slot]:Add(
 						task.spawn(function()
 							while task.wait(60) do
@@ -909,7 +909,7 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 				warn("SLOT OCCUPATION DATA CORRUPTION")
 			end
 		end
-		
+
 		if not IsVipSlot then
 			CollectPart.Color = Color3.fromRGB(0, 255, 0)
 		end
@@ -937,7 +937,7 @@ function DataPlots.ClearPlot(plot: Model, clearCompletely: boolean?)
 		-- Reset Base SurfaceUI Text
 		CachedPlotsTextsUI[plot].Text = "Empty Plot"
 	end
-	
+
 	-- Reset Floors
 	for _, floor in ipairs(CachedPlotsFloors[plot]) do
 		local floorNum = tonumber(string.match(floor.Name, "%d+"))
@@ -945,22 +945,22 @@ function DataPlots.ClearPlot(plot: Model, clearCompletely: boolean?)
 			floor.Parent = ServerStorage.Cache
 		end
 	end
-	
+
 	-- Reset Slots
 	for _, floor in ipairs(CachedPlotsFloors[plot]) do
 		local floorNum = tonumber(string.match(floor.Name, "%d+"))
-		
+
 		local Slots: Folder = floor:WaitForChild("Slots")
 		local Placements: Folder = PlotUtil.getSlotsPlacements(Slots)
 		if Placements then
 			Placements:ClearAllChildren()
 		end
-		
+
 		for _, slot in ipairs(Slots:GetChildren()) do
 			DataPlots.SetSlotState(slot, true, false)
 		end
 	end
-	
+
 	local dropper: Folder? = PlotUtil.getPlotDropper(plot)
 	if not dropper then return end
 	local EggRollsScreen: BasePart?, EggRollsScreenUI: BillboardGui? = PlotUtil.getEggRollsScreen(dropper)
@@ -969,10 +969,10 @@ function DataPlots.ClearPlot(plot: Model, clearCompletely: boolean?)
 	local EggsRolls: Folder = dropper:FindFirstChild("EggRolls")
 
 	EggsRolls:ClearAllChildren()
-	
+
 	PlotUtil.setEggsRollScreenUIState(plot, false)
 	DataPlots.SetPlotSpinState(plot, "off")
-	
+
 	plot:SetAttribute("Initialized", false)
 	plot:SetAttribute("OwnerUserId", nil)
 end
@@ -1036,7 +1036,7 @@ function DataPlots.ApplyPlotData(plot: Model, plotData: Types.PlotData, player: 
 	if not plotData or not plotData.Floors then
 		return
 	end
-	
+
 	local profileData, clientData = DataHandler.getProfileData(player)
 	if profileData == nil then return end
 
@@ -1047,11 +1047,11 @@ function DataPlots.ApplyPlotData(plot: Model, plotData: Types.PlotData, player: 
 				local floorNum = tonumber(string.match(floor.Name, "%d+"))
 				if floorNum == floorIndex then
 					floorModel = floor
-					
+
 					break
 				end
 			end
-			
+
 			if not floorModel then
 				continue
 			end
@@ -1061,22 +1061,22 @@ function DataPlots.ApplyPlotData(plot: Model, plotData: Types.PlotData, player: 
 		if not slotsFolder then
 			continue
 		end
-		
+
 		-- Default Labubu
 		if floorIndex == 1 then
 			local firstSlot = slotsFolder:FindFirstChild("1")
 			if firstSlot then
 				if not profileData.HasBeenRewardedBeginnerLabubu then
 					profileData.HasBeenRewardedBeginnerLabubu = true
-					
+
 					DataPlots.AddSlotToPlayerData(player, 1, 1)
 					DataPlots.SetSlotState(firstSlot, false, false)
-					
+
 					local name = "Normal Labubu"
 
 					local LabubuInfo = PlotUtil.getLabubuData(name)
 					if not LabubuInfo then return end
-					
+
 					local rarity = LabubuInfo.Rarity -- Common to Basic
 
 					local EggRng = RngUtil(
@@ -1100,7 +1100,7 @@ function DataPlots.ApplyPlotData(plot: Model, plotData: Types.PlotData, player: 
 							ObtainedFrom = "BeginnerReward",
 						}, rarity, EggRng
 					)
-					
+
 					profileData.PlotData.Floors[1].Slots[1].Placement = LabubuTemplate
 
 					--DataPlots.SpawnHatchableAtSlot(firstSlot, LabubuTemplate, player)
@@ -1119,83 +1119,83 @@ function DataPlots.ApplyPlotData(plot: Model, plotData: Types.PlotData, player: 
 			if not slot then
 				continue
 			end
-			
+
 			slotInfo.Placement = slotInfo.Placement or {}
 			slotInfo.Cash = slotInfo.Cash or 0
 			slotInfo.OfflineCash = slotInfo.OfflineCash or 0
-			
+
 			local labubuPlacement = slotInfo and slotInfo.Placement
 
 			if labubuPlacement ~= nil then
 				-- Has the slot
-				
+
 				local IsOccupiedLabubu = next(labubuPlacement) ~= nil -- IsOccupied with Labubu?
 				local slotPlacement = IsOccupiedLabubu and labubuPlacement or nil -- nil if unoccupied
-				
+
 				slot:SetAttribute("Occupied", IsOccupiedLabubu)
 				slot:SetAttribute("ForSale", false)
 
 				-- spawn labubu here
 				-- DataPlots.SpawnLabubu(plot, floorIndex, slotIndex, labubu)
-				
+
 				if slotPlacement then
 					if slotPlacement.Type == "Block" then
 						DataPlots.SpawnEggAtSlot(slot, slotPlacement)
 					elseif slotPlacement.Type == "Labubu" then
 						slotPlacement.Traits = slotPlacement.Traits or {}
-						
+
 						DataPlots.SpawnHatchableAtSlot(slot, slotPlacement, player)
 					end
 				end
-				
+
 				if slotPlacement and slotPlacement.Type == "Labubu" then
 					local LeftSession = profileData.LeftSessionAt
 					local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(slotPlacement)
-					
+
 					if LeftSession and LeftSession > 0 and GetMutationExtraInfo then
 						local secondsPassed = math.min(os.time() - LeftSession, 
 							GlobalSettings.OfflineEarningDuration + profileData.OfflineEarningExtension
 						)
 						local CPS = GetMutationExtraInfo.CurrentMutationCPS * secondsPassed
-						
+
 						slotInfo.OfflineCash += CPS
 					end
 				end
-				
+
 				DataPlots.SetSlotState(slot, false, IsOccupiedLabubu, slotInfo, player)
 			else
 				DataPlots.SetSlotState(slot, true, false)
 			end
-			
+
 			TotalOfflineCash += slotInfo.OfflineCash
 		end
-		
+
 		if TotalOfflineCash > 0 then
 			NotifyInfo:FireClient(player, 
 				`Your Labubus have made ${formatCommaValue(TotalOfflineCash)} while offline!`, 8)
 		end
 	end
-	
+
 	local FloorCount: number = DataPlots.CountFloorsFromPlotData(plotData)
 	if not FloorCount then
 		return 
 	end
-	
+
 	DataPlots.UpdateRollsInfo(plot, plotData.RollsInfo, true)
-	
+
 	DataPlots.ExpandPlotFloors(plot, FloorCount - 1)
 	PlotUtil.setEggsRollScreenUIState(plot, true)
-	
+
 	DataPlots.SetPlotSpinState(plot, 
 		plotData.SpinInfo.CanSpin and "on" or "off", plotData.SpinInfo.SpinCooldown)
-	
+
 	--plot:SetAttribute("Initialized", true)
 end
 
 function DataPlots.ConvertEggModelToRoll(egg: Model)
 	local EggTool: Tool = PlotUtil.getEggTool(egg)
 	if not EggTool then return end
-	
+
 	local EggToolClone: Tool = EggTool:Clone()
 	copyAttributes(egg, EggToolClone)
 	EggToolClone:SetAttribute("ParentIndex", nil)
@@ -1206,14 +1206,14 @@ function DataPlots.ConvertEggModelToRoll(egg: Model)
 		EggToolClone:SetAttribute("Name", EggTool.Name)
 	end
 	PlotUtil.setEggPriceInfoUI(EggToolClone, egg:GetAttribute("PriceOnly"))
-	
+
 	return EggToolClone
 end
 
 function DataPlots.ConvertEggToolToModel(EggTool: Model)
 	local egg: Model = PlotUtil.getEggModel(EggTool)
 	if not egg then return end
-	
+
 	local EggClone: Model = egg:Clone()
 	copyAttributes(EggTool, EggClone)
 	if not EggClone:GetAttribute("Id") then
@@ -1223,36 +1223,36 @@ function DataPlots.ConvertEggToolToModel(EggTool: Model)
 		EggClone:SetAttribute("Name", EggTool.Name)
 	end
 	PlotUtil.setEggPriceInfoUI(EggClone, EggClone:GetAttribute("PriceOnly"), true)
-	
+
 	return EggClone
 end
 
 function DataPlots.RemoveEggFromPillar(player: Player, eggPillar: Model)
 	local eggPillarIndex = eggPillar:GetAttribute("Index")
 	if not eggPillarIndex then return end
-	
+
 	local dropper: Folder = eggPillar.Parent
 	if not dropper then return end
 
 	local EggsRolls: Folder = PlotUtil.getDropperEggsFolder(dropper)
 	if not EggsRolls then return end
-	
+
 	if player then
 		local profileData, clientData = DataHandler.getProfileData(player)
 		if profileData then
 			profileData.PlotData.RollsInfo.EggRolls[eggPillarIndex] = nil
 		end
-		
+
 		if clientData then
 			clientData.PlotData(deepCopy(profileData.PlotData))
 		end
 	end
-	
+
 	for _, egg in ipairs(EggsRolls:GetChildren()) do
 		local ParentIndex = egg:GetAttribute("ParentIndex")
 		if ParentIndex and ParentIndex == eggPillarIndex then
 			egg:Destroy()
-			
+
 			return
 		end
 	end
@@ -1261,20 +1261,20 @@ end
 function DataPlots.SpawnEggAtSlot(slot: Model, egg: Model | Tool | Types.Egg)
 	local slots: Folder = slot.Parent
 	if not slots then return end
-	
+
 	local slotsPlacement = PlotUtil.getSlotsPlacements(slots)
 	if not slotsPlacement then return end
-	
+
 	local getSlotInfo = PlotUtil.getSlotData(slot)
 	if not getSlotInfo then return end
 
 	local getSlotPartsInfo = PlotUtil.getSlotWorldData(slot)
 	if not getSlotPartsInfo then return end
-	
+
 	if getSlotInfo.IsForSale then return end
-	
+
 	local eggModel: Model? = nil :: Model
-	
+
 	-- If it's a model
 	if typeof(egg) == 'Instance' then
 		if egg:IsA("Model") then
@@ -1282,20 +1282,20 @@ function DataPlots.SpawnEggAtSlot(slot: Model, egg: Model | Tool | Types.Egg)
 		elseif egg:IsA("Tool") then
 			local EggModel: Model = DataPlots.ConvertEggToolToModel(egg)
 			if not EggModel then return end
-			
+
 			eggModel = EggModel
 		end
 	else
 		eggModel = PlotUtil.getEggModel(egg.Name)
 		if not eggModel then return end
 		eggModel = eggModel:Clone()
-		
+
 		copyAttributesFromTable(egg, eggModel)
 	end
 
 	PlotUtil.setEggPriceInfoUI(eggModel, eggModel:GetAttribute("PriceOnly"), true)
 	eggModel:SetAttribute("ParentIndex", getSlotInfo.SlotNum)
-	
+
 	local GetExtentsSize: Vector3 = eggModel:GetExtentsSize()
 	local GetExtentsSizeY: number = GetExtentsSize.Y
 
@@ -1303,11 +1303,11 @@ function DataPlots.SpawnEggAtSlot(slot: Model, egg: Model | Tool | Types.Egg)
 		getSlotInfo.MainStand.CFrame + 
 			Vector3.new(0,
 				GetExtentsSizeY / 2 + getSlotInfo.MainStand.Size.Y/2, 
-			0)
+				0)
 	)
 
 	PlotUtil.weldModelToPrimaryPart(eggModel)
-	
+
 	print("WHYYY")
 	eggModel.Parent = slotsPlacement
 end
@@ -1342,7 +1342,7 @@ function DataPlots.GiveTraitToLabubu(
 
 	if clientData then
 		clientData.PlotData(deepCopy(profileData.PlotData))
-		
+
 		NotifySuccess:FireClient(player, `{labubu.Name} got {traitName} trait!`)
 	end
 end
@@ -1352,7 +1352,7 @@ function DataPlots.TriggerWeatherPlotsTrait(trait: string, givenPlayer: Player?)
 		if givenPlayer then
 			if player ~= givenPlayer then continue end
 		end
-		
+
 		local profileData, clientData = DataHandler.getProfileData(player)
 		if not profileData then continue end
 
@@ -1427,23 +1427,23 @@ function DataPlots.MutateLabubu(
 )
 	local profileData, clientData = DataHandler.getProfileData(player)
 	if not profileData then return end
-	
+
 	if labubu:GetAttribute("Type") ~= "Labubu" then return end
-	
+
 	local labubuData = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement
 	if not labubuData then return end
-	
+
 	local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(labubuData)
 	if not GetMutationExtraInfo then return end
-	
+
 	local nextMutationTier = GetMutationExtraInfo.NextMutationTier
 	if not nextMutationTier then return end
-	
+
 	-- why is it repeated so many times. use a variable!
 	-- e.g. local placementData = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement 
 	-- thanks!
 	profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement.IsMutating = false
-	
+
 	profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement.CPS = 
 		GetMutationExtraInfo.NextMutationCPS
 
@@ -1451,7 +1451,7 @@ function DataPlots.MutateLabubu(
 
 	profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement.MutationTime = 
 		GetMutationExtraInfo.NextMutationTime
-	
+
 	profileData.Mutations += 1
 
 	labubu:Destroy()
@@ -1463,10 +1463,10 @@ function DataPlots.MutateLabubu(
 
 	DataPlots.SetSlotState(slot, false, true, 
 		profileData.PlotData.Floors[floorNum].Slots[slotNum], player)
-	
+
 	local _, isInIndex = DataIndex.AddLabubuToIndex(player, 
 		profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement)
-	
+
 	if clientData then
 		if wasFailedMutation then
 			Network.Plots.KeepLostMutationSuccess:FireClient(player, labubuData.Id)
@@ -1496,7 +1496,7 @@ function DataPlots.HandleStealing(player: Player, isHighTier: boolean)
 
 	if not base or not expectedOwnerUserId or not placementName or 
 		not floorNum or not slotNum or not Info then return end
-	
+
 	if Info.CurrentMutationTier > GlobalSettings.HighTierMutationsAreOver then
 		if not isHighTier then return end
 	end
@@ -1546,14 +1546,14 @@ function DataPlots.HandleStealing(player: Player, isHighTier: boolean)
 	if not TargetProfileData.PlotData.Floors[floorNum].Slots[slotNum].Placement.IsStealable then
 		return
 	end
-	
+
 	local FindEmptySlotAvailable = PlotUtil.FindEmptySlotAvailable(PlayerPlot)
 	if not FindEmptySlotAvailable then
 		NotifyError:FireClient(player, "Can't steal, no empty slot available in your plot!", 8)
 
 		return
 	end
-	
+
 	--if TargetProfileData.Gamepasses["Magic Shield (Perm)"] then
 	--	NotifyError:FireClient(player, "Can't steal, target has Magic Shield!", 8)
 	--	return
@@ -1561,7 +1561,7 @@ function DataPlots.HandleStealing(player: Player, isHighTier: boolean)
 
 	local LabubuToolClone
 	local OriginalAttributes
-	
+
 	local LabubuTool: Tool = PlotUtil.getHatchableTool(Placement.Name)
 	if not LabubuTool then return end
 
@@ -1575,7 +1575,7 @@ function DataPlots.HandleStealing(player: Player, isHighTier: boolean)
 
 	DataPlots.SetSlotState(Slot, false, false)
 	TargetClientData.PlotData(deepCopy(TargetProfileData.PlotData))
-	
+
 	NotifyInfo:FireClient(player, "You stole a Labubu!")
 	NotifyWarn:FireClient(TargetBaseOwner, "Your Labubu has been cloned!")
 
@@ -1658,22 +1658,22 @@ function DataPlots.GetExtraLuckMulti(player: Player)
 	if not profileData or not clientData then
 		return 1
 	end
-	
+
 	local multi = profileData.EggLuck
-	
+
 	if profileData.Gamepasses["VIP Status"] then
 		multi += 0.5
 	end
-	
+
 	if profileData.Gamepasses["Lucky Clover"] or player:GetAttribute("x2Luck") then
 		multi += 1
 	end
-	
+
 	local ServerLuckMulti = workspace:GetAttribute("ServerLuckMulti")
 	if ServerLuckMulti then
 		multi += ServerLuckMulti - 1
 	end
-	
+
 	return multi
 end
 
@@ -1689,10 +1689,10 @@ function DataPlots.GiveLabubu(
 	if not plot then
 		return
 	end
-	
+
 	local LabubuInfo = PlotUtil.getLabubuData(name)
 	if not LabubuInfo then return end
-	
+
 	local rarity = LabubuInfo.Rarity -- Common to Basic
 
 	local EggRng = RngUtil(
@@ -1749,22 +1749,22 @@ end
 function DataPlots.GiveLabubuByRarity(
 	player: Player, rarity: string?, mutationTier: number?, obtainedFrom: string?)
 	-- Common to Basic: rarity now uses "Common" directly
-	
+
 	local profileData, clientData = DataHandler.getProfileData(player)
 	if not profileData or not clientData then
 		return
 	end
-	
+
 	local plot = DataPlots.GetPlayerPlot(player)
 	if not plot then
 		return
 	end
-	
+
 	local EggRng = RngUtil(
 		PlotUtil.EggChancesRarity[rarity],
 		DataPlots.GetExtraLuckMulti(player), nil, true
 	)
-	
+
 	local labubuName, labubuData = PlotUtil.TranslateEggToHatchable(EggRng)
 	if not labubuName or not labubuData then return end
 
@@ -1781,10 +1781,10 @@ function DataPlots.GiveLabubuByRarity(
 			ObtainedFrom = obtainedFrom or "Unknown",
 		}, rarity, EggRng
 	)
-	
+
 	local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(LabubuTemplate)
 	if not GetMutationExtraInfo then return end
-	
+
 	local LabubuTool: Tool = PlotUtil.getHatchableTool(labubuName)
 	if not LabubuTool then return end
 
@@ -1828,7 +1828,7 @@ function DataPlots.GiveEgg(player: Player, name: string, obtainedFrom: string?)
 
 	local EggToolClone: Tool? = DataPlots.ConvertEggModelToRoll(egg)
 	DataBackpack.Eggs.addBackpackEggByInstance(player, EggToolClone, true)
-	
+
 	profileData.EggsReceived += 1
 	clientData.EggsReceived(profileData.EggsReceived)
 end
@@ -1864,7 +1864,7 @@ function DataPlots.GiveEggBasedOffRarity(player: Player, rarity: string, obtaine
 
 	local EggToolClone: Tool? = DataPlots.ConvertEggModelToRoll(egg)
 	DataBackpack.Eggs.addBackpackEggByInstance(player, EggToolClone, true)
-	
+
 	profileData.EggsReceived += 1
 	clientData.EggsReceived(profileData.EggsReceived)
 end
@@ -1874,23 +1874,23 @@ function DataPlots.GiveExclusiveEgg(player: Player)
 	if not profileData or not clientData then
 		return
 	end
-	
+
 	local plot = DataPlots.GetPlayerPlot(player)
 	if not plot then
 		return
 	end
-	
+
 	if not PlotUtil.EggChancesRarity["Exclusive"] then return end
-	
+
 	local rng = RngUtil(
 		PlotUtil.EggChancesRarity["Exclusive"],
 		DataPlots.GetExtraLuckMulti(player), nil, true
 	)
-	
+
 	if not rng then return end
-	
+
 	local egg = PlotUtil.spawnEggRoll(rng, nil, true, "Exclusive")
-	
+
 	local EggData = PlotUtil.EggsData[egg.Name]
 	local EggCost, EggSellerCost = PlotUtil.CalculateCost({
 		Name = egg.Name,
@@ -1900,7 +1900,7 @@ function DataPlots.GiveExclusiveEgg(player: Player)
 
 	local EggToolClone: Tool? = DataPlots.ConvertEggModelToRoll(egg)
 	DataBackpack.Eggs.addBackpackEggByInstance(player, EggToolClone, true)
-	
+
 	profileData.EggsReceived += 1
 	clientData.EggsReceived(profileData.EggsReceived)
 end
@@ -1910,25 +1910,25 @@ function DataPlots.KeepLostMutation(player: Player)
 	if not profileData or not clientData then
 		return
 	end
-	
+
 	local plot = DataPlots.GetPlayerPlot(player)
 	if not plot then
 		return
 	end
-	
+
 	local Info = PlayerAttributes.getAttribute(player, "LastMutationFailForProduct")
 	if not Info then return end
 
 	local Id, slotNum, floorNum = Info.Id, Info.SlotNum, Info.FloorNum
 
 	if not Id or not slotNum or not floorNum then return end
-	
+
 	local floor = PlotUtil.getFloor(plot, floorNum)
 	if not floor then return end
 
 	local Slots = floor:FindFirstChild("Slots")
 	if not Slots then return end
-	
+
 	local slot = Slots:FindFirstChild(slotNum)
 	if not slot then return end
 
@@ -1948,17 +1948,17 @@ function DataPlots.KeepLostMutation(player: Player)
 
 	if not GetMutationExtraInfo.NextMutationTier then return end
 	if profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement.IsMutating then return end
-	
+
 	DataPlots.MutateLabubu(player, Placement, slot, floorNum, slotNum, true)
 end
 
 function DataPlots.InitAllPlots()
 	if PlotsInitialized then return end
-	
+
 	for _, plot in ipairs(DataPlots.GetAllPlots()) do
 		DataPlots.ClearPlot(plot, true)
 	end
-	
+
 	-- Tutorial
 	Network.Tutorial.Progress.OnServerEvent:Connect(function(player: Player, tutorialStep: number,
 		isComplete: boolean?
@@ -1968,20 +1968,20 @@ function DataPlots.InitAllPlots()
 
 		local profileData, clientData = DataHandler.getProfileData(player)
 		if profileData == nil or clientData == nil then return end
-		
+
 		if typeof(tutorialStep) ~= 'number' then return end
-		
+
 		profileData.TutorialStep = tutorialStep
 		if isComplete == true then
 			profileData.HasCompletedTutorial = true
 			clientData.HasCompletedTutorial(profileData.HasCompletedTutorial)
 		end
-		
+
 		clientData.TutorialStep(profileData.TutorialStep)
 	end)
-	
+
 	-- Mutate Fail
-	
+
 	Network.Plots.ClientMutateFail.OnServerEvent:Connect(function(player: Player, expectedId: string?)
 		if PlayerCooldowns.isOnCooldown(player, "GlobalRemoteEventCooldown") then return end
 		PlayerCooldowns.setCooldown(player, "GlobalRemoteEventCooldown", 0.05)
@@ -1991,32 +1991,32 @@ function DataPlots.InitAllPlots()
 
 		local plot = DataPlots.GetPlayerPlot(player)
 		if plot == nil then return end
-		
+
 		local Info = PlayerAttributes.getAttribute(player, "LastMutationFail")
 		if not Info then return end
-		
+
 		local Id, slotNum, floorNum = Info.Id, Info.SlotNum, Info.FloorNum
-		
+
 		if not Id or not slotNum or not floorNum then return end
 		if Id ~= expectedId then return end
-		
+
 		local floor = PlotUtil.getFloor(plot, floorNum)
 		if not floor then return end
-		
+
 		local Slots = floor:FindFirstChild("Slots")
 		if not Slots then return end
-		
+
 		local slot = Slots:FindFirstChild(slotNum)
 		if not slot then return end
-		
+
 		local Placements = PlotUtil.getSlotsPlacements(Slots)
 		if not Placements then return end
-		
+
 		local Placement = PlotUtil.getPlacementFromId(Placements, Id)
 		if not Placement then return end
-		
+
 		if Placement:GetAttribute("Type") ~= "Labubu" then return end
-		
+
 		local labubuData = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement
 		if not labubuData then return end
 
@@ -2025,7 +2025,7 @@ function DataPlots.InitAllPlots()
 
 		if not GetMutationExtraInfo.NextMutationTier then return end
 		if profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement.IsMutating then return end
-		
+
 		local Id = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement.Id
 		PlayerAttributes.setAttribute(player, 
 			"LastMutationFailForProduct",
@@ -2035,12 +2035,12 @@ function DataPlots.InitAllPlots()
 				FloorNum = floorNum
 			}
 		)
-		
+
 		Network.Purchases.promptProduct:FireClient(player, Products["Keep Lost Mutation"], true)
 	end)
-	
+
 	-- Daily Rewards
-	
+
 	Network.DailyRewards.Claim.OnServerEvent:Connect(function(player: Player)
 		if PlayerCooldowns.isOnCooldown(player, "GlobalRemoteEventCooldown") then return end
 		PlayerCooldowns.setCooldown(player, "GlobalRemoteEventCooldown", 0.05)
@@ -2074,16 +2074,16 @@ function DataPlots.InitAllPlots()
 
 		clientData.LastDailyRewardTime(profileData.LastDailyRewardTime)
 	end)
-	
-	
-	
+
+
+
 	-- Stealing
-	
+
 	Network.Plots.StealLabubu.OnServerEvent:Connect(function(
 		player: Player, base: Folder, expectedOwnerUserId: number, placementName: string,
 		floorNum: number, slotNum: number
 	)
-		
+
 		if typeof(base) ~= "Instance" then return end
 		if typeof(expectedOwnerUserId) ~= 'number' then return end
 		if typeof(placementName) ~= 'string' then return end
@@ -2098,71 +2098,71 @@ function DataPlots.InitAllPlots()
 
 		local PlayerPlot = DataPlots.GetPlayerPlot(player)
 		if not PlayerPlot then return end
-		
+
 		if base.Parent ~= Bases then return end
-		
+
 		local TargetBaseOwnerUserId = base:GetAttribute("OwnerUserId")
 		if TargetBaseOwnerUserId ~= expectedOwnerUserId then return end
-		
+
 		local TargetBaseOwner = Players:GetPlayerByUserId(TargetBaseOwnerUserId)
 		if not TargetBaseOwner then return end
-		
+
 		if TargetBaseOwner == player then return end
-		
+
 		local floor = PlotUtil.getFloor(base, floorNum)
 		if not floor then return end
-		
+
 		local Slots: Folder = floor:FindFirstChild("Slots")
 		if not Slots then return end
-		
+
 		local Slot: Model = Slots:FindFirstChild(slotNum)
 		if not Slot then return end
-		
+
 		local Placements: Folder = PlotUtil.getSlotsPlacements(Slots)
 		if not Placements then return end
-		
+
 		local Placement: Model = Placements:FindFirstChild(placementName)
 		if not Placement then return end
-		
+
 		if Placement:GetAttribute("Type") ~= "Labubu" then return end
 		if Placement:GetAttribute("IsMutating") then return end
 		if Slot:GetAttribute("IsMutating") then return end
 		if Slot:GetAttribute("ReadyToMutate") then return end
 		if Placement:GetAttribute("IsBeingStolen") then return end
 		if not Placement:GetAttribute("IsStealable") then return end
-		
+
 		local TargetProfileData, TargetClientData = DataHandler.getProfileData(TargetBaseOwner)
 		if not TargetProfileData or not TargetClientData then return end
-		
+
 		local character = player.Character
 		if not character then return end
-		
+
 		local Humanoid: Humanoid = character:FindFirstChild("Humanoid")
 		if not Humanoid then return end
-		
+
 		if not TargetProfileData.PlotData.Floors[floorNum].Slots[slotNum].Placement then return end
 		if not TargetProfileData.PlotData.Floors[floorNum].Slots[slotNum].Placement.IsStealable then
 			return
 		end
-		
+
 		local Info = PlotUtil.GetMutationExtraInfo(
 			TargetProfileData.PlotData.Floors[floorNum].Slots[slotNum].Placement)
 		if not Info then return end
-		
+
 		local FindEmptySlotAvailable = PlotUtil.FindEmptySlotAvailable(PlayerPlot)
 		if not FindEmptySlotAvailable then
 			NotifyError:FireClient(player, "Can't steal, no empty slot available in your plot!", 8)
-			
+
 			return
 		end
-		
+
 		PlayerAttributes.setAttribute(player, "TargetStealBase", base)
 		PlayerAttributes.setAttribute(player, "TargetStealExpectedOwnerUserId", expectedOwnerUserId)
 		PlayerAttributes.setAttribute(player, "TargetStealPlacementName", placementName)
 		PlayerAttributes.setAttribute(player, "TargetStealFloorNum", floorNum)
 		PlayerAttributes.setAttribute(player, "TargetStealSlotNum", slotNum)
 		PlayerAttributes.setAttribute(player, "TargetStealPlacementInfo", Info)
-		
+
 		if Info.CurrentMutationTier > GlobalSettings.HighTierMutationsAreOver then
 			local Product = Products["Steal High-Tier Labubu"]
 			Network.Purchases.promptProduct:FireClient(player, Product, true)
@@ -2171,96 +2171,96 @@ function DataPlots.InitAllPlots()
 			Network.Purchases.promptProduct:FireClient(player, Product, true)
 		end
 	end)
-	
+
 	-- Rebirth
-	
+
 	Network.Plots.Rebirth.OnServerEvent:Connect(function(
 		player: Player, expectedNextRebirthLevel: number)
 		if typeof(expectedNextRebirthLevel) ~= "number" then return end
-		
+
 		if PlayerCooldowns.isOnCooldown(player, "GlobalRemoteEventCooldown") then return end
 		PlayerCooldowns.setCooldown(player, "GlobalRemoteEventCooldown", 0.05)
-		
+
 		local profileData, clientData = DataHandler.getProfileData(player)
 		if not profileData or not clientData then return end
-		
+
 		local Plot = DataPlots.GetPlayerPlot(player)
 		if not Plot then return end
-		
+
 		local CurrentRebirthLevel = profileData.Rebirths
 		local NextRebirthLevel = CurrentRebirthLevel + 1
-		
+
 		if NextRebirthLevel ~= expectedNextRebirthLevel then return end
-		
+
 		local RebirthData = RebirthModule[NextRebirthLevel]
 		if not RebirthData then return end
-		
+
 		local Placements = PlotUtil.GetAllPlacements(Plot)
 		if not Placements then return end
-		
+
 		if RebirthData.Requirements.Hatchables then
 			for _, hatchable in RebirthData.Requirements.Hatchables do
 				local RequiredAmount = hatchable.RequiredAmount or 1
 				local Rarity = hatchable.Rarity
 				local Mutation = hatchable.Mutation
-				
+
 				local RarityColor = Rarity and RarityTextColors[Rarity]
 				local MutationColor = Mutation and MutationTextColors[Mutation]
-				
+
 				local FilteredPlacements, Count = 
 					PlotUtil.LabubuPlacementFilterBy(Placements, Rarity, Mutation)
-				
+
 				if Count < RequiredAmount then
 					local RarityText = RarityColor and 
 						" " .. richColor(RarityColor, Rarity) or ""
 					local MutationText = MutationColor and 
 						" " .. richColor(MutationColor, Mutation) or ""
-					
+
 					NotifyError:FireClient(player, 
 						`You need to have {RequiredAmount}x of{RarityText}{MutationText} Labubus!`)
-					
+
 					return
 				end
 			end
 		end
-		
-		
+
+
 		if RebirthData.Requirements.Cash and RebirthData.Requirements.Cash > 0 then
 			if DataCash.getCash(player) < RebirthData.Requirements.Cash then
 				NotifyError:FireClient(player, "You need more cash for Rebirth!")
-				
+
 				return
 			end
 			DataCash.reduceCash(player, RebirthData.Requirements.Cash)
 		end
-		
-		
+
+
 		local UnlockedNewSlots = 0
-		
+
 		for floorNum = 1, 3 do
 			local floor = Plot:FindFirstChild("Floor" .. floorNum)
 			if not floor then continue end
-			
+
 			local Slots: Folder = floor:FindFirstChild("Slots")
 			if not Slots then continue end
 
 			for i = 1, 10 do
 				local Slot = Slots:FindFirstChild(i)
 				if not Slot then continue end
-				
+
 				local Button = Slot:FindFirstChild("Button")
 				if not Button then continue end
-				
+
 				local IsForSale = profileData.PlotData.Floors[floorNum].Slots[i] == nil
 				if not IsForSale then
 					--profileData.PlotData.Floors[floorNum].Slots[i].Placement = {}
 				end
-				
+
 				if IsForSale and 
 					(RebirthData.Rewards.Slots and UnlockedNewSlots < RebirthData.Rewards.Slots) then
 					DataPlots.AddSlotToPlayerData(player, floorNum, i)
 					DataPlots.SetSlotState(Slot, false, false)
-					
+
 					UnlockedNewSlots += 1
 				else
 					--DataPlots.SetSlotState(Slot, IsForSale, 
@@ -2269,45 +2269,45 @@ function DataPlots.InitAllPlots()
 					--)
 
 				end
-				
+
 			end
 		end
-		
+
 		if RebirthData.Rewards.EggLuck then
 			profileData.EggLuck += RebirthData.Rewards.EggLuck
 		end
-		
+
 		if RebirthData.Rewards.CashMulti then
 			profileData.CashMulti += RebirthData.Rewards.CashMulti
 		end
-		
+
 		if RebirthData.Rewards.OfflineEarningExtension then
 			profileData.OfflineEarningExtension += RebirthData.Rewards.OfflineEarningExtension
 		end
-		
+
 		if RebirthData.Rewards.UnlockFloorNum then
 			local floor = Plot:FindFirstChild("Floor" .. RebirthData.Rewards.UnlockFloorNum)
-			
+
 			if not floor then
 				DataPlots.ExpandPlotFloors(Plot, 1)
 				DataPlots.AddFloorToPlayerData(player, RebirthData.Rewards.UnlockFloorNum)
 			end
 		end
-		
+
 		--DataBackpack.Eggs.ResetAll(player)
 		--DataBackpack.Labubus.ResetAll(player)
-		
+
 		--Placements:ClearAllChildren()
-		
+
 		profileData.Rebirths += 1
 		clientData.Rebirths(profileData.Rebirths)
-		
+
 		NotifySuccess:FireClient(player, 
 			`You've Rebirthed to level {NextRebirthLevel}!`, 8)
 	end)
-	
+
 	-- Seller Network
-	
+
 	Network.Seller.SellLabubus.OnServerInvoke = function(player: Player)
 		if PlayerCooldowns.isOnCooldown(player, "GlobalRemoteEventCooldown") then return end
 		PlayerCooldowns.setCooldown(player, "GlobalRemoteEventCooldown", 0.05)
@@ -2317,13 +2317,13 @@ function DataPlots.InitAllPlots()
 
 		local Plot = DataPlots.GetPlayerPlot(player)
 		if not Plot then return end
-		
+
 		local TotalPrice = 0
 		local ItemsCount = 0
-		
+
 		for _, instance: Instance? in pairs(getPlayerFullBackpack(player)) do
 			if not instance:IsA("Tool") then continue end
-			
+
 			local Tool: Tool = instance
 
 			local Type = Tool:GetAttribute("Type")
@@ -2345,7 +2345,7 @@ function DataPlots.InitAllPlots()
 			TotalPrice += SellerPrice
 			ItemsCount += 1
 		end
-		
+
 		if TotalPrice > 0 then
 			DataBackpack.Labubus.ResetAll(player)
 			DataCash.giveCash(player, TotalPrice)
@@ -2355,10 +2355,10 @@ function DataPlots.InitAllPlots()
 			NotifyError:FireClient(player, "No Labubus in your Backpack to Sell")
 			return
 		end
-		
+
 		return true
 	end
-	
+
 	Network.Seller.SellEggs.OnServerInvoke = function(player: Player)
 		if PlayerCooldowns.isOnCooldown(player, "GlobalRemoteEventCooldown") then return end
 		PlayerCooldowns.setCooldown(player, "GlobalRemoteEventCooldown", 0.05)
@@ -2409,40 +2409,40 @@ function DataPlots.InitAllPlots()
 
 		return true
 	end
-	
+
 	Network.Seller.SellHandItem.OnServerInvoke = function(player: Player, item: string)
 		if typeof(item) ~= "string" then return end
-		
+
 		if PlayerCooldowns.isOnCooldown(player, "GlobalRemoteEventCooldown") then return end
 		PlayerCooldowns.setCooldown(player, "GlobalRemoteEventCooldown", 0.05)
-		
+
 		local character = player.Character
 		if not character then return end
-		
+
 		local Plot = DataPlots.GetPlayerPlot(player)
 		if not Plot then return end
-		
+
 		local Tool: Tool = character:FindFirstChild(item)
 		if not Tool then
 			NotifyError:FireClient(player, "You don't have anything in your hand!")
 
 			return 
 		end
-		
+
 		local IsATool = Tool and Tool:IsA("Tool")
 		local Type = Tool and Tool:GetAttribute("Type")
-		
+
 		if not Type or (Type ~= "Block" and Type ~= "Labubu") then 
 			NotifyError:FireClient(player, "You can't sell this item!")
-			
+
 			return 
 		end
-		
+
 		local Id = Tool:GetAttribute("Id")
 		if not Id then return end
-		
+
 		if Tool:GetAttribute("IsBeingStolen") then return end
-		
+
 		local Data = Tool:GetAttributes()
 		if not Data then return end
 
@@ -2457,14 +2457,14 @@ function DataPlots.InitAllPlots()
 		elseif Type == "Labubu" then
 			DataBackpack.Labubus.removeById(player, Id)
 		end
-		
+
 		DataCash.giveCash(player, SellerPrice)
 		NotifySuccess:FireClient(player, 
 			`You sold {richColor(RarityColor, item)} for ${formatCommaValue(SellerPrice)}`, 8)
 
 		return true
 	end
-	
+
 	Network.Seller.CheckValue.OnServerInvoke = function(player: Player, item: string)
 		if typeof(item) ~= "string" then return end
 
@@ -2492,86 +2492,86 @@ function DataPlots.InitAllPlots()
 
 			return 
 		end
-		
+
 		if Tool:GetAttribute("IsBeingStolen") then return end
-		
+
 		local Id = Tool:GetAttribute("Id")
 		if not Id then return end
-		
+
 		local Data = Tool:GetAttributes()
 		if not Data then return end
-		
+
 		local Cost, SellerPrice = PlotUtil.CalculateCost(Data)
 		if not Cost then return end
-		
+
 		local Rarity, RarityColor = PlotUtil.GetRarity(Data)
 		if not Rarity or not RarityColor then return end
-		
+
 		NotifyInfo:FireClient(player, 
 			`{richColor(RarityColor, item)} is worth ${formatCommaValue(SellerPrice)}!`, 8)
-		
+
 		return true
 	end
-	
+
 	-- Plot Network
-	
+
 	-- Buy Slot
 	Network.Plots.BuySlot.OnServerEvent:Connect(function(player: Player,
 		floorNum: number, slotNum: number)
 		if PlayerCooldowns.isOnCooldown(player, "GlobalRemoteEventCooldown") then return end
 		PlayerCooldowns.setCooldown(player, "GlobalRemoteEventCooldown", 0.05)
-		
+
 		local Plot: Model? = DataPlots.GetPlayerPlot(player)
 		if not Plot then return end
-		
+
 		local floor = Plot:FindFirstChild("Floor" .. floorNum)
 		if not floor then return end
-		
+
 		local Slots = floor:FindFirstChild("Slots")
 		if not Slots then return end
-		
+
 		local slot = Slots:FindFirstChild(tostring(slotNum))
 		if not slot then return end
-		
+
 		local IsOccupied = slot:GetAttribute("Occupied")
 		if IsOccupied then return end
-		
+
 		local IsForSale = slot:GetAttribute("ForSale")
 		if not IsForSale then return end
-		
+
 		local profileData, clientData = DataHandler.getProfileData(player)
 		if not profileData or not clientData then return end
-		
+
 		local Price = slot:GetAttribute("Price")
 		local IsVipSlot = slot:GetAttribute("VipSlot")
-		
+
 		if IsVipSlot then
 			PlayerAttributes.setAttribute(player, "TargetVIPSlot", slotNum)
 			PlayerAttributes.setAttribute(player, "TargetVIPSlotFloor", floorNum)
 			Network.Purchases.promptProduct:FireClient(player, Products["BuyVIPSlot"], true)
 		else
 			if not Price then return end
-			
+
 			local Cash = DataCash.getCash(player)
 			if not Cash then return end
-			
+
 			if Cash >= Price then
 				DataCash.reduceCash(player, Price)
 
 				DataPlots.SetSlotState(slot, false, false)
 				DataPlots.AddSlotToPlayerData(player, floorNum, slotNum)
-				
+
 				NotifySuccess:FireClient(player, "You bought a new slot!")
 			else
 				NotifyError:FireClient(player, "You don't have enough cash to buy a new slot!")
 			end
 		end
 	end)
-	
+
 	function DataPlots.EggRoll(player, PreRolledRNG, EggPillars, EggsRolls, updateIndex: number?)
 		local profileData, clientData = DataHandler.getProfileData(player)
 		if not profileData then return end
-		
+
 		local plot = EggsRolls.Parent.Parent.Parent
 
 		PreRolledRNG = PreRolledRNG or {}
@@ -2660,7 +2660,7 @@ function DataPlots.InitAllPlots()
 		end
 		if didFuse then
 			local CachedInvisibleEggs = {}
-			
+
 			local function setEggsVisible(visible: boolean)
 				for _, egg in ipairs(EggsRolls:GetChildren()) do
 					if egg:IsA("Model") then
@@ -2674,13 +2674,13 @@ function DataPlots.InitAllPlots()
 					end
 				end
 			end
-			
+
 			local function setEggsParents(visible: boolean)
 				if not visible then
 					for _, egg in ipairs(EggsRolls:GetChildren()) do
 						if egg:IsA("Model") or egg:IsA("BasePart") then
 							table.insert(CachedInvisibleEggs, egg)
-							
+
 							egg.Parent = ReplicatedStorage.Cache
 						end
 					end
@@ -2688,17 +2688,17 @@ function DataPlots.InitAllPlots()
 					for _, egg in ipairs(CachedInvisibleEggs) do
 						egg.Parent = EggsRolls
 					end
-					
+
 					CachedInvisibleEggs = {}
 				end
 			end
-			
+
 			-- Destroy side middle eggs (2 & 4)
 			--destroyEggAtIndex(2)
 			--destroyEggAtIndex(4)
-			
+
 			-- Fusion Effect
-			
+
 			-- Hide all eggs during fusion
 			setEggsVisible(false)
 			setEggsParents(false)
@@ -2710,10 +2710,10 @@ function DataPlots.InitAllPlots()
 					os.time()
 				)
 				local EndTime: number = LastSpinTime + cooldown
-				
+
 				profileData.PlotData.SpinInfo.CanSpin = false
 				profileData.PlotData.SpinInfo.SpinCooldown = EndTime
-				
+
 				task.spawn(function()
 					local connections = PlayerConnections:Get(player)
 
@@ -2723,12 +2723,12 @@ function DataPlots.InitAllPlots()
 						end)
 					)
 				end)
-				
+
 				if clientData then
 					clientData.PlotData(deepCopy(profileData.PlotData))
 				end
 			end
-			
+
 			local EffectClone = CachedEggsFusionEffect[plot]:Clone()
 			local EggCombineComplete = EffectClone:WaitForChild("EggCombineComplete")
 
@@ -2737,10 +2737,10 @@ function DataPlots.InitAllPlots()
 
 			PlayerCooldowns.setCooldown(player, "EggRollSpinCooldown", cooldown)
 			repeat task.wait(0.05) until EggCombineComplete.Value == true
-			
+
 			-- Show eggs again after fusion
 			setEggsParents(true)
-			
+
 			-- 🔁 Re-roll side pillars (2 & 4)
 			PreRolledRNG[2] = rollRNGForIndex(2)
 			PreRolledRNG[4] = rollRNGForIndex(4)
@@ -2772,7 +2772,7 @@ function DataPlots.InitAllPlots()
 
 				profileData.PlotData.RollsInfo.EggRolls[3] = egg and egg.Name
 			end
-			
+
 			setEggsVisible(true)
 		end
 
@@ -2800,47 +2800,47 @@ function DataPlots.InitAllPlots()
 			if not rng then continue end
 
 			spawnNormalEgg(info, pillar, rng)
-			
+
 			task.wait(0.1)
 		end
 	end
-	
+
 	-- Egg Roll
 	Network.Plots.EggRoll.OnServerEvent:Connect(function(player: Player)
 		if PlayerCooldowns.isOnCooldown(player, "GlobalRemoteEventCooldown") then return end
 		PlayerCooldowns.setCooldown(player, "GlobalRemoteEventCooldown", 0.05)
-		
+
 		local plot = DataPlots.GetPlayerPlot(player)
 		if not plot then return end
-		
+
 		local profileData, clientData = DataHandler.getProfileData(player)
 		if not profileData or not clientData then return end
-		
+
 		if not profileData.PlotData.SpinInfo.CanSpin then 
 			NotifyError:FireClient(player, "You can't spin at the moment!")
 			return 
 		end
-		
+
 		local cooldown: number = GlobalSettings.SpinCooldown
-		
+
 		if PlayerCooldowns.isOnCooldown(player, "EggRollSpinCooldown") then
 			NotifyError:FireClient(player, "Please wait a bit before trying again!")
 			return
 		end
 		PlayerCooldowns.setCooldown(player, "EggRollSpinCooldown", cooldown * 1.1)
-		
+
 		local dropper: Model = PlotUtil.getPlotDropper(plot)
 		if not dropper then return end
-		
+
 		local EggPillars: { Model } = PlotUtil.getEggPillars(dropper)
 		if not EggPillars then return end
-		
+
 		local EggsRolls: Folder = dropper:FindFirstChild("EggRolls")
 		if not EggsRolls then return end
-		
+
 		local Screen, Button, GoButtonUI, BarUI = PlotUtil.getDropperSpinScreen(dropper)
 		if not Button then return end
-		
+
 		local curTime: number = getUTCtime()
 		local nextTime: number = curTime + cooldown
 
@@ -2850,7 +2850,7 @@ function DataPlots.InitAllPlots()
 
 		profileData.PlotData.RollsInfo.EggRollsCount += 1
 		profileData.PlotData.RollsInfo.LastEggRollTime = curTime
-		
+
 		local Rolls: number, Triggered: boolean = PlotUtil.getRollsLeft(
 			profileData.PlotData.SpinInfo.SpinsCount, GlobalSettings.BreakSpinEveryTry)
 
@@ -2865,9 +2865,9 @@ function DataPlots.InitAllPlots()
 			profileData.PlotData.SpinInfo.SpinCooldown = nextTime
 			Button.Trigger:Fire(true)
 		end
-		
+
 		EggsRolls:ClearAllChildren()
-		
+
 		local RollsAmount: number = profileData.PlotData.RollsInfo.EggRollsCount
 
 		local EpicRolls: number, EpicTriggered: boolean = 
@@ -2876,7 +2876,7 @@ function DataPlots.InitAllPlots()
 			PlotUtil.getRollsLeft(RollsAmount, Pity.Legendary)
 		local MythicalRolls: number, MythicalTriggered: boolean = 
 			PlotUtil.getRollsLeft(RollsAmount, Pity.Mythic)
-		
+
 		local PreRolledRNG = {} -- [Index] = RNG string
 
 		for _, pillar in pairs(EggPillars) do
@@ -2905,16 +2905,16 @@ function DataPlots.InitAllPlots()
 
 			PreRolledRNG[info.Index] = rng
 		end
-		
+
 		DataPlots.EggRoll(player, PreRolledRNG, EggPillars, EggsRolls)
-		
+
 		DataPlots.UpdateRollsInfo(plot, profileData.PlotData.RollsInfo)
-		
+
 		clientData.PlotData(deepCopy(profileData.PlotData))
-		
+
 		-- Delayed
 		local connections = PlayerConnections:Get(player)
-		
+
 		connections:Add(
 			task.spawn(function()
 				DataPlots.UpdatePlayerSpinInfo(player)
@@ -2925,104 +2925,104 @@ function DataPlots.InitAllPlots()
 	Network.Plots.BuyEggRoll.OnServerEvent:Connect(function(player: Player, eggName: string, eggPillarIndex: number)
 		if typeof(eggName) ~= 'string' then return end
 		if typeof(eggPillarIndex) ~= 'number' then return end
-		
+
 		if PlayerCooldowns.isOnCooldown(player, "GlobalRemoteEventCooldown") then return end
 		PlayerCooldowns.setCooldown(player, "GlobalRemoteEventCooldown", 0.05)
-		
+
 		if PlayerCooldowns.isOnCooldown(player, "EggRollSpinCooldown") then
 			NotifyError:FireClient(player, "Please wait a bit before trying again!")
 			return 
 		end
-		
+
 		local plot = DataPlots.GetPlayerPlot(player)
 		if not plot then return end
-		
+
 		local profileData, clientData = DataHandler.getProfileData(player)
 		if not profileData or not clientData then
 			return nil
 		end
-		
+
 		local dropper: Folder = PlotUtil.getPlotDropper(plot)
 		if not dropper then return end
-		
+
 		local EggsRolls: Folder = PlotUtil.getDropperEggsFolder(dropper)
 		if not EggsRolls then return end
-		
+
 		local egg: Model? = nil
 		for _, rollEgg in pairs(EggsRolls:GetChildren()) do
 			local SameName: boolean = rollEgg.Name == eggName
 			local SameIndex: boolean = rollEgg:GetAttribute("ParentIndex") == eggPillarIndex
-			
+
 			if SameName and SameIndex then
 				egg = rollEgg
-				
+
 				break
 			end
 		end
 		if not egg then return end
-		
+
 		local eggIndex: number = egg:GetAttribute("ParentIndex")
 		if not eggIndex or eggIndex ~= eggPillarIndex then return end
-		
+
 		local EggPillars: { Model } = PlotUtil.getEggPillars(dropper)
 		if not EggPillars then return end
-		
+
 		local eggPillar: Model? = PlotUtil.getEggPillarFromIndex(
 			EggPillars, eggPillarIndex
 		)
 		if not eggPillar then return end
-		
+
 		local EggTool: Tool = PlotUtil.getEggTool(eggName)
 		if not EggTool then return end
-		
+
 		if DataBackpack.Eggs.getLength(player) >= GlobalSettings.BackpackEggsLimit then
 			return NotifyError:FireClient(player, "Your backpack is full, Place or Sell your eggs!")
 		end
-		
+
 		local eggPillarInfo = PlotUtil.getEggPillarInfo(eggPillar)
 		if not eggPillarInfo then return end
-		
+
 		if eggPillarInfo.Premium then
 			local Product = Products[`Instant {eggPillarInfo.Rarity} Egg`]
 			if Product then
 				Network.Purchases.promptProduct:FireClient(player, Product, true)
-				
+
 				return
 			end
 		end
-		
+
 		local EggData = PlotUtil.EggsData[egg.Name]
 		local EggCost, EggSellerCost = PlotUtil.CalculateCost({
 			Name = egg.Name,
 			EggMutationTier = egg:GetAttribute("EggMutationTier") or 1,
 			Type = "Block"
 		})
-		
+
 		--if EggData.Price > DataCash.getCash(player) then
 		if EggCost > DataCash.getCash(player) then
 			return NotifyError:FireClient(player, "You don't have enough cash to buy this egg!")
 		end
-		
+
 		--DataCash.reduceCash(player, EggData.Price)
 		DataCash.reduceCash(player, EggCost)
-		
+
 		local EggToolClone: Tool? = DataPlots.ConvertEggModelToRoll(egg)
 		DataPlots.RemoveEggFromPillar(player, eggPillar)
 
 		DataBackpack.Eggs.addBackpackEggByInstance(player, EggToolClone, true)
-		
+
 		NotifySuccess:FireClient(player, `You bought {EggToolClone.Name}!`)
-		
+
 		DataPlots.EggRoll(player, nil, EggPillars, EggsRolls, eggIndex)
 		clientData.PlotData(deepCopy(profileData.PlotData))
-		
+
 		profileData.EggsReceived += 1
 		clientData.EggsReceived(profileData.EggsReceived)
 	end)
 
 	Network.Plots.PlaceAtSlot.OnServerEvent:Connect(function(
 		player: Player, placeName: string, floorNum: number, slotNum: number)
-		
+
 		if typeof(placeName) ~= 'string' then return end
 		if typeof(floorNum) ~= 'number' then return end
 		if typeof(slotNum) ~= 'number' then return end
@@ -3037,84 +3037,84 @@ function DataPlots.InitAllPlots()
 		if not profileData or not clientData then
 			return nil
 		end
-		
+
 		local character: Model = player.Character
 		if not character then return end
-		
+
 		local tool: Tool = character:FindFirstChildOfClass("Tool")
 		if not tool then return end
-		
+
 		local IsToolPlaceable = tool:GetAttribute("Placeable")
 		if not IsToolPlaceable then return end
-		
+
 		local Type = tool:GetAttribute("Type")
 		if not Type then return end
-		
+
 		local id: string = tool:GetAttribute("Id")
 		if not id then return end
-		
+
 		local floor: Model = PlotUtil.getFloor(plot, floorNum)
 		if not floor then return end
-		
+
 		local slots: Folder = floor:FindFirstChild("Slots")
 		if not slots then return end
-		
+
 		local slot: Model = slots:FindFirstChild(slotNum)
 		if not slot then return end
-		
+
 		local slotData: PlotUtil.SlotWorldData = PlotUtil.getSlotData(slot)
 		if not slotData then return end
-		
+
 		local Placements: Folder = PlotUtil.getSlotsPlacements(slots)
 		if not Placements then return end
-		
+
 		if slotData.IsForSale then return end
 		if slotData.IsOccupied then return end
-		
+
 		local dropper: Folder? = PlotUtil.getPlotDropper(plot)
 		if not dropper then return end
-		
+
 		local Screen, Button, GoButtonUI, BarUI, NextMutationUI = 
 			PlotUtil.getDropperSpinScreen(dropper)
 		if not Screen then return end
-		
+
 		tool:SetAttribute("Placeable", nil)
-		
+
 		if Type == "Block" then
 			local PlayerEggData: Types.Egg? = DataBackpack.Eggs.getBackpackEggByID(player, id)
 			if not PlayerEggData then return end
-			
+
 			local CloneEggData: Types.Egg = deepCopy(PlayerEggData)
 			if not CloneEggData then return end
-			
+
 			DataBackpack.Eggs.removeBackpackEggByID(player, id)
-			
+
 			local EggData = PlotUtil.EggsData[tool.Name]
-			
+
 			CloneEggData.IsHatching = true
 			CloneEggData.HatchTimeLeft = CloneEggData.HatchTimeLeft or EggData.HatchTime
 			if CloneEggData.HatchTimeLeft >= EggData.HatchTime then
 				local TripleHatchMultiplier = profileData.Gamepasses["Triple Hatch"]
 					and 3 or 1
-				
+
 				CloneEggData.HatchTimeLeft = math.floor(CloneEggData.HatchTimeLeft / TripleHatchMultiplier)
 			end
-			
+
 			profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement = CloneEggData
-			
+
 			DataPlots.SpawnEggAtSlot(slot, 
 				profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement)
-			
+
 			DataPlots.SetSlotState(slot, false, true, 
 				profileData.PlotData.Floors[floorNum].Slots[slotNum], player)
-			
+
 			clientData.PlotData(deepCopy(profileData.PlotData))
-			
+
 			profileData.EggsPlaced += 1
 			clientData.EggsPlaced(profileData.EggsPlaced)
 		elseif Type == "Labubu" then
 			local CloneLabubuData: Types.Labubu? = nil :: Types.Labubu
-			
+
 			if not tool:GetAttribute("IsBeingStolen") then
 				local PlayerLabubuData: Types.Labubu? = DataBackpack.Labubus.getById(player, id)
 				if not PlayerLabubuData then return end
@@ -3126,29 +3126,29 @@ function DataPlots.InitAllPlots()
 			else
 				CloneLabubuData = tool:GetAttributes()
 				if not CloneLabubuData then return end
-				
+
 				character:SetAttribute("IsStealing", nil)
 				CloneLabubuData.IsBeingStolen = nil
 				CloneLabubuData.FloorNum = nil
 				CloneLabubuData.OwnerUserId = nil
 				CloneLabubuData.ParentIndex = nil
 				CloneLabubuData.Placeable = nil
-				
+
 				for _, instance: Instance? in pairs(getPlayerFullBackpack(player)) do
 					if not instance:IsA("Tool") then continue end
 
 					local Tool: Tool = instance
-					
+
 					if Tool:GetAttribute("Type") ~= "Labubu" then continue end
 					if not Tool:GetAttribute("IsBeingStolen") then continue end
-					
+
 					Tool:Destroy()
 				end
 			end
-			
+
 			if CloneLabubuData then
 				profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement = CloneLabubuData
-				
+
 				DataPlots.SpawnHatchableAtSlot(slot, CloneLabubuData, player)
 				DataPlots.SetSlotState(slot, false, true, 
 					profileData.PlotData.Floors[floorNum].Slots[slotNum], player)
@@ -3157,10 +3157,10 @@ function DataPlots.InitAllPlots()
 			end
 		end
 	end)
-	
+
 	Network.Plots.HatchEgg.OnServerEvent:Connect(function(player: Player,
 		placeName: string, floorNum: number, slotNum: number)
-		
+
 		if typeof(placeName) ~= 'string' then return end
 		if typeof(floorNum) ~= 'number' then return end
 		if typeof(slotNum) ~= 'number' then return end
@@ -3178,7 +3178,7 @@ function DataPlots.InitAllPlots()
 
 		local character: Model = player.Character
 		if not character then return end
-		
+
 		local floor: Model = PlotUtil.getFloor(plot, floorNum)
 		if not floor then return end
 
@@ -3204,22 +3204,22 @@ function DataPlots.InitAllPlots()
 		local Screen, Button, GoButtonUI, BarUI, NextMutationUI = 
 			PlotUtil.getDropperSpinScreen(dropper)
 		if not Screen then return end
-		
+
 		local Placement = PlotUtil.getPlacementFromIndex(
 			Placements, slotNum
 		)
 		if not Placement then return end
 		if Placement.Name ~= placeName then return end
-		
+
 		if Placement:GetAttribute("Type") ~= "Block" then return end
-		
+
 		DataPlots.HatchEgg(Placement, slot, player)
 	end)
-	
+
 	Network.Plots.SkipEggHatch.OnServerEvent:Connect(function(player: Player, floorNum: number, slotNum: number)
 		if typeof(floorNum) ~= 'number' then return end
 		if typeof(slotNum) ~= 'number' then return end
-		
+
 		if PlayerCooldowns.isOnCooldown(player, "GlobalRemoteEventCooldown") then return end
 		PlayerCooldowns.setCooldown(player, "GlobalRemoteEventCooldown", 0.05)
 
@@ -3267,21 +3267,21 @@ function DataPlots.InitAllPlots()
 		if not Placement then return end
 
 		if Placement:GetAttribute("Type") ~= "Block" then return end
-		
+
 		local EggData = PlotUtil.EggsData[Placement.Name]
 		if not EggData then return end
-		
+
 		local rarity = EggData.Rarity -- Common to Basic
-		
+
 		local Product = Products[`Skip {rarity} Hatch`]
 		if not Product then return end
-		
+
 		PlayerAttributes.setAttribute(player, "SkipHatchFloorNum", floorNum)
 		PlayerAttributes.setAttribute(player, "SkipHatchSlotNum", slotNum)
-		
+
 		Network.Purchases.promptProduct:FireClient(player, Product, true)
 	end)
-	
+
 	Network.Plots.SkipMutation.OnServerEvent:Connect(function(player: Player,
 		placeName: string, floorNum: number, slotNum: number)
 
@@ -3336,7 +3336,7 @@ function DataPlots.InitAllPlots()
 		if Placement.Name ~= placeName then return end
 
 		if Placement:GetAttribute("Type") ~= "Labubu" then return end
-		
+
 		local labubuData = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement
 		if not labubuData then return end
 
@@ -3347,15 +3347,15 @@ function DataPlots.InitAllPlots()
 		if not profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement.IsMutating then 
 			return 
 		end
-		
+
 		local Product = Products[`Skip Mutation {GetMutationExtraInfo.CurrentMutationTier}`]
-		
+
 		PlayerAttributes.setAttribute(player, "SkipMutationFloorNum", floorNum)
 		PlayerAttributes.setAttribute(player, "SkipMutationSlotNum", slotNum)
 
 		Network.Purchases.promptProduct:FireClient(player, Product, true)
 	end)
-	
+
 	Network.Plots.Mutate.OnServerEvent:Connect(function(player: Player,
 		placeName: string, floorNum: number, slotNum: number)
 
@@ -3411,29 +3411,29 @@ function DataPlots.InitAllPlots()
 		if Placement.Name ~= placeName then return end
 
 		if Placement:GetAttribute("Type") ~= "Labubu" then return end
-		
+
 		local labubuData = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement
 		if not labubuData then return end
 
 		local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(labubuData)
 		if not GetMutationExtraInfo then return end
-		
+
 		if not GetMutationExtraInfo.NextMutationTier then return end
 		if profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement.IsMutating then return end
-		
+
 		if DataCash.getCash(player) < GetMutationExtraInfo.Cost then 
 			NotifyError:FireClient(player, "Not enough cash!")
 			return
 		end
-		
+
 		DataCash.reduceCash(player, GetMutationExtraInfo.Cost)
-		
+
 		profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement.IsMutating = true
-		
+
 		DataPlots.SetSlotState(slot, false, true, 
 			profileData.PlotData.Floors[floorNum].Slots[slotNum], player)
 	end)
-	
+
 	Network.Plots.RevealMutation.OnServerEvent:Connect(function(player: Player,
 		placeName: string, floorNum: number, slotNum: number)
 
@@ -3513,13 +3513,13 @@ function DataPlots.InitAllPlots()
 			profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement.MutationTime =
 				GetMutationExtraInfo.MutationTime
 			Placement:SetAttribute("IsMutating", false)
-			
+
 			-- NotifyError:FireClient(player, "Your Labubu mutation failed!")
-			
+
 			PlotUtil.setHatchableInfoUI(Placement, GetMutationExtraInfo.CurrentMutationName,
 				labubuData.IsMutating, labubuData
 			)
-			
+
 			local Id = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement.Id
 			PlayerAttributes.setAttribute(player, 
 				"LastMutationFail",
@@ -3529,7 +3529,7 @@ function DataPlots.InitAllPlots()
 					FloorNum = floorNum
 				}
 			)
-			
+
 			if GetMutationExtraInfo.CurrentMutationTier > 1 then
 				local newMutationTier = DataPlots.DowngradeLabubuMutation(player, Placement, slot, floorNum, slotNum)
 				newMutationTier = newMutationTier or 1
@@ -3537,12 +3537,12 @@ function DataPlots.InitAllPlots()
 				return
 			end
 		end
-		
+
 		DataPlots.SetSlotState(slot, false, true, 
 			profileData.PlotData.Floors[floorNum].Slots[slotNum], player)
 		clientData.PlotData(deepCopy(profileData.PlotData))
 	end)
-	
+
 	Network.Plots.TakeLabubu.OnServerEvent:Connect(function(
 		player: Player, placeName: string, floorNum: number, slotNum: number)
 
@@ -3588,7 +3588,7 @@ function DataPlots.InitAllPlots()
 		local Screen, Button, GoButtonUI, BarUI, NextMutationUI = 
 			PlotUtil.getDropperSpinScreen(dropper)
 		if not Screen then return end
-		
+
 		local Placement = PlotUtil.getPlacementFromIndex(
 			Placements, slotNum
 		)
@@ -3601,29 +3601,29 @@ function DataPlots.InitAllPlots()
 		if DataBackpack.Labubus.getLength(player) >= GlobalSettings.BackpackHatchablesLimit then
 			return NotifyError:FireClient(player, "Your backpack is full, Place or Sell your Labubus!")
 		end
-		
+
 		local LabubuTool: Tool = PlotUtil.getHatchableTool(Placement.Name)
 		if not LabubuTool then return end
-		
+
 		local PlacementAttributes = Placement:GetAttributes()
 		PlacementAttributes.ParentIndex = nil
-		
+
 		Placement:Destroy()
-		
+
 		profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement = {}
-		
+
 		DataPlots.CollectAllSlotCash(profileData.PlotData.Floors[floorNum].Slots[slotNum],
 			player
 		)
-		
+
 		local LabubuToolClone = LabubuTool:Clone()
 		copyAttributesFromTable(PlacementAttributes, LabubuToolClone)
 		DataBackpack.Labubus.addToBackpackByInstance(player, LabubuToolClone, true)
-		
+
 		DataPlots.SetSlotState(slot, false, false)
 		clientData.PlotData(deepCopy(profileData.PlotData))
 	end)
-	
+
 
 	--[[
 	workspace:WaitForChild("ResetEggsBackpack"):WaitForChild("ProximityPrompt").Triggered:Connect(function(player: Player)
@@ -3668,7 +3668,7 @@ function DataPlots.InitAllPlots()
 		end
 	end)
 	--]]
-	
+
 	PlotsInitialized = true
 end
 
@@ -3712,7 +3712,7 @@ function DataPlots.WaitForPlot(player: Player): Model?
 	if existing then
 		return existing
 	end
-	
+
 	-- Player already gone
 	if not player or not player:IsDescendantOf(Players) then
 		return nil
@@ -3761,7 +3761,7 @@ function DataPlots.AddFloorToPlayerData(
 
 	floors[floorNum] = {
 		Slots = {
-			
+
 		}
 	}
 
@@ -3795,7 +3795,7 @@ function DataPlots.AddNextAvailableFloorToPlayerData(player: Player): number?
 	floors[floorNum] = {
 		Slots = {}
 	}
-	
+
 	if clientData then
 		clientData.PlotData(deepCopy(profileData.PlotData))
 	end
@@ -3823,7 +3823,7 @@ function DataPlots.AddSlotToPlayerData(
 
 	local floorData = floors[floorNum]
 	floorData.Slots = floorData.Slots or {}
-	
+
 	floorData.Slots[slotNum] = floorData.Slots[slotNum] or {}
 
 	-- Already owned?
@@ -3835,7 +3835,7 @@ function DataPlots.AddSlotToPlayerData(
 	floorData.Slots[slotNum].Placement = {}
 	floorData.Slots[slotNum].Cash = floorData.Slots[slotNum].Cash or 0
 	floorData.Slots[slotNum].OfflineCash = floorData.Slots[slotNum].OfflineCash or 0
-	
+
 	if clientData then
 		clientData.PlotData(deepCopy(profileData.PlotData))
 	end
@@ -3845,14 +3845,14 @@ end
 
 function DataPlots.characterAdded(player: Player, character: Model) -- automatic
 	DataPlots.AssignPlot(player)
-	
+
 	local plot: Model = DataPlots.GetPlayerPlot(player)
 	if not plot then return end
 	DataPlots.TeleportPlayerToPlot(player, plot)
-	
+
 	local profileData, clientData = DataHandler.waitForPlayerData(player)
 	if profileData == nil or clientData == nil then return end
-	
+
 	DataBackpack.Eggs.EquipAll(player)
 	DataBackpack.Labubus.EquipAll(player)
 end
@@ -3862,43 +3862,43 @@ function DataPlots.earlyPlayerAdded(player: Player) -- automatic
 end
 
 function DataPlots.latePlayerRemoving(player: Player) -- automatic
-	
+
 end
 
 function DataPlots.playerAdded(player: Player) -- automatic
 	local profileData, clientData = DataHandler.getProfileData(player)
 	if profileData == nil or clientData == nil then return end
-	
+
 	local plot: Model = DataPlots.WaitForPlot(player)
 	if plot then
 		profileData.PlotData.Floors = profileData.PlotData.Floors or {}
 		profileData.PlotData.Floors[1] = profileData.PlotData.Floors[1] or {}
-		
+
 		profileData.PlotData.Floors[1].Slots = profileData.PlotData.Floors[1].Slots or {}
-		
+
 		profileData.PlotData.Floors[1].Slots[1] = profileData.PlotData.Floors[1].Slots[1] or {}
 		profileData.PlotData.Floors[1].Slots[2] = profileData.PlotData.Floors[1].Slots[2] or {}
 		profileData.PlotData.Floors[1].Slots[3] = profileData.PlotData.Floors[1].Slots[3] or {}
-		
+
 		profileData.PlotData.Floors[1].Slots[1] = 
 			Reconcile(Types.Slot, profileData.PlotData.Floors[1].Slots[1])
 		profileData.PlotData.Floors[1].Slots[2] = 
 			Reconcile(Types.Slot, profileData.PlotData.Floors[1].Slots[2])
 		profileData.PlotData.Floors[1].Slots[3] = 
 			Reconcile(Types.Slot, profileData.PlotData.Floors[1].Slots[3])
-		
+
 		--profileData.PlotData.SpinInfo = profileData.PlotData.SpinInfo or Types.PlotSpinInfo
 		profileData.PlotData.SpinInfo = Reconcile(Types.PlotSpinInfo, profileData.PlotData.SpinInfo)
 		--profileData.PlotData.RollsInfo = profileData.PlotData.RollsInfo or Types.PlotRollsInfo
 		profileData.PlotData.RollsInfo = Reconcile(Types.PlotRollsInfo, profileData.PlotData.RollsInfo)
-		
+
 		profileData.Backpack = Reconcile(Types.Backpack, profileData.Backpack)
-		
+
 		if profileData.LastDailyRewardTime == 0 then
 			profileData.LastDailyRewardTime = os.time()
 			clientData.LastDailyRewardTime(profileData.LastDailyRewardTime)
 		end
-		
+
 		if profileData.PlotData.SpinInfo.CanSpin == false then
 			local connections = PlayerConnections:Get(player)
 
@@ -3908,24 +3908,24 @@ function DataPlots.playerAdded(player: Player) -- automatic
 				end)
 			)
 		end
-		
+
 		DataPlots.ApplyPlotData(plot, profileData.PlotData, player)
-		
+
 		clientData.Plot(plot)
 		clientData.PlotData(deepCopy(profileData.PlotData))
-		
+
 		plot:SetAttribute("Initialized", true)
 		player:SetAttribute("PlotInitialized", true)
 		plot:SetAttribute("OwnerUserId", player.UserId)
 	end
-	
+
 	--warn(player.Name, "data loaded")
 	--print(profileData, clientData)
 end
 
 function DataPlots.playerRemoving(player: Player) -- automatic
 	local profileData, clientData = DataHandler.getProfileData(player)
-	
+
 	local Plot = DataPlots.GetPlayerPlot(player)
 	if Plot then
 		if profileData then
@@ -3933,9 +3933,9 @@ function DataPlots.playerRemoving(player: Player) -- automatic
 		end
 	end
 	DataPlots.UnassignPlot(player)
-	
+
 	if profileData == nil or clientData == nil then return end
-	
+
 	--warn(player.Name, "data unloading")
 end
 
