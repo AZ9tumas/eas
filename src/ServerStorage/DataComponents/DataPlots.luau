@@ -1299,16 +1299,16 @@ function DataPlots.SpawnEggAtSlot(slot: Model, egg: Model | Tool | Types.Egg)
 	local GetExtentsSize: Vector3 = eggModel:GetExtentsSize()
 	local GetExtentsSizeY: number = GetExtentsSize.Y
 
-	eggModel:PivotTo(
-		getSlotInfo.MainStand.CFrame + 
-			Vector3.new(0,
-				GetExtentsSizeY / 2 + getSlotInfo.MainStand.Size.Y/2, 
-				0)
-	)
+	local finalpos = getSlotInfo.MainStand.CFrame.Position + 
+		Vector3.new(0, GetExtentsSizeY / 2 + getSlotInfo.MainStand.Size.Y/2, 0)
 
-	PlotUtil.weldModelToPrimaryPart(eggModel)
+	local sourceEgg = PlotUtil.getEggModel(eggModel.Name)
+	local sourceRotation = sourceEgg and sourceEgg:GetPivot().Rotation or CFrame.identity
 
-	print("WHYYY")
+	eggModel:PivotTo(CFrame.new(finalpos) * sourceRotation)
+
+	PlotUtil.applyAlignConstraints(eggModel, finalpos, sourceRotation)
+
 	eggModel.Parent = slotsPlacement
 end
 

@@ -695,22 +695,118 @@ function PlotUtil.weldModelToPrimaryPart(model: Model)
 	end
 end
 
+function PlotUtil.applyAlignConstraints(model: Model, targetPosition: Vector3, targetRotation: CFrame)
+	PlotUtil.weldModelToPrimaryPart(model)
+
+	local primaryPart = model.PrimaryPart or model:FindFirstChild("EggPart") or model:FindFirstChild("RootPart")
+	if not primaryPart then return end
+
+	primaryPart.Anchored = false
+
+	local attachment = Instance.new("Attachment")
+	attachment.Name = "AlignConstraintAttachment"
+	attachment.CFrame = CFrame.identity
+	attachment.Parent = primaryPart
+
+	local alignOrientation = Instance.new("AlignOrientation")
+	alignOrientation.Mode = Enum.OrientationAlignmentMode.OneAttachment
+	alignOrientation.Attachment0 = attachment
+	alignOrientation.CFrame = targetRotation
+	alignOrientation.RigidityEnabled = true
+	alignOrientation.Parent = primaryPart
+
+	local alignPosition = Instance.new("AlignPosition")
+	alignPosition.Mode = Enum.PositionAlignmentMode.OneAttachment
+	alignPosition.Attachment0 = attachment
+	alignPosition.Position = targetPosition
+	alignPosition.RigidityEnabled = true
+	alignPosition.Parent = primaryPart
+end
+
+function PlotUtil.getPillarTopPart(eggPillar: Model) : BasePart?
+	local pillarModel = eggPillar:FindFirstChild("Model")
+	if not pillarModel then return nil end
+
+	local lowestPart: BasePart? = nil
+	local lowestY = math.huge
+
+	for _, desc in pairs(pillarModel:GetChildren()) do
+		if desc:IsA("UnionOperation") or desc:IsA("BasePart") then
+			local y = desc.Position.Y
+			if y < lowestY then
+				lowestY = y
+				lowestPart = desc
+			end
+		end
+	end
+
+	return lowestPart
+end
+
 function PlotUtil.deployWorldEggRoll(egg: Model, eggPillar: Model) : Model
 	local PillarInfo = PlotUtil.getEggPillarInfo(eggPillar)
 	local GetExtentsSize: Vector3 = egg:GetExtentsSize()
 	local GetExtentsSizeY: number = GetExtentsSize.Y
 
-	local floorPart = PillarInfo.LowerPart
-	egg:PivotTo(
-		floorPart.CFrame + Vector3.new(0, GetExtentsSizeY / 2 + EGG_PILLAR_Y_OFFSET, 0)
-	)
+	local floorPart: BasePart = PillarInfo.LowerPart
 
-	local eggPrimaryPart = egg.PrimaryPart or egg:FindFirstChild("EggPart")
-	if eggPrimaryPart then
-		eggPrimaryPart.Anchored = true
-	end
+	local finalpos = floorPart.Position + Vector3.new(0, GetExtentsSizeY / 2 + EGG_PILLAR_Y_OFFSET, 0)
+
+	local sourceEgg = Eggs:FindFirstChild(egg.Name)
+	local sourceRotation = sourceEgg and sourceEgg:GetPivot().Rotation or CFrame.identity
+
+	-- Start at the pillar top, then smooth-fall to finalpos
+	local topPart = PlotUtil.getPillarTopPart(eggPillar)
+	local startPos = topPart and (topPart.Position + Vector3.new(0, GetExtentsSizeY / 2, 0)) or finalpos
+
+	egg:PivotTo(CFrame.new(startPos) * sourceRotation)
 
 	PlotUtil.weldModelToPrimaryPart(egg)
+
+	local primaryPart = egg.PrimaryPart or egg:FindFirstChild("EggPart")
+	if not primaryPart then return egg end
+
+	-- Smooth CFrame lerp from startPos to finalpos (anchored during lerp)
+	local speed = 2.5
+	local currentCF = CFrame.new(startPos) * sourceRotation
+	local finalCF = CFrame.new(finalpos) * sourceRotation
+
+	task.spawn(function()
+		
+		while true do
+			local dt = RunService.Heartbeat:Wait()
+			local alpha = math.clamp(speed * dt, 0, 1)
+			currentCF = currentCF:Lerp(finalCF, alpha)
+			primaryPart.CFrame = currentCF
+			
+			if (currentCF.Position - finalpos).Magnitude < 0.05 then
+				primaryPart.CFrame = finalCF
+				break
+			end
+		end
+
+		-- Lock in place with AlignOrientation after arriving
+		primaryPart.Anchored = false
+
+		local attachment = Instance.new("Attachment")
+		attachment.Name = "AlignConstraintAttachment"
+		attachment.CFrame = CFrame.identity
+		attachment.Parent = primaryPart
+
+		local alignOrientation = Instance.new("AlignOrientation")
+		alignOrientation.Mode = Enum.OrientationAlignmentMode.OneAttachment
+		alignOrientation.Attachment0 = attachment
+		alignOrientation.CFrame = sourceRotation
+		alignOrientation.RigidityEnabled = true
+		alignOrientation.Parent = primaryPart
+
+		local alignPosition = Instance.new("AlignPosition")
+		alignPosition.Mode = Enum.PositionAlignmentMode.OneAttachment
+		alignPosition.Attachment0 = attachment
+		alignPosition.Position = finalpos
+		alignPosition.RigidityEnabled = true
+		alignPosition.Parent = primaryPart
+	end)
 
 	return egg
 end
