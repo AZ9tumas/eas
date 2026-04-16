@@ -6,14 +6,13 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 -- REMOTE EVENT
 local ShakeEvent = ReplicatedStorage:WaitForChild("ExplosionShake")
 
--- VFX TEMPLATE
-local LuckyBlockCombineVFX = ReplicatedStorage:WaitForChild("Assets"):WaitForChild("VFX"):WaitForChild("LuckyBlockCombine")
-
 -- REFERENCES
 local EggsFolder = script.Parent
-local Egg1 = EggsFolder:WaitForChild("LuckyBlock1")
-local Egg2 = EggsFolder:WaitForChild("LuckyBlock2")
-local Egg3 = EggsFolder:WaitForChild("LuckyBlock3")
+local EggCombineComplete = EggsFolder:WaitForChild("EggCombineComplete")
+local Egg1 = EggsFolder:WaitForChild("Egg1")
+local Egg2 = EggsFolder:WaitForChild("Egg2")
+local Egg3 = EggsFolder:WaitForChild("Egg3")
+local EggCombine = EggsFolder:WaitForChild("EggCombine")
 
 local ExplosionPart = EggsFolder:WaitForChild("ExplosionPart")
 local ExplosionSound = EggsFolder:WaitForChild("ExplosionSound")
@@ -42,38 +41,6 @@ local MOVE_TIME = 2.0
 local BUSY = false
 
 local COMBINE_ROTATION = CFrame.fromOrientation(math.rad(90), math.rad(-90), 0)
-
--------------------------------------------------
--- ATTACH VFX TO LUCKY BLOCK
--------------------------------------------------
-local function attachVFX(luckyBlock: Model)
-	local primaryPart = luckyBlock.PrimaryPart or luckyBlock:FindFirstChildWhichIsA("BasePart")
-	if not primaryPart then return end
-
-	local vfxClone = LuckyBlockCombineVFX:Clone()
-
-	-- Parent the attachment with particles onto the primary part
-	local att = vfxClone:FindFirstChild("Attachment")
-	if att then
-		att.Position = Vector3.zero
-		att.Parent = primaryPart
-	end
-
-	-- Parent the mesh spheres onto the lucky block model, centered on primary part
-	for _, child in vfxClone:GetChildren() do
-		if child:IsA("BasePart") then
-			child.CFrame = primaryPart.CFrame
-			child.Parent = luckyBlock
-		end
-	end
-
-	vfxClone:Destroy()
-end
-
--- Attach VFX to each lucky block
-attachVFX(Egg1)
-attachVFX(Egg2)
-attachVFX(Egg3)
 
 -- PREP PANELS
 for _, panel in ipairs(Panels) do
@@ -217,10 +184,13 @@ local function combineEggs()
 	Egg1:Destroy()
 	Egg2:Destroy()
 	Egg3:Destroy()
+	
+	EggCombineComplete.Value = true
 
-	-- Signal completion via attribute so DataPlots can detect it
-	script.Parent:SetAttribute("CombineComplete", true)
-
+	-- Spawn combined egg
+	EggCombine.Parent = EggsFolder
+	EggCombine:PivotTo(CFrame.new(centerCF.Position) * COMBINE_ROTATION)
+	
 	task.delay(2.5, function()
 		script.Parent:Destroy()
 	end)

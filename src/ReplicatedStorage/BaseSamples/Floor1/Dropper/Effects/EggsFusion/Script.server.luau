@@ -12,7 +12,7 @@ local EggCombineComplete = EggsFolder:WaitForChild("EggCombineComplete")
 local Egg1 = EggsFolder:WaitForChild("Egg1")
 local Egg2 = EggsFolder:WaitForChild("Egg2")
 local Egg3 = EggsFolder:WaitForChild("Egg3")
-local EggCombine = EggsFolder:WaitForChild("EggCombine")
+local EggCombine = EggsFolder:WaitForChild("LuckyBlockCombine")
 
 local ExplosionPart = EggsFolder:WaitForChild("ExplosionPart")
 local ExplosionSound = EggsFolder:WaitForChild("ExplosionSound")

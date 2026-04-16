@@ -1254,10 +1254,13 @@ function PlotUtil.UpdateMutationInfoUI(mutationData: MutationInfo)
 	local playerGui = LocalPlayer.PlayerGui
 	if not playerGui then return end
 
-	local newUI = playerGui:FindFirstChild("NewUI")
-	if not newUI then return end
-
-	local Frames = newUI:FindFirstChild("Frames")
+	local Frames: Folder? = nil
+	for _, child in playerGui:GetChildren() do
+		if child.Name == "NewUI" then
+			local f = child:FindFirstChild("Frames")
+			if f then Frames = f break end
+		end
+	end
 	if not Frames then return end
 
 	local MutationFrame = Frames:FindFirstChild("Mutation")
@@ -1659,10 +1662,13 @@ function PlotUtil.initClientPlot(plot: Model)
 			local playerGui = LocalPlayer.PlayerGui
 			if not playerGui then return end
 
-			local newUI = playerGui:FindFirstChild("NewUI")
-			if not newUI then return end
-
-			local Frames = newUI:FindFirstChild("Frames")
+			local Frames: Folder? = nil
+			for _, child in playerGui:GetChildren() do
+				if child.Name == "NewUI" then
+					local f = child:FindFirstChild("Frames")
+					if f then Frames = f break end
+				end
+			end
 			if not Frames then return end
 
 			local MutationFrame = Frames:FindFirstChild("Mutation")

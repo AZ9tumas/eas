@@ -21,10 +21,24 @@ local playerGui = localPlayer.PlayerGui
 
 local trove = Trove.new()
 
-local mainGui = playerGui.HUD.Buttons.BottomLeft.Cash
-local amountLabel = mainGui.AmountLabel
-local AddedCashFrame = mainGui.AddedCash
-local AmountLabelTemplate = AddedCashFrame.AmountLabel
+local mainGui = playerGui:WaitForChild("NewUI").CashDisplay
+local amountLabel = mainGui.Main
+
+-- Create AddedCash frame for +/- delta animations (not present in new CashDisplay model)
+local AddedCashFrame = mainGui:FindFirstChild("AddedCash")
+if not AddedCashFrame then
+	AddedCashFrame = Instance.new("Frame")
+	AddedCashFrame.Name = "AddedCash"
+	AddedCashFrame.BackgroundTransparency = 1
+	AddedCashFrame.Size = UDim2.fromScale(1, 1)
+	AddedCashFrame.Parent = mainGui
+end
+
+-- Create template label for delta animations
+local AmountLabelTemplate = amountLabel:Clone()
+AmountLabelTemplate.Name = "AmountLabel"
+AmountLabelTemplate.Visible = false
+AmountLabelTemplate.Parent = AddedCashFrame
 
 local Currency = {}
 
@@ -51,25 +65,25 @@ local transparentStroketweenInfo = TweenInfo.new(
 
 function Currency.init()
 	local oldCash = nil
-	
+
 	local function UpdateCash(animate: boolean?)
 		local Cash = ClientData.Cash()
 		if not Cash then return end
-		
+
 		local CachedOldCash = oldCash
 		oldCash = Cash
-		
+
 		amountLabel.Text = "$" .. formatLargeNumber(Cash)
-		
+
 		if animate ~= false then
 			if CachedOldCash == nil then return end
-			
+
 			local AmountLabelTemplate = AmountLabelTemplate:Clone()
-			
+
 			if Cash < CachedOldCash then
 				AmountLabelTemplate.TextColor3 = redColor
 				AmountLabelTemplate.Text =  "-$" .. formatLargeNumber(CachedOldCash - Cash)
-				
+
 				--if toOriginal.PlaybackState == Enum.PlaybackState.Playing then
 				--	toOriginal:Stop()
 				--end
@@ -81,10 +95,10 @@ function Currency.init()
 			else
 				AmountLabelTemplate.Text =  "+$" .. formatLargeNumber(Cash - CachedOldCash)
 			end
-			
+
 			AmountLabelTemplate.Visible = true
 			AmountLabelTemplate.Parent = AddedCashFrame
-			
+
 			local toTransparentText: Tween = TweenService:Create(
 				AmountLabelTemplate, transparenttweenInfo, {TextTransparency = 1}
 			)
@@ -98,15 +112,15 @@ function Currency.init()
 			--	AmountLabelTemplate, transparentStroketweenInfo, {TextStrokeTransparency = 1}
 			--)
 			--toTransparentUIStroke:Play()
-			
+
 			toTransparentText.Completed:Once(function()
 				AmountLabelTemplate:Destroy()
 			end)
 		end
 	end
-	
+
 	Charm.subscribe(ClientData.Cash, function() UpdateCash() end)
-	
+
 	UpdateCash(false)
 end
 

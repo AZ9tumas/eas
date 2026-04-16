@@ -86,9 +86,9 @@ local MutationReveal = {}
 
 function MutationReveal.init()
 	local isConsoleScreen = GuiService:IsTenFootInterface()
-    local isXbox = UserInputService:GetStringForKeyCode(Enum.KeyCode.ButtonA) == "ButtonA"
-    clickToOpenFrame.XBOXKeybind.Visible = isConsoleScreen and isXbox
-    clickToOpenFrame.PS5Keybind.Visible = isConsoleScreen and not isXbox
+	local isXbox = UserInputService:GetStringForKeyCode(Enum.KeyCode.ButtonA) == "ButtonA"
+	clickToOpenFrame.XBOXKeybind.Visible = isConsoleScreen and isXbox
+	clickToOpenFrame.PS5Keybind.Visible = isConsoleScreen and not isXbox
 
 	mainGui.Enabled = false
 end
@@ -136,7 +136,7 @@ function MutationReveal.processQueue()
 	local lastCameraCFrame = currentCamera.CFrame
 
 	currentCamera.CameraType = Enum.CameraType.Scriptable
-    currentCamera.CFrame = revealCameraCFrame
+	currentCamera.CFrame = revealCameraCFrame
 
 	local newMutations = {} :: { { model: Model, mutationTier: number } }
 	while revealQueue[1] do
@@ -178,36 +178,36 @@ end
 function MutationReveal.revealAsync(modelTemplate: Model, props: Props)
 	revealTrove:Clean()
 
-    continueLabel.Visible = false
+	continueLabel.Visible = false
 	failedLabel.Visible = false
 	successLabel.Visible = false
 	mutationFailFrame.Visible = false
 
 
 	ReplicatedStorage.Assets.Sounds.Ground:Play()
-    clickToOpenFrame.Visible = true
+	clickToOpenFrame.Visible = true
 	currentCamera.CFrame = revealCameraCFrame
 
 
 	ContextActionService:BindAction("FreezeInputs", function()
-        return Enum.ContextActionResult.Sink 
-    end, false, unpack(Enum.PlayerActions:GetEnumItems()))
+		return Enum.ContextActionResult.Sink 
+	end, false, unpack(Enum.PlayerActions:GetEnumItems()))
 
 
 	local clickTrove = revealTrove:Extend()
-    local function addClickListener(callback: () -> ())
-        clickTrove:Add(UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
-            if gameProcessedEvent and input.KeyCode ~= Enum.KeyCode.ButtonA then
-                return
-            end
-            if input.UserInputType ~= Enum.UserInputType.Touch
-            and input.UserInputType ~= Enum.UserInputType.MouseButton1
-            and input.KeyCode ~= Enum.KeyCode.ButtonA then
-                return
-            end
-            callback()
-        end))
-    end
+	local function addClickListener(callback: () -> ())
+		clickTrove:Add(UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+			if gameProcessedEvent and input.KeyCode ~= Enum.KeyCode.ButtonA then
+				return
+			end
+			if input.UserInputType ~= Enum.UserInputType.Touch
+				and input.UserInputType ~= Enum.UserInputType.MouseButton1
+				and input.KeyCode ~= Enum.KeyCode.ButtonA then
+				return
+			end
+			callback()
+		end))
+	end
 
 
 	local originalScale = modelTemplate:GetScale()
@@ -221,20 +221,20 @@ function MutationReveal.revealAsync(modelTemplate: Model, props: Props)
 	highlight.OutlineTransparency = 1
 	highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 	highlight.FillColor = Color3.fromRGB(0, 0, 0)
-    highlight.FillTransparency = 0
+	highlight.FillTransparency = 0
 	highlight.Parent = model
-    trove:Add(highlight)
+	trove:Add(highlight)
 
 	local effectTrove = revealTrove:Extend()
-    local waveAngle = 0
-    effectTrove:Add(RunService.Heartbeat:Connect(function(deltaTime)  
+	local waveAngle = 0
+	effectTrove:Add(RunService.Heartbeat:Connect(function(deltaTime)  
 		waveAngle += deltaTime*2.5
-        waveAngle %= math.pi*2
+		waveAngle %= math.pi*2
 
 		local sineValue = -math.cos(waveAngle)
 		local alpha = (sineValue + 1) * 0.5 -- from 0 to 1
-        alpha = math.pow(alpha, 0.7)
-        
+		alpha = math.pow(alpha, 0.7)
+
 		local adjustedValue = math.lerp(0, 0.3, alpha)
 		highlight.FillColor = Color3.new(adjustedValue, adjustedValue, adjustedValue)
 	end))
@@ -256,7 +256,7 @@ function MutationReveal.revealAsync(modelTemplate: Model, props: Props)
 		TweenService:Create(highlight, TweenInfo.new(0.5), {
 			FillColor = Color3.new(1, 1, 1)
 		}):Play()
-		
+
 		motion:spring(originalScale*1.5, { frequency = 0.3, tension = 50, friction = 30, damping = 2 })
 
 		task.wait(1)
@@ -320,7 +320,7 @@ function MutationReveal.revealAsync(modelTemplate: Model, props: Props)
 			revealTrove:Add(mutationLossKeepButton.Activated:Connect(function()
 				Network.Plots.ClientMutateFail:FireServer(failID)
 			end))
-			
+
 			revealTrove:Add(mutationLossLoseButton.Activated:Connect(function()
 				finished = true
 			end))
@@ -339,22 +339,22 @@ function MutationReveal.revealAsync(modelTemplate: Model, props: Props)
 
 	local scaleTrove = revealTrove:Extend()
 	local clicks = 0
-    addClickListener(function()
+	addClickListener(function()
 		scaleTrove:Clean()
 
 		mainGui.ClickSFX:Play()
 
-        clicks += 1
-        if clicks == REQUIRED_PRESSES then
-            reveal()
+		clicks += 1
+		if clicks == REQUIRED_PRESSES then
+			reveal()
 			return
-        end
+		end
 
 		motion:spring(originalScale*1.2, { frequency = 0.1, tension = 50, friction = 30, damping = 1 })
 		scaleTrove:Add(task.delay(0.1, function()
 			motion:spring(originalScale, { frequency = 0.3, tension = 50, friction = 30, damping = 0.7 })
 		end))
-    end)
+	end)
 
 	while not finished do
 		task.wait()

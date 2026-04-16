@@ -55,29 +55,33 @@ local TAB_REDIRECTS = {
 	MutationInfo = "Mutation", -- Old MutationInfo tab now lives at NewUI.Frames.Mutation
 }
 
-local function findTab(name: string): Instance?
+local function findFramesFolder(): Folder?
+	for _, child in playerGui:GetChildren() do
+		if child.Name == "NewUI" then
+			local frames = child:FindFirstChild("Frames")
+			if frames then return frames end
+		end
+	end
+	return nil
+end
+
+function InterfaceTabUtil.findTab(name: string): Instance?
 	-- Check for redirects first
 	local redirected = TAB_REDIRECTS[name]
 	if redirected then
-		local newUI = playerGui:FindFirstChild("NewUI")
-		if newUI then
-			local frames = newUI:FindFirstChild("Frames")
-			if frames then
-				local tab = frames:FindFirstChild(redirected)
-				if tab then return tab end
-			end
+		local frames = findFramesFolder()
+		if frames then
+			local tab = frames:FindFirstChild(redirected)
+			if tab then return tab end
 		end
 	end
 
 	local tab = playerGui.Tabs:FindFirstChild(name)
 	if tab then return tab end
 
-	local newUI = playerGui:FindFirstChild("NewUI")
-	if newUI then
-		local frames = newUI:FindFirstChild("Frames")
-		if frames then
-			return frames:FindFirstChild(name)
-		end
+	local frames = findFramesFolder()
+	if frames then
+		return frames:FindFirstChild(name)
 	end
 	return nil
 end
@@ -99,7 +103,7 @@ local function setTabVisible(tab: Instance, visible: boolean)
 end
 
 function InterfaceTabUtil.isTabOpen(name: string)
-	local tab = typeof(name) == 'string' and findTab(name) or name
+	local tab = typeof(name) == 'string' and InterfaceTabUtil.findTab(name) or name
 	if not tab then
 		return
 	end
@@ -108,14 +112,19 @@ end
 
 function InterfaceTabUtil.openTab(screenGui: ScreenGui | string, triggerSound: boolean?)
 	if typeof(screenGui) == 'string' then
-		screenGui = findTab(screenGui)
+		screenGui = InterfaceTabUtil.findTab(screenGui)
 	end
 	if not screenGui then return end
 
 	local container = screenGui:FindFirstChild("Container") or screenGui:FindFirstChild("Main") or screenGui :: Frame?
 	local isUnderTabs = screenGui.Parent == playerGui.Tabs
-	local newUI = playerGui:FindFirstChild("NewUI")
-	local isUnderNewUI = newUI and screenGui:IsDescendantOf(newUI)
+	local isUnderNewUI = false
+	for _, child in playerGui:GetChildren() do
+		if child.Name == "NewUI" and screenGui:IsDescendantOf(child) then
+			isUnderNewUI = true
+			break
+		end
+	end
 	if not isUnderTabs and not isUnderNewUI then
 		return
 	end
@@ -190,16 +199,13 @@ function InterfaceTabUtil.closeAllTabs(triggerSound: boolean?)
 	end
 
 	-- Also close Frame-based tabs under NewUI.Frames
-	local newUI = playerGui:FindFirstChild("NewUI")
-	if newUI then
-		local frames = newUI:FindFirstChild("Frames")
-		if frames then
-			for _, frame in pairs(frames:GetChildren()) do
-				if frame:IsA("Frame") and frame.Visible then
-					AnyTabGotClosed = true
-					frame.Visible = false
-					InterfaceTabUtil.OnTabClose:Fire(frame.Name)
-				end
+	local frames = findFramesFolder()
+	if frames then
+		for _, frame in pairs(frames:GetChildren()) do
+			if frame:IsA("Frame") and frame.Visible then
+				AnyTabGotClosed = true
+				frame.Visible = false
+				InterfaceTabUtil.OnTabClose:Fire(frame.Name)
 			end
 		end
 	end
