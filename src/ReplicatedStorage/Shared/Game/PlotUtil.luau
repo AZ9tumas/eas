@@ -528,6 +528,7 @@ function PlotUtil.setHatchableInfoUI(hatchable: Model, mutation: string?, isMuta
 				ImageLabel.ScaleType = Enum.ScaleType.Fit
 				ImageLabel.Name = name
 				ImageLabel.Parent = InfoUI.Traits
+				ImageLabel.BackgroundTransparency = 1
 			end
 		end
 	end

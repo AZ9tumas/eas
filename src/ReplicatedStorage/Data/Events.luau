@@ -11,7 +11,7 @@ local Events = {
 			TraitName = "Shiny",
 			Rarity = 0.05,
 			CashBonus = 1.25,
-			Icon = "rbxassetid://140149045601596",
+			Icon = "rbxassetid://140294665523120",
 
 			OnActivation = function()
 
@@ -25,7 +25,7 @@ local Events = {
 			TraitName = "Radiant",
 			Rarity = 0.05,
 			CashBonus = 1.25,
-			Icon = "rbxassetid://140149045601596",
+			Icon = "rbxassetid://123992771143587",
 
 			OnActivation = function()
 
@@ -39,7 +39,7 @@ local Events = {
 			TraitName = "Blessed",
 			Rarity = 0.05,
 			CashBonus = 1.25,
-			Icon = "rbxassetid://140149045601596",
+			Icon = "rbxassetid://134617612912546",
 
 			OnActivation = function()
 
@@ -53,7 +53,7 @@ local Events = {
 			TraitName = "Infernal",
 			Rarity = 0.05,
 			CashBonus = 1.25,
-			Icon = "rbxassetid://140149045601596",
+			Icon = "rbxassetid://135962529656273",
 
 			OnActivation = function()
 
@@ -67,7 +67,7 @@ local Events = {
 			TraitName = "Thunder",
 			Rarity = 0.05,
 			CashBonus = 1.25,
-			Icon = "rbxassetid://140149045601596",
+			Icon = "rbxassetid://99721972655693",
 
 			OnActivation = function()
 
@@ -81,7 +81,7 @@ local Events = {
 			TraitName = "Fire",
 			Rarity = 0.05,
 			CashBonus = 1.25,
-			Icon = "rbxassetid://140149045601596",
+			Icon = "rbxassetid://98110762659114",
 
 			OnActivation = function()
 
@@ -95,7 +95,22 @@ local Events = {
 			TraitName = "Frozen",
 			Rarity = 0.05,
 			CashBonus = 1.25,
-			Icon = "rbxassetid://140149045601596",
+			Icon = "rbxassetid://124120006023625",
+
+			OnActivation = function()
+
+			end,
+			OnDeactivation = function()
+
+			end,
+		},
+		
+		["Poison Event"] = {
+			EventType = "Poison Event",
+			TraitName = "Toxic",
+			Rarity = 0.05,
+			CashBonus = 1.25,
+			Icon = "rbxassetid://128112633880540",
 
 			OnActivation = function()
 
@@ -110,7 +125,7 @@ local Events = {
 			TraitName = "Golden",
 			Rarity = 0.01,
 			CashBonus = 1.25,
-			Icon = "rbxassetid://140149045601596",
+			Icon = "rbxassetid://74363419073497",
 
 			OnActivation = function()
 
