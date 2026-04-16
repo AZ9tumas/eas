@@ -1,67 +1,111 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TweenService = game:GetService("TweenService")
+local Debris = game:GetService("Debris")
 
 local ClientData = require(ReplicatedStorage.Client.ClientData)
-local Network = require(ReplicatedStorage.Network)
 local Charm = require(ReplicatedStorage.Packages.Charm)
-local ItemUtil = require(ReplicatedStorage.Shared.Game.ItemUtil)
-local formatCommaValue = require(ReplicatedStorage.Shared.Utility.Format.formatCommaValue)
-local Diff = require(ReplicatedStorage.Shared.Utility.Table.Diff)
-local PromptUtil = require(ReplicatedStorage.Shared.Utility.PromptUtil)
-local Products = require(ReplicatedStorage.Shared.Info.Products)
-local Trove = require(ReplicatedStorage.Shared.Classes.Trove)
-
-local ripple = require(ReplicatedStorage.Shared.Classes.ripple)
 local formatLargeNumber = require(ReplicatedStorage.Shared.Utility.Format.formatLargeNumber)
-local formatLargeNumberThousands = require(ReplicatedStorage.Shared.Utility.Format.formatLargeNumberThousands)
 
 local localPlayer = Players.LocalPlayer
 local playerGui = localPlayer.PlayerGui
 
-local trove = Trove.new()
-
 local mainGui = playerGui:WaitForChild("NewUI").CashDisplay
 local amountLabel = mainGui.Main
 
--- Create AddedCash frame for +/- delta animations (not present in new CashDisplay model)
-local AddedCashFrame = mainGui:FindFirstChild("AddedCash")
-if not AddedCashFrame then
-	AddedCashFrame = Instance.new("Frame")
-	AddedCashFrame.Name = "AddedCash"
-	AddedCashFrame.BackgroundTransparency = 1
-	AddedCashFrame.Size = UDim2.fromScale(1, 1)
-	AddedCashFrame.Parent = mainGui
-end
-
--- Create template label for delta animations
-local AmountLabelTemplate = amountLabel:Clone()
-AmountLabelTemplate.Name = "AmountLabel"
-AmountLabelTemplate.Visible = false
-AmountLabelTemplate.Parent = AddedCashFrame
-
 local Currency = {}
 
-local originalColor = amountLabel.TextColor3
-local redColor = Color3.fromRGB(240, 30, 30)
+-- ─────────────────────────────────────────────
+-- Helpers
+-- ─────────────────────────────────────────────
 
-local tweenInfo = TweenInfo.new(
-	1, -- time (seconds)
-	Enum.EasingStyle.Quad, -- easing style
-	Enum.EasingDirection.Out
-)
+local function FormatWithCommas(number: number): string
+	local formatted = tostring(math.floor(math.abs(number)))
+	while true do
+		local result, k = string.gsub(formatted, "^(%d+)(%d%d%d)", "%1,%2")
+		formatted = result
+		if k == 0 then break end
+	end
+	return formatted
+end
 
-local transparenttweenInfo = TweenInfo.new(
-	7, -- time (seconds)
-	Enum.EasingStyle.Quad, -- easing style
-	Enum.EasingDirection.Out
-)
+local function tween(instance, tweenInfo, properties)
+	local anim = TweenService:Create(instance, tweenInfo, properties)
+	anim:Play()
+	return anim
+end
 
-local transparentStroketweenInfo = TweenInfo.new(
-	6, -- time (seconds)
-	Enum.EasingStyle.Quad, -- easing style
-	Enum.EasingDirection.Out
-)
+-- ─────────────────────────────────────────────
+-- Cash change pop animation (from mpp CashStatus)
+-- ─────────────────────────────────────────────
+
+local HOLD_TIME   = 0.9
+local FADE_TIME   = 0.45
+local RISE_AMOUNT = 38
+
+local activeCount = 0
+
+local function animateCashChange(amount: number, isGain: boolean)
+	activeCount += 1
+	local index = activeCount
+
+	local label = amountLabel:Clone()
+	label.Text = string.format("%s$%s", isGain and "+" or "-", FormatWithCommas(amount))
+	label.AnchorPoint = Vector2.new(0.5, 0.5)
+	label.TextTransparency = 1
+	label.Rotation = 0
+	label.TextColor3 = isGain and Color3.fromRGB(85, 255, 127) or Color3.fromRGB(240, 30, 30)
+
+	-- Slight vertical stagger so rapid pops don't perfectly overlap
+	local staggerY = ((index % 4) - 1.5) * 14
+	local base = amountLabel.Position
+	local popPosition = base + UDim2.fromOffset(0, staggerY)
+	local exitPosition = popPosition - UDim2.fromOffset(0, RISE_AMOUNT)
+
+	-- UIScale for the pop punch
+	local uiScale = label:FindFirstChildWhichIsA("UIScale")
+	if not uiScale then
+		uiScale = Instance.new("UIScale")
+		uiScale.Parent = label
+	end
+	uiScale.Scale = 0.7
+
+	local uiStroke = label:FindFirstChildWhichIsA("UIStroke")
+	if uiStroke then uiStroke.Transparency = 1 end
+
+	label.Position = popPosition
+	label.Parent = mainGui
+
+	-- 1. Pop in
+	tween(label, TweenInfo.new(0.18, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+		{ TextTransparency = 0, Position = popPosition })
+	tween(uiScale, TweenInfo.new(0.18, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+		{ Scale = 1.0 })
+	if uiStroke then
+		tween(uiStroke, TweenInfo.new(0.14, Enum.EasingStyle.Linear, Enum.EasingDirection.Out),
+			{ Transparency = 0 })
+	end
+
+	-- 2. Hold, then float up and fade out
+	task.delay(HOLD_TIME, function()
+		if not label.Parent then return end
+
+		tween(label, TweenInfo.new(FADE_TIME, Enum.EasingStyle.Quad, Enum.EasingDirection.In),
+			{ TextTransparency = 1, Position = exitPosition })
+		tween(uiScale, TweenInfo.new(FADE_TIME, Enum.EasingStyle.Quad, Enum.EasingDirection.In),
+			{ Scale = 0.85 })
+		if uiStroke then
+			tween(uiStroke, TweenInfo.new(FADE_TIME, Enum.EasingStyle.Quad, Enum.EasingDirection.In),
+				{ Transparency = 1 })
+		end
+	end)
+
+	Debris:AddItem(label, HOLD_TIME + FADE_TIME + 0.1)
+end
+
+-- ─────────────────────────────────────────────
+-- Main update
+-- ─────────────────────────────────────────────
 
 function Currency.init()
 	local oldCash = nil
@@ -75,47 +119,13 @@ function Currency.init()
 
 		amountLabel.Text = "$" .. formatLargeNumber(Cash)
 
-		if animate ~= false then
-			if CachedOldCash == nil then return end
-
-			local AmountLabelTemplate = AmountLabelTemplate:Clone()
-
-			if Cash < CachedOldCash then
-				AmountLabelTemplate.TextColor3 = redColor
-				AmountLabelTemplate.Text =  "-$" .. formatLargeNumber(CachedOldCash - Cash)
-
-				--if toOriginal.PlaybackState == Enum.PlaybackState.Playing then
-				--	toOriginal:Stop()
-				--end
-
-				amountLabel.TextColor3 = redColor
-
-				local toOriginal: Tween = TweenService:Create(amountLabel, tweenInfo, {TextColor3 = originalColor})
-				toOriginal:Play()
-			else
-				AmountLabelTemplate.Text =  "+$" .. formatLargeNumber(Cash - CachedOldCash)
+		if animate ~= false and CachedOldCash ~= nil then
+			local change = Cash - CachedOldCash
+			if change > 0 then
+				animateCashChange(change, true)
+			elseif change < 0 then
+				animateCashChange(math.abs(change), false)
 			end
-
-			AmountLabelTemplate.Visible = true
-			AmountLabelTemplate.Parent = AddedCashFrame
-
-			local toTransparentText: Tween = TweenService:Create(
-				AmountLabelTemplate, transparenttweenInfo, {TextTransparency = 1}
-			)
-			toTransparentText:Play()
-
-			local toTransparentUIStroke: Tween = TweenService:Create(
-				AmountLabelTemplate.UIStroke, transparentStroketweenInfo, {Transparency = 1}
-			)
-			toTransparentUIStroke:Play()
-			--local toTransparentUIStroke: Tween = TweenService:Create(
-			--	AmountLabelTemplate, transparentStroketweenInfo, {TextStrokeTransparency = 1}
-			--)
-			--toTransparentUIStroke:Play()
-
-			toTransparentText.Completed:Once(function()
-				AmountLabelTemplate:Destroy()
-			end)
 		end
 	end
 

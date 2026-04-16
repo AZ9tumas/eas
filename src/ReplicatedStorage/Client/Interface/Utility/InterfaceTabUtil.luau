@@ -50,6 +50,7 @@ InterfaceTabUtil.OnTabClose = Signal.new()
 -- Tab redirects: old tab name -> new tab name (to support migrating tabs to NewUI)
 local TAB_REDIRECTS = {
 	Rebirth = "Rebirths", -- Old Rebirth tab now lives at NewUI.Frames.Rebirths
+	Index = "Index", -- A trick that will actually reference the new ui
 	Trading = "TradeList", -- Old Trading tab now lives at NewUI.Frames.TradeList
 	Shop = "Store", -- Old Shop tab now lives at NewUI.Frames.Store
 	MutationInfo = "Mutation", -- Old MutationInfo tab now lives at NewUI.Frames.Mutation
