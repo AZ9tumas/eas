@@ -1,6 +1,7 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
 local LocalPlayer = Players.LocalPlayer
 
 local isClient = RunService:IsClient()
@@ -679,11 +680,15 @@ function PlotUtil.spawnEggRoll(
 	return clone
 end
 
-function PlotUtil.weldModelToPrimaryPart(model: Model)
+function PlotUtil.weldModelToPrimaryPart(model: Model, anchored: boolean?)
 	local primaryPart = model.PrimaryPart or model:FindFirstChild("EggPart")
 	if not primaryPart then return end
 
-	primaryPart.Anchored = true
+	if anchored == nil then
+		anchored = true
+	end
+
+	primaryPart.Anchored = anchored
 	for _, desc in pairs(model:GetDescendants()) do
 		if desc:IsA("BasePart") and desc ~= primaryPart then
 			desc.Anchored = false
@@ -743,6 +748,14 @@ function PlotUtil.getPillarTopPart(eggPillar: Model) : BasePart?
 	return lowestPart
 end
 
+function PlotUtil.setModelCancollide(egg: Model, cancollide: boolean)
+	for _, v in pairs(egg:GetDescendants()) do
+		if not (v:IsA("BasePart") or v:IsA("UnionOperation")) then continue end
+
+		v.CanCollide = cancollide
+	end
+end
+
 function PlotUtil.deployWorldEggRoll(egg: Model, eggPillar: Model) : Model
 	local PillarInfo = PlotUtil.getEggPillarInfo(eggPillar)
 	local GetExtentsSize: Vector3 = egg:GetExtentsSize()
@@ -755,58 +768,60 @@ function PlotUtil.deployWorldEggRoll(egg: Model, eggPillar: Model) : Model
 	local sourceEgg = Eggs:FindFirstChild(egg.Name)
 	local sourceRotation = sourceEgg and sourceEgg:GetPivot().Rotation or CFrame.identity
 
-	-- Start at the pillar top, then smooth-fall to finalpos
 	local topPart = PlotUtil.getPillarTopPart(eggPillar)
 	local startPos = topPart and (topPart.Position + Vector3.new(0, GetExtentsSizeY / 2, 0)) or finalpos
 
-	egg:PivotTo(CFrame.new(startPos) * sourceRotation)
-
-	PlotUtil.weldModelToPrimaryPart(egg)
+	local startCF = CFrame.new(startPos) * sourceRotation
+	local finalCF = CFrame.new(finalpos) * sourceRotation
 
 	local primaryPart = egg.PrimaryPart or egg:FindFirstChild("EggPart")
 	if not primaryPart then return egg end
 
-	-- Smooth CFrame lerp from startPos to finalpos (anchored during lerp)
-	local speed = 2.5
-	local currentCF = CFrame.new(startPos) * sourceRotation
-	local finalCF = CFrame.new(finalpos) * sourceRotation
+	local attachment = Instance.new("Attachment")
+	attachment.Name = "AlignConstraintAttachment"
+	attachment.CFrame = CFrame.identity
+	attachment.Parent = primaryPart
 
-	task.spawn(function()
-		
-		while true do
-			local dt = RunService.Heartbeat:Wait()
-			local alpha = math.clamp(speed * dt, 0, 1)
-			currentCF = currentCF:Lerp(finalCF, alpha)
-			primaryPart.CFrame = currentCF
-			
-			if (currentCF.Position - finalpos).Magnitude < 0.05 then
-				primaryPart.CFrame = finalCF
-				break
-			end
-		end
+	local alignOrientation = Instance.new("AlignOrientation")
+	alignOrientation.Mode = Enum.OrientationAlignmentMode.OneAttachment
+	alignOrientation.Attachment0 = attachment
+	alignOrientation.CFrame = sourceRotation
+	alignOrientation.RigidityEnabled = true
+	alignOrientation.Parent = primaryPart
 
-		-- Lock in place with AlignOrientation after arriving
-		primaryPart.Anchored = false
+	local alignPosition = script.AlignPosition:Clone()
+	alignPosition.Attachment0 = attachment
+	alignPosition.Position = finalpos
+	alignPosition.Parent = primaryPart
+	alignPosition.Enabled = true
 
-		local attachment = Instance.new("Attachment")
-		attachment.Name = "AlignConstraintAttachment"
-		attachment.CFrame = CFrame.identity
-		attachment.Parent = primaryPart
-
-		local alignOrientation = Instance.new("AlignOrientation")
-		alignOrientation.Mode = Enum.OrientationAlignmentMode.OneAttachment
-		alignOrientation.Attachment0 = attachment
-		alignOrientation.CFrame = sourceRotation
-		alignOrientation.RigidityEnabled = true
-		alignOrientation.Parent = primaryPart
-
-		local alignPosition = Instance.new("AlignPosition")
-		alignPosition.Mode = Enum.PositionAlignmentMode.OneAttachment
-		alignPosition.Attachment0 = attachment
-		alignPosition.Position = finalpos
+	-- Premium pillars skip the fall animation entirely
+	if PillarInfo.Premium then
+		egg:PivotTo(finalCF)
+		PlotUtil.weldModelToPrimaryPart(egg, false)
 		alignPosition.RigidityEnabled = true
-		alignPosition.Parent = primaryPart
-	end)
+
+		return egg
+	end
+
+	-- play fall animation
+	-- 1. tween
+	-- 2. align position
+	-- 3. manual cframe calculation
+
+	PlotUtil.setModelCancollide(egg, false)
+	PlotUtil.weldModelToPrimaryPart(egg, false)
+	egg:PivotTo(startCF:Lerp(finalCF, 0.2))
+
+	--conn = RunService.Heartbeat:Connect(function(dt)
+	--	local newcf = currcf:Lerp(finalCF, 1 * dt)
+	--	egg:PivotTo(newcf)
+	--	
+	--	if (currcf.Position - finalCF.Position).Magnitude < 0.02 then
+	--		egg.PrimaryPart.Anchored = false
+	--		conn:Disconnect()
+	--	end
+	--end)
 
 	return egg
 end

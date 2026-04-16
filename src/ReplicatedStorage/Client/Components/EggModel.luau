@@ -18,11 +18,15 @@ local EFFECT_CULL_DISTANCE = 100
 observers.observeTag("EggModel", function(eggModel: Model)
 	local trove = Trove.new()
 
+	-- Skip the spring animation for eggs deployed onto pillars;
+	-- deployWorldEggRoll handles their fall animation on the server.
+	local hasPillarParent = eggModel:GetAttribute("ParentIndex") ~= nil
+
 	local eggModelCFrame = eggModel:GetPivot()
 	local originCFrame = eggModelCFrame
 
 	local distanceFromCamera = (originCFrame.Position - currentCamera.CFrame.Position).Magnitude
-	if distanceFromCamera < EFFECT_CULL_DISTANCE then
+	if not hasPillarParent and distanceFromCamera < EFFECT_CULL_DISTANCE then
 		emitParticlesAtCFrame(effectsFolder.SpawnEgg, eggModelCFrame + Vector3.new(0, 2.5, 0))
 		
 		local startOffset = Vector3.new(0, 2.5, 0)
