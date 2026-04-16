@@ -52,6 +52,7 @@ local TAB_REDIRECTS = {
 	Rebirth = "Rebirths", -- Old Rebirth tab now lives at NewUI.Frames.Rebirths
 	Trading = "TradeList", -- Old Trading tab now lives at NewUI.Frames.TradeList
 	Shop = "Store", -- Old Shop tab now lives at NewUI.Frames.Store
+	MutationInfo = "Mutation", -- Old MutationInfo tab now lives at NewUI.Frames.Mutation
 }
 
 local function findTab(name: string): Instance?

@@ -41,11 +41,32 @@ local mutationFailFrame = container.MutationFail
 local keepButton = mutationFailFrame.Keep
 local closeButton = mutationFailFrame.Lose
 
+-- New MutationLoss frame under NewUI.Frames
+local newUI = playerGui:WaitForChild("NewUI")
+local mutationLossFrame = newUI.Frames:WaitForChild("MutationLoss")
+local mutationLossButtons = mutationLossFrame:WaitForChild("Buttons")
+local mutationLossKeepButton = mutationLossButtons:WaitForChild("Yes")
+local mutationLossLoseButton = mutationLossButtons:WaitForChild("No")
+
+-- Find the two Desc labels in MutationLoss by Y position
+local mutationLossDescLabel: TextLabel = nil -- "Your Name downgraded from Name to Name!"
+local mutationLossQuestionLabel: TextLabel = nil -- "Would you like to keep Name mutation?"
+for _, child in mutationLossFrame:GetChildren() do
+	if child:IsA("TextLabel") and child.Name == "Desc" then
+		if child.Position.Y.Scale < 0.5 then
+			mutationLossDescLabel = child
+		else
+			mutationLossQuestionLabel = child
+		end
+	end
+end
+
 
 type Props = {
 	failID: string?,
 	mutationTier: number,
 	isNewMutation: boolean?,
+	hatchableName: string?,
 }
 local revealQueue = {} :: {
 	{ model: Model, props: Props }
@@ -102,6 +123,7 @@ function MutationReveal.processQueue()
 	isProcessingQueue = true
 
 	mutationFailFrame.Visible = false
+	mutationLossFrame.Visible = false
 
 	WaveTransitionGui.doWaveTransitionAsync(0.7, 0.5, true)
 	mainGui.Enabled = true
@@ -272,7 +294,22 @@ function MutationReveal.revealAsync(modelTemplate: Model, props: Props)
 			revealTrove:Add(blurMotion.stop)
 			blurMotion:spring(1, { frequency = 0.3, tension = 50, friction = 30, damping = 1 })
 
-			mutationFailFrame.Visible = true
+			-- Show MutationLoss frame under NewUI.Frames
+			local newMutationName = PlotUtil.MutationTierToName(props.mutationTier)
+			local prevMutationName = PlotUtil.MutationTierToName(props.mutationTier + 1)
+			local displayName = props.hatchableName or modelTemplate.Name
+
+			if mutationLossDescLabel then
+				mutationLossDescLabel.Text = `Your {displayName} downgraded from {prevMutationName or "?"} to {newMutationName or "?"}!`
+			end
+			if mutationLossQuestionLabel then
+				mutationLossQuestionLabel.Text = `Would you like to keep {prevMutationName or "?"} mutation?`
+			end
+
+			mutationLossFrame.Visible = true
+			revealTrove:Add(function()
+				mutationLossFrame.Visible = false
+			end)
 
 			revealTrove:Add(Network.Plots.KeepLostMutationSuccess.OnClientEvent:Connect(function(id)  
 				if id ~= failID then
@@ -280,11 +317,11 @@ function MutationReveal.revealAsync(modelTemplate: Model, props: Props)
 				end
 				finished = true
 			end))
-			revealTrove:Add(keepButton.Activated:Connect(function()
+			revealTrove:Add(mutationLossKeepButton.Activated:Connect(function()
 				Network.Plots.ClientMutateFail:FireServer(failID)
 			end))
 			
-			revealTrove:Add(closeButton.Activated:Connect(function()
+			revealTrove:Add(mutationLossLoseButton.Activated:Connect(function()
 				finished = true
 			end))
 		else
@@ -334,7 +371,7 @@ Network.Overlay.MutationReveal.OnClientEvent:Connect(function(hatchableName, mut
 end)
 
 Network.Plots.MutateFail.OnClientEvent:Connect(function(hatchableName, failID, mutationTier)
-	MutationReveal.queueRevealByName(hatchableName, { failID = failID, mutationTier = mutationTier })
+	MutationReveal.queueRevealByName(hatchableName, { failID = failID, mutationTier = mutationTier, hatchableName = hatchableName })
 end)
 
 return MutationReveal

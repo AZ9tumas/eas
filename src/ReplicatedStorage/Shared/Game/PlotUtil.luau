@@ -1254,56 +1254,99 @@ function PlotUtil.UpdateMutationInfoUI(mutationData: MutationInfo)
 	local playerGui = LocalPlayer.PlayerGui
 	if not playerGui then return end
 
-	local Tabs = playerGui:FindFirstChild("Tabs")
-	if not Tabs then return end
+	local newUI = playerGui:FindFirstChild("NewUI")
+	if not newUI then return end
 
-	local MutationInfo = Tabs:FindFirstChild("MutationInfo")
-	if not MutationInfo then return end
+	local Frames = newUI:FindFirstChild("Frames")
+	if not Frames then return end
 
-	local Container = MutationInfo:FindFirstChild("Container")
-	if not Container then return end
+	local MutationFrame = Frames:FindFirstChild("Mutation")
+	if not MutationFrame then return end
 
-	local SuccessChance: TextLabel = Container:FindFirstChild("SuccessChance")
-	local FailChance: TextLabel = Container:FindFirstChild("FailChance")
-	local MutationTime: TextLabel = Container:FindFirstChild("MutationTime")
-	if not SuccessChance or not FailChance or not MutationTime then return end
+	-- Find the two Desc labels: "Mutation Time:" label and the time value label
+	local MutationTimeLabel: TextLabel? = nil
+	local MutationTimeValue: TextLabel? = nil
+	for _, child in MutationFrame:GetChildren() do
+		if child:IsA("TextLabel") and child.Name == "Desc" then
+			if child.Position.Y.Scale < 0.75 then
+				MutationTimeLabel = child
+			else
+				MutationTimeValue = child
+			end
+		end
+	end
 
-	local FailItemFrame = Container:FindFirstChild("FailItem")
-	if not FailItemFrame then return end
+	local MutationResults = MutationFrame:FindFirstChild("MutationResults")
+	if not MutationResults then return end
 
-	local OriginalItemFrame = Container:FindFirstChild("OriginalItem")
-	if not OriginalItemFrame then return end
+	local UpgradeFrame = MutationResults:FindFirstChild("Upgrade")
+	if not UpgradeFrame then return end
 
-	local SuccessItemFrame = Container:FindFirstChild("SuccessItem")
-	if not SuccessItemFrame then return end
+	local DowngradeFrame = MutationResults:FindFirstChild("Downgrade")
+	if not DowngradeFrame then return end
 
-	local Buttons = Container:FindFirstChild("Buttons")
+	local UpgradeMain = UpgradeFrame:FindFirstChild("Main")
+	if not UpgradeMain then return end
+
+	local DowngradeMain = DowngradeFrame:FindFirstChild("Main")
+	if not DowngradeMain then return end
+
+	local MutationInput = MutationFrame:FindFirstChild("MutationInput")
+	if not MutationInput then return end
+
+	local InputFrame = MutationInput:FindFirstChild("Input")
+	if not InputFrame then return end
+
+	local InputMain = InputFrame:FindFirstChild("Main")
+	if not InputMain then return end
+
+	local Buttons = MutationFrame:FindFirstChild("Buttons")
 	if not Buttons then return end
 
-	local OkButton = Buttons:FindFirstChild("Ok")
-	if not OkButton then return end
+	local YesButton = Buttons:FindFirstChild("Yes")
+	if not YesButton then return end
 
-	OriginalItemFrame.NameLabel.Text = mutationData.CurrentMutationName
-	OriginalItemFrame.NameLabel.TextColor3 = MutationTextColors[mutationData.CurrentMutationName]
-	OriginalItemFrame.CPSLabel.Text = 
-		"$" .. formatCommaValue(mutationData.CurrentMutationCPS) .. "/s"
+	-- Update current mutation (Input card)
+	local InputTitle: TextLabel? = InputMain:FindFirstChild("Title")
+	if InputTitle then
+		InputTitle.Text = mutationData.CurrentMutationName
+		InputTitle.TextColor3 = MutationTextColors[mutationData.CurrentMutationName]
+	end
 
-	SuccessItemFrame.NameLabel.Text = mutationData.NextMutationName
-	SuccessItemFrame.NameLabel.TextColor3 = MutationTextColors[mutationData.NextMutationName]
-	SuccessItemFrame.CPSLabel.Text = 
-		"$" .. formatCommaValue(mutationData.NextMutationCPS) .. "/s"
+	-- Update success mutation (Upgrade card)
+	local UpgradeTitle: TextLabel? = UpgradeMain:FindFirstChild("Title")
+	if UpgradeTitle then
+		UpgradeTitle.Text = mutationData.NextMutationName
+		UpgradeTitle.TextColor3 = MutationTextColors[mutationData.NextMutationName]
+	end
 
-	FailItemFrame.NameLabel.Text = mutationData.FailureMutationName
-	FailItemFrame.NameLabel.TextColor3 = MutationTextColors[mutationData.FailureMutationName]
-	FailItemFrame.CPSLabel.Text = 
-		"$" .. formatCommaValue(mutationData.FailureMutationCPS) .. "/s"
+	local UpgradePercentage: TextLabel? = UpgradeMain:FindFirstChild("Percentage")
+	if UpgradePercentage then
+		UpgradePercentage.Text = mutationData.SuccessRate .. "%"
+	end
 
-	MutationTime.Text = `Mutation time: {TimeFormat.formatDuration(mutationData.MutationTime)}`
+	-- Update fail mutation (Downgrade card)
+	local DowngradeTitle: TextLabel? = DowngradeMain:FindFirstChild("Title")
+	if DowngradeTitle then
+		DowngradeTitle.Text = mutationData.FailureMutationName
+		DowngradeTitle.TextColor3 = MutationTextColors[mutationData.FailureMutationName]
+	end
 
-	SuccessChance.Text = mutationData.SuccessRate .. "%"
-	FailChance.Text = mutationData.FailureRate .. "%"
+	local DowngradePercentage: TextLabel? = DowngradeMain:FindFirstChild("Percentage")
+	if DowngradePercentage then
+		DowngradePercentage.Text = mutationData.FailureRate .. "%"
+	end
 
-	OkButton.Text = "$" .. formatCommaValue(mutationData.Cost)
+	-- Update mutation time
+	if MutationTimeValue then
+		MutationTimeValue.Text = TimeFormat.formatDuration(mutationData.MutationTime)
+	end
+
+	-- Update price on Yes button
+	local PriceLabel: TextLabel? = YesButton:FindFirstChild("Price")
+	if PriceLabel then
+		PriceLabel.Text = "$" .. formatCommaValue(mutationData.Cost)
+	end
 end
 
 function PlotUtil.GetMutationExtraInfo(labubu: Types.Labubu) : MutationInfo
@@ -1616,36 +1659,27 @@ function PlotUtil.initClientPlot(plot: Model)
 			local playerGui = LocalPlayer.PlayerGui
 			if not playerGui then return end
 
-			local Tabs = playerGui:FindFirstChild("Tabs")
-			if not Tabs then return end
+			local newUI = playerGui:FindFirstChild("NewUI")
+			if not newUI then return end
 
-			local MutationInfo = Tabs:FindFirstChild("MutationInfo")
-			if not MutationInfo then return end
+			local Frames = newUI:FindFirstChild("Frames")
+			if not Frames then return end
 
-			local Container = MutationInfo:FindFirstChild("Container")
-			if not Container then return end
+			local MutationFrame = Frames:FindFirstChild("Mutation")
+			if not MutationFrame then return end
 
-			local SuccessChance: TextLabel = Container:FindFirstChild("SuccessChance")
-			local FailChance: TextLabel = Container:FindFirstChild("FailChance")
-			local MutationTime: TextLabel = Container:FindFirstChild("MutationTime")
-			if not SuccessChance or not FailChance or not MutationTime then return end
-
-			local FailItemFrame = Container:FindFirstChild("FailItem")
-			if not FailItemFrame then return end
-
-			local OriginalItemFrame = Container:FindFirstChild("OriginalItem")
-			if not OriginalItemFrame then return end
-
-			local SuccessItemFrame = Container:FindFirstChild("SuccessItem")
-			if not SuccessItemFrame then return end
-
-			local Buttons = Container:FindFirstChild("Buttons")
+			local Buttons = MutationFrame:FindFirstChild("Buttons")
 			if not Buttons then return end
 
-			local OkButton = Buttons:FindFirstChild("Ok")
-			if not OkButton then return end
+			local YesButton = Buttons:FindFirstChild("Yes")
+			if not YesButton then return end
 
-			OkButton.Activated:Connect(function()
+			local NoButton = Buttons:FindFirstChild("No")
+
+			local Top = MutationFrame:FindFirstChild("Top")
+			local CloseButton = Top and Top:FindFirstChild("Main") and Top.Main:FindFirstChild("Close")
+
+			YesButton.Activated:Connect(function()
 				if not plot:GetAttribute("Initialized") then return end
 
 				if not ButtonRatelimit:Try() then return end
@@ -1655,6 +1689,18 @@ function PlotUtil.initClientPlot(plot: Model)
 
 				InterfaceTabUtil.closeAllTabs(true)
 			end)
+
+			if NoButton then
+				NoButton.Activated:Connect(function()
+					InterfaceTabUtil.closeAllTabs(true)
+				end)
+			end
+
+			if CloseButton then
+				CloseButton.Activated:Connect(function()
+					InterfaceTabUtil.closeAllTabs(true)
+				end)
+			end
 		end
 
 		InitMutationInfo()
