@@ -2980,7 +2980,7 @@ function DataPlots.InitAllPlots()
 		if not eggPillarInfo then return end
 
 		if eggPillarInfo.Premium then
-			local Product = Products[`Instant {eggPillarInfo.Rarity} Egg`]
+			local Product = Products[`Instant {eggPillarInfo.Rarity} Block`]
 			if Product then
 				Network.Purchases.promptProduct:FireClient(player, Product, true)
 
