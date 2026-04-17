@@ -37,7 +37,7 @@ function DataCash.getCashMultiplier(player)
 	totalMultiplier += profileData.Gamepasses["VIP Status"] and 0.5 or 0
 	totalMultiplier += player:GetAttribute("x2Cash") and 2 or 0
 
-	-- Index Reader: permanent 2x income multiplier (applied multiplicatively)
+	-- Index Reader: permanent 2x income multiplier (multiplies the total of all additive bonuses)
 	if profileData.Gamepasses["Index Reader"] then
 		totalMultiplier *= GlobalSettings.IndexReaderMultiplier
 	end
