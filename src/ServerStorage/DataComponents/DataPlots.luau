@@ -865,9 +865,7 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 							while task.wait(1) do
 								--profileSlotData.Cash += GetMutationExtraInfo.CurrentMutationCPS
 								profileSlotData.Cash += PlotUtil.CalculateCPS(LabubuPlacement, 
-									profileData.CashMulti * 
-										(profileData.Gamepasses["Index Reader"] and 
-											GlobalSettings.IndexReaderMultiplier or 1)
+									profileData.CashMulti
 								)
 
 								UpdateCashUI()
@@ -2982,7 +2980,7 @@ function DataPlots.InitAllPlots()
 		if not eggPillarInfo then return end
 
 		if eggPillarInfo.Premium then
-			local Product = Products[`Instant {eggPillarInfo.Rarity} Egg`]
+			local Product = Products[`Instant {eggPillarInfo.Rarity} Block`]
 			if Product then
 				Network.Purchases.promptProduct:FireClient(player, Product, true)
 
