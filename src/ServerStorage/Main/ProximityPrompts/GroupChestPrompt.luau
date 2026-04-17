@@ -8,7 +8,7 @@ local groupId = 784444031
 local GroupChestPrompt = {}
 
 function GroupChestPrompt.promptTriggered(prompt: ProximityPrompt, player: Player)
-    if not player:IsInGroup(groupId) then
+    if not player:IsInGroupAsync(groupId) then
         return
     end
     DataGroupRewards.claimGroupReward(player)
