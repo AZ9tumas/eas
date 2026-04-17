@@ -3,6 +3,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local DataHandler = require(ServerStorage.DataHandler)
 local Network = require(ReplicatedStorage.Network)
+local GlobalSettings = require(ReplicatedStorage.GlobalSettings)
 --local Leaderstats = require(ServerStorage.Leaderstats)
 
 
@@ -35,6 +36,11 @@ function DataCash.getCashMultiplier(player)
 	
 	totalMultiplier += profileData.Gamepasses["VIP Status"] and 0.5 or 0
 	totalMultiplier += player:GetAttribute("x2Cash") and 2 or 0
+
+	-- Index Reader: permanent 2x income multiplier (applied multiplicatively)
+	if profileData.Gamepasses["Index Reader"] then
+		totalMultiplier *= GlobalSettings.IndexReaderMultiplier
+	end
 
 	-- Future examples:
 	-- if player:GetAttribute("VIP") then

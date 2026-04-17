@@ -12,7 +12,7 @@ A thorough code audit of all 8 gamepasses — definitions, purchase handlers, ga
 | 2 | VIP Status | `1674447450` | ✅ Working | — |
 | 3 | Unbreakable Button | `1673944119` | ✅ Working | — |
 | 4 | Auto-Collect | `1674209886` | ⚠️ Minor concern | Low |
-| 5 | Index Reader | `1683271610` | ✅ Working | — |
+| 5 | Index Reader | `1683271610` | 🔴 **BUG** — Multiplier only applied to CPS, not all cash income | High |
 | 6 | Triple Hatch | `1674161903` | ⚠️ Partially disabled | Medium |
 | 7 | Lucky Clover | `1674560397` | ✅ Working | — |
 | 8 | Magic Shield (Perm) | `1674301793` | 🔴 **BUG** — Server-side protection disabled | High |
@@ -94,25 +94,35 @@ end
 
 ---
 
-### 5. ✅ Index Reader (`1683271610`)
+### 5. 🔴 Index Reader (`1683271610`) — **FIXED**
 
-**Expected behavior:** Permanent income/CPS multiplier.
+**Expected behavior:** Permanent 2× income multiplier on ALL cash collection.
 
-**Current behavior:** Working correctly.
+**Previous behavior:** The 2× multiplier was ONLY applied to the real-time CPS accumulation loop in `DataPlots.luau`. It was NOT applied to:
+- **Offline earnings** — cash accumulated while the player was offline
+- **Any other `giveCash` path** — selling Labubus, spin rewards, etc.
+- **`getCashMultiplier`** — the centralized multiplier function used by `DataCash.giveCash()` did not include Index Reader
 
-**How it works:** In `DataPlots` (lines 869–870), the CPS calculation multiplies by `GlobalSettings.IndexReaderMultiplier` (set to `2` in `GlobalSettings.luau`) when the player owns this gamepass.
+**Root cause:** The Index Reader check was embedded directly in the CPS accumulation loop instead of in the centralized `getCashMultiplier()` function. This meant it only worked for one cash source (online CPS) and was missed for all others.
 
+**Fix applied:**
+1. **Added** the Index Reader to `DataCash.getCashMultiplier()` as a multiplicative ×2 bonus (applied after all additive bonuses)
+2. **Removed** the redundant Index Reader check from the CPS accumulation loop in `DataPlots.luau`
+
+Now the 2× multiplier is applied consistently to ALL cash income through `giveCash()`, including CPS collection, offline cash, selling, and any other source.
+
+**`DataCash.getCashMultiplier` (after fix):**
 ```lua
-profileSlotData.Cash += PlotUtil.CalculateCPS(LabubuPlacement,
-    profileData.CashMulti *
-        (profileData.Gamepasses["Index Reader"] and
-            GlobalSettings.IndexReaderMultiplier or 1)
-)
+totalMultiplier += profileData.Gamepasses["VIP Status"] and 0.5 or 0
+totalMultiplier += player:GetAttribute("x2Cash") and 2 or 0
+
+-- Index Reader: permanent 2x income multiplier (applied multiplicatively)
+if profileData.Gamepasses["Index Reader"] then
+    totalMultiplier *= GlobalSettings.IndexReaderMultiplier
+end
 ```
 
-**Purchase handler:** Empty function (correct — checked during CPS calculation).
-
-**No issues found.**
+**Purchase handler:** Empty function (correct — multiplier is checked in `getCashMultiplier`).
 
 ---
 
@@ -247,6 +257,7 @@ end
 |----------|---------|-------|-----|
 | 🔴 High | **Starter Pack** | Missing 100k cash reward on purchase | Add `DataCash.giveCash(player, 100000, true)` in the purchase handler |
 | 🔴 High | **Magic Shield** | Server-side steal protection is commented out — exploitable | Uncomment the server-side check in `DataPlots.HandleStealing()` using `TargetBaseOwner:GetAttribute("MagicShield")` |
+| ✅ Fixed | **Index Reader** | 2× multiplier only applied to CPS accumulation, not offline cash or other income sources | Moved to `getCashMultiplier()` as multiplicative bonus — now applies to ALL `giveCash` paths |
 | ✅ Fixed | **Group Chest Prompt** | Proximity prompt handler was commented out — group reward unreachable via prompt | Enabled with group ID `784444031` |
 | ⚠️ Low | **Triple Hatch** | Warning emojis in handler suggest unresolved concern; code logic is correct | Clean up comments and remove ⚠️ warning |
 | ℹ️ Info | **Auto-Collect** | 60s collection interval; first collection delayed | Consider reducing interval or adding immediate first collection |
