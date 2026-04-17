@@ -95,16 +95,16 @@ local Steps = {
 			return
 		end
 
-		TutorialText.Text = "Mutate the Labubu"
+		TutorialText.Text = "Mutate the Brainrot"
 
-		local function FindASlotLabubu()
+		local function FindASlotBrainrot()
 			local Plot = ClientData.Plot()
 			local Slots = Plot:WaitForChild("Floor1")
 				:WaitForChild("Slots")
 			local Placements = Slots:WaitForChild("Placements")
 
 			for _, Placement in Placements:GetChildren() do
-				if Placement:GetAttribute("Type") == "Labubu" and 
+				if Placement:GetAttribute("Type") == "Brainrot" and 
 					not Placement:GetAttribute("IsMutating")
 				then
 					local ParentIndex = Placement:GetAttribute("ParentIndex")
@@ -119,7 +119,7 @@ local Steps = {
 			end
 		end
 
-		local ClosestTarget = FindASlotLabubu()
+		local ClosestTarget = FindASlotBrainrot()
 		if ClosestTarget then
 			SetupTutorialBeam(hrp, ClosestTarget)
 

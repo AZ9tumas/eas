@@ -148,7 +148,7 @@ function Rebirth.init()
 
 					-- Check if hatchable requirement is met
 					local requiredAmount = hatchable.RequiredAmount or 1
-					local _, count = PlotUtil.LabubuPlacementFilterBy(allPlacements, hatchable.Rarity, hatchable.Mutation)
+					local _, count = PlotUtil.BrainrotPlacementFilterBy(allPlacements, hatchable.Rarity, hatchable.Mutation)
 					local claimed = count >= requiredAmount
 
 					local claimedFrame = item:FindFirstChild("Claimed")

@@ -151,7 +151,7 @@ Types.Badges = {} :: Badges
 export type RedeemedCodes = StringList
 Types.RedeemedCodes = {} :: RedeemedCodes
 
-export type Labubu = {
+export type Brainrot = {
 	Id: number,
 	Name: string?,
 	Type: string?,
@@ -182,7 +182,7 @@ export type Labubu = {
 	LastCollectedAt: number,
 }
 
-Types.Labubu = {} :: Labubu
+Types.Brainrot = {} :: Brainrot
 
 export type PlotSpinInfo = { 
 	CanSpin: boolean, 
@@ -199,7 +199,7 @@ export type PlotRollsInfo = {
 }
 
 export type Slot = {
-	Placement: (Labubu | Egg)?,
+	Placement: (Brainrot | Egg)?,
 	Cash: number?,
 	OfflineCash: number?,
 	LastOfflineCashCollected: number?,
@@ -291,7 +291,7 @@ export type Egg = {
 	--PityRequired: number?, -- pulls required
 
 	-- Weighted rewards
-	--LabubuPool: {
+	--BrainrotPool: {
 	--	[speciesName: string]: {
 	--		Weight: number,
 	--		BaseMutationTier: number,
@@ -318,12 +318,12 @@ export type Egg = {
 
 export type Backpack = {
 	Eggs: { Egg },
-	Labubus: { Labubu }
+	Brainrots: { Brainrot }
 }
 
 Types.Backpack = {
 	Eggs = {},
-	Labubus = {}
+	Brainrots = {}
 } :: Backpack
 
 export type EggData = {

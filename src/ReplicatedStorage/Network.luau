@@ -75,10 +75,10 @@ return {
 		Mutate = RemoteEvent("Mutate") :: RemoteEvent<string, number, number>,
 		RevealMutation = RemoteEvent("RevealMutation") :: RemoteEvent<string, number, number>,
 		SkipMutation = RemoteEvent("SkipMutation") :: RemoteEvent<string, number, number>,
-		TakeLabubu = RemoteEvent("TakeLabubu") :: RemoteEvent<string, number, number>,
+		TakeBrainrot = RemoteEvent("TakeBrainrot") :: RemoteEvent<string, number, number>,
 		
 		Rebirth = RemoteEvent("Rebirth") :: RemoteEvent<number>,
-		StealLabubu = RemoteEvent("StealLabubu") :: RemoteEvent<Model, number, string, number, number>,
+		StealBrainrot = RemoteEvent("StealBrainrot") :: RemoteEvent<Model, number, string, number, number>,
 		
 		KeepLostMutationSuccess = RemoteEvent("KeepLostMutationSuccess") :: RemoteEvent<string>,
 		MutateFail = RemoteEvent("MutateFail") :: RemoteEvent<string, string, number>,
@@ -86,7 +86,7 @@ return {
 	},
 	
 	Seller = {
-		SellLabubus = _RemoteFunction("SellLabubus") :: RemoteFunction<(), (boolean)>,
+		SellBrainrots = _RemoteFunction("SellBrainrots") :: RemoteFunction<(), (boolean)>,
 		SellEggs = _RemoteFunction("SellEggs") :: RemoteFunction<(), (boolean)>,
 		CheckValue = _RemoteFunction("CheckValue") :: RemoteFunction<(string), (boolean)>,
 		SellHandItem = _RemoteFunction("SellHandItem") :: RemoteFunction<(string), (boolean)>,

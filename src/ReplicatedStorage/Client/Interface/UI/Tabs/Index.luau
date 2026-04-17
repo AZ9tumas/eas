@@ -19,10 +19,10 @@ local CachedIndexData = {} :: IndexType
 --[[
 	["Index"] =  ▼  {
 		[1] =  ▼  { -- the [1] = MutationTier, 1 here means Mutation Tier: 1
-			["Blue Diamond Labubu"] = true, -- this = Hatchable = Labubu Name
-			["Normal Labubu"] = true,
-			["Shark Labubu"] = true,
-			["Time To Chill Labubu"] = true
+			["Blue Diamond Brainrot"] = true, -- this = Hatchable = Brainrot Name
+			["Normal Brainrot"] = true,
+			["Shark Brainrot"] = true,
+			["Time To Chill Brainrot"] = true
 		},
 		[2] =  and so on... ▶ {...}
 	},
@@ -32,7 +32,7 @@ local PlotUtil = require(ReplicatedStorage.Shared.Game.PlotUtil)
 
 local MutationTextColors = require(ReplicatedStorage.Data.TextColors.Mutation)
 local RarityTextColors = require(ReplicatedStorage.Data.TextColors.Rarity)
-local LabubuData = require(ReplicatedStorage.Data.Labubus)
+local BrainrotData = require(ReplicatedStorage.Data.Brainrots)
 local Rarity = require(ReplicatedStorage.Data.Rarity)
 local InterfaceTabUtil = require(ReplicatedStorage.Client.Interface.Utility.InterfaceTabUtil)
 
@@ -159,8 +159,8 @@ local function updateGrid(filter)
 
 				local unlocked = CachedIndexData[mutationTier] and 
 					CachedIndexData[mutationTier][hatchable.Name]
-				local rarity = LabubuData[hatchable.Name] and 
-					LabubuData[hatchable.Name].Rarity or "Common" -- Common to Basic
+				local rarity = BrainrotData[hatchable.Name] and 
+					BrainrotData[hatchable.Name].Rarity or "Common" -- Common to Basic
 
 				createCard(hatchable.Name, unlocked, mutationName, rarity)
 

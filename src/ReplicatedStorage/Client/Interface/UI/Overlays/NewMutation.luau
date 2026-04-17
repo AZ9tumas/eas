@@ -22,7 +22,7 @@ local container = mainGui.Container
 local nameLabel = container.NameText
 local newLabel = container.NewText
 local mutationTierLabel = container.MutationTierLabel
-local labubuIcon = container.Character
+local brainrotIcon = container.Character
 local glowLight = container.GlowLight
 
 
@@ -53,7 +53,7 @@ local motionRecords = {
     nameLabel = createMotionRecord(nameLabel),
     newLabel = createMotionRecord(newLabel),
     mutationTierLabel = createMotionRecord(mutationTierLabel),
-    labubuIcon = createMotionRecord(labubuIcon),
+    brainrotIcon = createMotionRecord(brainrotIcon),
     glowLight = createMotionRecord(glowLight),
 }
 local function doSomethingWithMotionRecords(callback: (MotionRecord) -> ())
@@ -173,7 +173,7 @@ function NewMutation.revealAsync(model: Model, mutationTier: number)
         motionRecord.transparency:spring(0, transparencyConfig)
     end))
     revealTrove:Add(task.delay(createDelay(0), function()
-        local motionRecord = motionRecords.labubuIcon
+        local motionRecord = motionRecords.brainrotIcon
         motionRecord.transparency:spring(0, transparencyConfig)
         motionRecord.size:set(0.9)
         motionRecord.size:spring(1, sizeConfig)
@@ -235,9 +235,9 @@ end
 
 -- testing
 -- task.delay(1, function()
---     NewMutation.queueMutation(ReplicatedStorage.Assets.Hatchables["Artist Labubu"], 2)
---     NewMutation.queueMutation(ReplicatedStorage.Assets.Hatchables["Artist Labubu"], 3)
---     NewMutation.queueMutation(ReplicatedStorage.Assets.Hatchables["Artist Labubu"], 4)
+--     NewMutation.queueMutation(ReplicatedStorage.Assets.Hatchables["Artist Brainrot"], 2)
+--     NewMutation.queueMutation(ReplicatedStorage.Assets.Hatchables["Artist Brainrot"], 3)
+--     NewMutation.queueMutation(ReplicatedStorage.Assets.Hatchables["Artist Brainrot"], 4)
 -- end)
 
 return NewMutation

@@ -8,7 +8,7 @@ local module = {
 	
 	-- Backpack
 	BackpackEggsLimit = 15,
-	BackpackHatchablesLimit = 15, -- labubu
+	BackpackHatchablesLimit = 15, -- brainrot
 	
 	-- Durations
 	x2CashDuration = 15 * 60,

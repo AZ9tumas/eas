@@ -28,7 +28,7 @@ observers.observeTag("EggModel", function(eggModel: Model)
 	local distanceFromCamera = (originCFrame.Position - currentCamera.CFrame.Position).Magnitude
 	if not hasPillarParent and distanceFromCamera < EFFECT_CULL_DISTANCE then
 		emitParticlesAtCFrame(effectsFolder.SpawnEgg, eggModelCFrame + Vector3.new(0, 2.5, 0))
-		
+
 		local startOffset = Vector3.new(0, 2.5, 0)
 		local goalOffset = Vector3.zero
 		eggModel:PivotTo(originCFrame + startOffset)

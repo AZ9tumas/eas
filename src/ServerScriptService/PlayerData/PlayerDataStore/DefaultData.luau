@@ -28,7 +28,7 @@ return {
 	EggLuck = 1,
 	
 	HasCompletedTutorial = false,
-	HasBeenRewardedBeginnerLabubu = false,
+	HasBeenRewardedBeginnerBrainrot = false,
 	
 	TutorialStep = 1,
 	EggsReceived = 0,

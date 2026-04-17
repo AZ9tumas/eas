@@ -24,7 +24,7 @@ local NotifySuccess = Network.Notifications.Success
 
 local DataBackpack = {
 	Eggs = {},
-	Labubus = {},
+	Brainrots = {},
 }
 
 
@@ -70,64 +70,64 @@ function DataBackpack.getBackpackEggs(player: Player): { Types.Egg }?
 	return profileData.Backpack.Eggs
 end
 
-function DataBackpack.getBackpackLabubus(player: Player): { Types.Labubu }?
+function DataBackpack.getBackpackBrainrots(player: Player): { Types.Brainrot }?
 	local profileData = DataHandler.getProfileData(player)
 	if profileData == nil then
 		return nil
 	end
-	return profileData.Backpack.Labubus
+	return profileData.Backpack.Brainrots
 end
 
 
--- Labubus Methods
+-- Brainrots Methods
 
-function DataBackpack.Labubus.getLength(player: Player): number?
+function DataBackpack.Brainrots.getLength(player: Player): number?
 	local profileData = DataHandler.getProfileData(player)
 	if not profileData then
 		return nil
 	end
 
-	local labubus = profileData.Backpack.Labubus
-	if not labubus then
+	local brainrots = profileData.Backpack.Brainrots
+	if not brainrots then
 		return 0
 	end
 
-	return #labubus
+	return #brainrots
 end
 
-function DataBackpack.Labubus.getById(player: Player, id: number): Types.Labubu?
+function DataBackpack.Brainrots.getById(player: Player, id: number): Types.Brainrot?
 	local profileData = DataHandler.getProfileData(player)
 	if not profileData then
 		return nil
 	end
 
-	for _, labubu in profileData.Backpack.Labubus do
-		if labubu.Id == id then
-			return labubu
+	for _, brainrot in profileData.Backpack.Brainrots do
+		if brainrot.Id == id then
+			return brainrot
 		end
 	end
 
 	return nil
 end
 
-function DataBackpack.Labubus.getByName(player: Player, name: string): Types.Labubu?
+function DataBackpack.Brainrots.getByName(player: Player, name: string): Types.Brainrot?
 	local profileData = DataHandler.getProfileData(player)
 	if not profileData then
 		return nil
 	end
 
-	for _, labubu in profileData.Backpack.Labubus do
-		if labubu.Name == name then
-			return labubu
+	for _, brainrot in profileData.Backpack.Brainrots do
+		if brainrot.Name == name then
+			return brainrot
 		end
 	end
 
 	return nil
 end
 
-function DataBackpack.Labubus.add(
+function DataBackpack.Brainrots.add(
 	player: Player,
-	labubu: Types.Labubu,
+	brainrot: Types.Brainrot,
 	DONTupdateClient: boolean?
 )
 	local profileData, clientData = DataHandler.getProfileData(player)
@@ -135,7 +135,7 @@ function DataBackpack.Labubus.add(
 		return nil
 	end
 
-	table.insert(profileData.Backpack.Labubus, labubu)
+	table.insert(profileData.Backpack.Brainrots, brainrot)
 
 	if clientData and not DONTupdateClient then
 		clientData.Backpack(deepCopy(profileData.Backpack))
@@ -144,7 +144,7 @@ function DataBackpack.Labubus.add(
 	return true
 end
 
-function DataBackpack.Labubus.removeById(
+function DataBackpack.Brainrots.removeById(
 	player: Player,
 	id: number,
 	DONTupdateClient: boolean?
@@ -154,9 +154,9 @@ function DataBackpack.Labubus.removeById(
 		return nil
 	end
 
-	for i = #profileData.Backpack.Labubus, 1, -1 do
-		if profileData.Backpack.Labubus[i].Id == id then
-			table.remove(profileData.Backpack.Labubus, i)
+	for i = #profileData.Backpack.Brainrots, 1, -1 do
+		if profileData.Backpack.Brainrots[i].Id == id then
+			table.remove(profileData.Backpack.Brainrots, i)
 
 			if clientData and not DONTupdateClient then
 				destroyToolById(player, id)
@@ -170,67 +170,67 @@ function DataBackpack.Labubus.removeById(
 	return false
 end
 
-function DataBackpack.Labubus.EquipAll(player: Player)
+function DataBackpack.Brainrots.EquipAll(player: Player)
 	local profileData, clientData = DataHandler.getProfileData(player)
 	if profileData == nil or clientData == nil then return end
 
-	for _, labubu in profileData.Backpack.Labubus do
-		local LabubuTool: Tool = PlotUtil.getHatchableTool(labubu.Name)
-		if LabubuTool == nil then continue end
+	for _, brainrot in profileData.Backpack.Brainrots do
+		local BrainrotTool: Tool = PlotUtil.getHatchableTool(brainrot.Name)
+		if BrainrotTool == nil then continue end
 
-		local MutationName = PlotUtil.MutationTierToName(labubu.MutationTier)
+		local MutationName = PlotUtil.MutationTierToName(brainrot.MutationTier)
 		if MutationName == nil then continue end
 
-		local LabubuToolClone = LabubuTool:Clone()
-		PlotUtil.setHatchableInfoUI(LabubuToolClone, MutationName,
-			labubu.IsMutating, labubu
+		local BrainrotToolClone = BrainrotTool:Clone()
+		PlotUtil.setHatchableInfoUI(BrainrotToolClone, MutationName,
+			brainrot.IsMutating, brainrot
 		)
 
-		for name, value in labubu do
-			LabubuToolClone:SetAttribute(name, value)
+		for name, value in brainrot do
+			BrainrotToolClone:SetAttribute(name, value)
 		end
-		LabubuToolClone:SetAttribute("Placeable", true)
+		BrainrotToolClone:SetAttribute("Placeable", true)
 
-		LabubuToolClone.Parent = player.Backpack
+		BrainrotToolClone.Parent = player.Backpack
 	end
 end
 
-function DataBackpack.Labubus.addToBackpackByInstance(
-	player: Player, Labubu: Model | Tool, equipToolToCharacter: boolean?, DONTupdateClient: boolean?)
+function DataBackpack.Brainrots.addToBackpackByInstance(
+	player: Player, Brainrot: Model | Tool, equipToolToCharacter: boolean?, DONTupdateClient: boolean?)
 	local profileData, clientData = DataHandler.getProfileData(player)
 	if profileData == nil then
 		return nil
 	end
 
-	local LabubuInfo = Labubu:GetAttributes()
-	if LabubuInfo == nil then return end
+	local BrainrotInfo = Brainrot:GetAttributes()
+	if BrainrotInfo == nil then return end
 
-	LabubuInfo.ParentIndex = nil
+	BrainrotInfo.ParentIndex = nil
 
-	table.insert(profileData.Backpack.Labubus, LabubuInfo)
+	table.insert(profileData.Backpack.Brainrots, BrainrotInfo)
 
 	if clientData then
 		if not DONTupdateClient then
-			Labubu:SetAttribute("Placeable", true)
+			Brainrot:SetAttribute("Placeable", true)
 
-			PlotUtil.addMutationEffect(Labubu, LabubuInfo.MutationTier)
+			PlotUtil.addMutationEffect(Brainrot, BrainrotInfo.MutationTier)
 
-			local MutationName = PlotUtil.MutationTierToName(LabubuInfo.MutationTier)
-			PlotUtil.setHatchableInfoUI(Labubu, MutationName, LabubuInfo.IsMutating, LabubuInfo)
+			local MutationName = PlotUtil.MutationTierToName(BrainrotInfo.MutationTier)
+			PlotUtil.setHatchableInfoUI(Brainrot, MutationName, BrainrotInfo.IsMutating, BrainrotInfo)
 
 			local PlayerBackpack = player:FindFirstChild("Backpack")
 			if PlayerBackpack then
 				if not equipToolToCharacter then
-					Labubu.Parent = PlayerBackpack
+					Brainrot.Parent = PlayerBackpack
 				else
 					local character = player.Character
 					local Humanoid: Humanoid = character and character:FindFirstChild("Humanoid")
 
 					if Humanoid then
 						Humanoid:UnequipTools()
-						Labubu.Parent = character 
+						Brainrot.Parent = character 
 					else
-						Labubu.Parent = PlayerBackpack
+						Brainrot.Parent = PlayerBackpack
 					end
 				end
 			end
@@ -241,27 +241,27 @@ function DataBackpack.Labubus.addToBackpackByInstance(
 	return true
 end
 
-function DataBackpack.Labubus.ResetAll(player: Player)
+function DataBackpack.Brainrots.ResetAll(player: Player)
 	local profileData, clientData = DataHandler.getProfileData(player)
 	if not profileData then
 		return
 	end
 
-	profileData.Backpack.Labubus = {}
+	profileData.Backpack.Brainrots = {}
 
 	local playerBack = player:FindFirstChild("Backpack")
 	if playerBack then
 		local character = player.Character
 		if character then
 			for _, tool in character:GetChildren() do
-				if tool:IsA("Tool") and tool:GetAttribute("Type") == "Labubu" then
+				if tool:IsA("Tool") and tool:GetAttribute("Type") == "Brainrot" then
 					tool:Destroy()
 				end
 			end
 		end
 
 		for _, tool in playerBack:GetChildren() do
-			if tool:IsA("Tool") and tool:GetAttribute("Type") == "Labubu" then
+			if tool:IsA("Tool") and tool:GetAttribute("Type") == "Brainrot" then
 				tool:Destroy()
 			end
 		end

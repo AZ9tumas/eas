@@ -70,10 +70,30 @@ local function attachVFX(luckyBlock: Model)
 	vfxClone:Destroy()
 end
 
+function weldModelToPrimaryPart(model: Model)
+	local primaryPart = model.PrimaryPart or model:FindFirstChild("EggPart")
+	if not primaryPart then return end
+
+	primaryPart.Anchored = true
+	for _, desc in pairs(model:GetDescendants()) do
+		if desc:IsA("BasePart") and desc ~= primaryPart then
+			desc.Anchored = false
+			local weld = Instance.new("WeldConstraint")
+			weld.Part0 = primaryPart
+			weld.Part1 = desc
+			weld.Parent = desc
+		end
+	end
+end
+
 -- Attach VFX to each lucky block
 attachVFX(Egg1)
 attachVFX(Egg2)
 attachVFX(Egg3)
+
+weldModelToPrimaryPart(Egg1)
+weldModelToPrimaryPart(Egg2)
+weldModelToPrimaryPart(Egg3)
 
 -- PREP PANELS
 for _, panel in ipairs(Panels) do

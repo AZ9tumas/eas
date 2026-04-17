@@ -78,7 +78,7 @@ for _, model in ipairs(conveyorsFolder:GetChildren()) do
 	if not model:IsA("Model") then continue end
 
 	local under     : BasePart? = model:FindFirstChild("ConveyorUnder") :: BasePart?
-    local visual    : BasePart? = model:FindFirstChild("ConveyorVisual") :: BasePart?
+	local visual    : BasePart? = model:FindFirstChild("ConveyorVisual") :: BasePart?
 	local startPart : BasePart? = model:FindFirstChild("Start")         :: BasePart?
 	local endPart   : BasePart? = model:FindFirstChild("End")           :: BasePart?
 
@@ -86,7 +86,7 @@ for _, model in ipairs(conveyorsFolder:GetChildren()) do
 		warn(string.format(
 			"[Conveyors] '%s' is missing Start, End, or ConveyorUnder — skipping.",
 			model.Name
-		))
+			))
 		continue
 	end
 
@@ -99,7 +99,7 @@ for _, model in ipairs(conveyorsFolder:GetChildren()) do
 	table.insert(conveyors, {
 		name      = model.Name,
 		part      = under,
-        visual    = visual,
+		visual    = visual,
 		direction = flatDir,
 		speed     = speed,
 	} :: ConveyorData)

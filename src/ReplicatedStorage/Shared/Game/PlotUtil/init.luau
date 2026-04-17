@@ -10,7 +10,7 @@ local Data = ReplicatedStorage.Data
 local DataEggs = Data.Eggs
 local Eggs = ReplicatedStorage.Assets.Eggs
 local EggTools = ReplicatedStorage.Assets.EggTools
-local LabubuTools = ReplicatedStorage.Assets.LabubuTools
+local BrainrotTools = ReplicatedStorage.Assets.BrainrotTools
 
 local Trove = require(ReplicatedStorage.Shared.Classes.Trove)
 local Products = require(ReplicatedStorage.Shared.Info.Products)
@@ -36,7 +36,7 @@ local generateGUID = require(ReplicatedStorage.Shared.Utility.String.generateGUI
 local copyAttributesFromTable = require(ReplicatedStorage.Shared.Utility.Roblox.copyAttributesFromTable)
 local InterfaceTabUtil = isClient and
 	require(ReplicatedStorage.Client.Interface.Utility.InterfaceTabUtil) or nil
-local LabubusData = require(ReplicatedStorage.Data.Labubus)
+local BrainrotsData = require(ReplicatedStorage.Data.Brainrots)
 local HatchableAssets = ReplicatedStorage.Assets.Hatchables
 local mergeTables = require(ReplicatedStorage.Shared.Utility.Table.mergeTables)
 local Events = require(ReplicatedStorage.Data.Events)
@@ -111,7 +111,7 @@ local ClientInitialized = false
 local CurrentlyInitializingPlotClient = false
 local CachedClientPlotData: Types.PlotData = nil :: Types.PlotData
 
-export type LabubuType = {
+export type BrainrotType = {
 	DisplayName: string,
 	Rarity: string,
 	CPS: number,
@@ -186,79 +186,79 @@ function PlotUtil.getRollsLeft(RollsAmount: number, pityValue: number)
 	return pityValue - remainder, false
 end
 
-function PlotUtil.getLabubuData(labubuName: string) : LabubuType
-	return LabubusData[labubuName]
+function PlotUtil.getBrainrotData(brainrotName: string) : BrainrotType
+	return BrainrotsData[brainrotName]
 end
 
-function PlotUtil.getLabubusWithRarity(rarity: string) : { [string]: LabubuType }?
-	local Labubus: { [string]: LabubuType } = {}
+function PlotUtil.getBrainrotsWithRarity(rarity: string) : { [string]: BrainrotType }?
+	local Brainrots: { [string]: BrainrotType } = {}
 
-	for name, tbl: LabubuType in LabubusData do
+	for name, tbl: BrainrotType in BrainrotsData do
 		if tbl.Rarity == rarity then -- Common to Basic
 			if HatchableAssets:FindFirstChild(name) then
-				Labubus[name] = tbl
+				Brainrots[name] = tbl
 			else
 				warn("NOT FOUND:", name)
 			end
 		end
 	end
 
-	return Labubus
+	return Brainrots
 end
 
-function PlotUtil.CreateLabubuTemplateFromEggData(
-	name: string, defaultLabubuData: LabubuType, labubuData: Types.Labubu?, 
+function PlotUtil.CreateBrainrotTemplateFromEggData(
+	name: string, defaultBrainrotData: BrainrotType, brainrotData: Types.Brainrot?, 
 	eggRarity: string?, eggName: string?	
 )
-	: Types.Labubu?
+	: Types.Brainrot?
 	local currentTime = getUTCtime()
 
 	local eggRarity: string? = eggRarity
 	local eggNameSplit: string? = eggName:split(" ")[1]
 
-	local MutationTier = labubuData.MutationTier or 1
+	local MutationTier = brainrotData.MutationTier or 1
 	local MutationName = PlotUtil.MutationTierToName(MutationTier)
 	local MutationTierInfo = PlotUtil.getMutationInfo(MutationName)
 
-	local traits = labubuData.Traits or Types.Traits
+	local traits = brainrotData.Traits or Types.Traits
 
 	local Template = {
-		Id = labubuData.Id or generateGUID(),
-		Name = labubuData.Name or name,
-		Type = "Labubu",
+		Id = brainrotData.Id or generateGUID(),
+		Name = brainrotData.Name or name,
+		Type = "Brainrot",
 
 		-- Origin / Rarity
-		Source = labubuData.Source or "Normal",
-		EggRarity = labubuData.EggRarity or eggRarity or "Common", -- Common to Basic
-		EggType = labubuData.EggType or eggNameSplit,
+		Source = brainrotData.Source or "Normal",
+		EggRarity = brainrotData.EggRarity or eggRarity or "Common", -- Common to Basic
+		EggType = brainrotData.EggType or eggNameSplit,
 
 		-- Progression
 		MutationTier = MutationTier, -- current tier (1–11)
-		MaxMutationTier = labubuData.MaxMutationTier or nil, -- usually 11
-		BaseCPS = labubuData.BaseCPS or defaultLabubuData.CPS, -- CPS before multipliers
+		MaxMutationTier = brainrotData.MaxMutationTier or nil, -- usually 11
+		BaseCPS = brainrotData.BaseCPS or defaultBrainrotData.CPS, -- CPS before multipliers
 
 		-- Mutation State
-		IsMutating = labubuData.IsMutating or false,
-		MutationTime = labubuData.MutationTime or (MutationTierInfo and MutationTierInfo.MutationTime),
+		IsMutating = brainrotData.IsMutating or false,
+		MutationTime = brainrotData.MutationTime or (MutationTierInfo and MutationTierInfo.MutationTime),
 
 		-- Final Calculated Output
-		--CPS = labubuData.CPS or defaultLabubuData.CPS,  -- BaseCPS × mutation × traits × rebirth
-		CPS = labubuData.CPS or PlotUtil.CalculateCPSbyName(name, MutationName, nil, traits),  
+		--CPS = brainrotData.CPS or defaultBrainrotData.CPS,  -- BaseCPS × mutation × traits × rebirth
+		CPS = brainrotData.CPS or PlotUtil.CalculateCPSbyName(name, MutationName, nil, traits),  
 		-- BaseCPS × mutation × traits × rebirth
 
 		-- Collection & Rules
-		IsStealable = labubuData.IsStealable or true,       -- false if mutating / exclusive / event
+		IsStealable = brainrotData.IsStealable or true,       -- false if mutating / exclusive / event
 		Traits = traits,
 
 		-- Metadata
-		CreatedAt = labubuData.CreatedAt or currentTime,
-		LastCollectedAt = labubuData.LastCollectedAt or nil,
+		CreatedAt = brainrotData.CreatedAt or currentTime,
+		LastCollectedAt = brainrotData.LastCollectedAt or nil,
 	}
 
 	return Template
 end
 
-function PlotUtil.TranslateEggToHatchable(egg: Model | string) : (string?, LabubuType?)
+function PlotUtil.TranslateEggToHatchable(egg: Model | string) : (string?, BrainrotType?)
 	local eggName = typeof(egg) == "string" and egg or egg.Name
 	local eggData = PlotUtil.EggsData[eggName]
 	if not eggData then return end
@@ -266,19 +266,19 @@ function PlotUtil.TranslateEggToHatchable(egg: Model | string) : (string?, Labub
 	local eggRarity = eggData.Rarity
 	if not eggRarity then return end
 
-	local Labubus = PlotUtil.getLabubusWithRarity(eggRarity)
+	local Brainrots = PlotUtil.getBrainrotsWithRarity(eggRarity)
 
-	if not Labubus then return end
+	if not Brainrots then return end
 
 	local SortedByWeights: { [string]: number } = {}
 
-	for name, tbl: LabubuType in pairs(Labubus) do
+	for name, tbl: BrainrotType in pairs(Brainrots) do
 		SortedByWeights[name] = tbl.Weight
 	end
 
 	local RNG = RngUtil(SortedByWeights)
 
-	for name, tbl: LabubuType in pairs(Labubus) do
+	for name, tbl: BrainrotType in pairs(Brainrots) do
 		if RNG == name then
 			return RNG, tbl
 		end
@@ -467,8 +467,8 @@ function PlotUtil.getTraitData(traitName: string) : Types.WeatherData
 	return Events.Events[traitName]
 end
 
---function PlotUtil.getLabubuTraits(model: Model | Types.Labubu)
-function PlotUtil.getLabubuTraits(labubu: Types.Labubu)
+--function PlotUtil.getBrainrotTraits(model: Model | Types.Brainrot)
+function PlotUtil.getBrainrotTraits(brainrot: Types.Brainrot)
 	--if typeof(model) == "Instance" then
 	--	local Attributes = model:GetAttributes()
 	--	if not Attributes then return end
@@ -486,13 +486,13 @@ function PlotUtil.getLabubuTraits(labubu: Types.Labubu)
 	--return model.Traits
 	--end
 
-	return labubu.Traits or {}
+	return brainrot.Traits or {}
 end
 
 function PlotUtil.setHatchableInfoUI(hatchable: Model, mutation: string?, isMutating: boolean?,
-	labubuData: Types.Labubu?
+	brainrotData: Types.Brainrot?
 )
-	local HatchableData = PlotUtil.getLabubuData(hatchable.Name)
+	local HatchableData = PlotUtil.getBrainrotData(hatchable.Name)
 	if not HatchableData then return end
 
 	local HatchablePart: BasePart = hatchable:FindFirstChild("RootPart") or hatchable.PrimaryPart
@@ -507,14 +507,14 @@ function PlotUtil.setHatchableInfoUI(hatchable: Model, mutation: string?, isMuta
 
 	if mutation then 
 		local CalculatedCPS = PlotUtil.CalculateCPSbyName(hatchable.Name, mutation,
-			nil, labubuData and PlotUtil.getLabubuTraits(labubuData)
+			nil, brainrotData and PlotUtil.getBrainrotTraits(brainrotData)
 		)
 		CPS = formatCommaValue(CalculatedCPS)
 	end
 
 	local WasAnyTraitFound = false
-	if labubuData then
-		local Traits = PlotUtil.getLabubuTraits(labubuData)
+	if brainrotData then
+		local Traits = PlotUtil.getBrainrotTraits(brainrotData)
 		if Traits then
 			for name, value in pairs(Traits) do
 				WasAnyTraitFound = true
@@ -1037,10 +1037,10 @@ end
 
 function PlotUtil.getHatchableTool(model_or_name: string | Model) : Tool?
 	if typeof(model_or_name) == "string" then
-		model_or_name = LabubuTools:FindFirstChild(model_or_name)
+		model_or_name = BrainrotTools:FindFirstChild(model_or_name)
 	elseif typeof(model_or_name) == "Instance" and 
 		(model_or_name:IsA("Model") or model_or_name:IsA("Tool")) then
-		model_or_name = LabubuTools:FindFirstChild(model_or_name.Name)
+		model_or_name = BrainrotTools:FindFirstChild(model_or_name.Name)
 	end
 	return model_or_name
 end
@@ -1092,25 +1092,25 @@ function PlotUtil.ConvertEggModelToEggTool(eggModel: Model)
 	return tool
 end
 
-function PlotUtil.ConvertLabubuModelToLabubuTool(labubuModel: Model)
-	assert(labubuModel and labubuModel:IsA("Model"), "Invalid egg model")
+function PlotUtil.ConvertBrainrotModelToBrainrotTool(brainrotModel: Model)
+	assert(brainrotModel and brainrotModel:IsA("Model"), "Invalid egg model")
 
-	local RootPart: BasePart = labubuModel:FindFirstChild("RootPart") or labubuModel.PrimaryPart
+	local RootPart: BasePart = brainrotModel:FindFirstChild("RootPart") or brainrotModel.PrimaryPart
 	if not RootPart then return end
 
 	-- Create tool
 	local tool = Instance.new("Tool")
-	tool.Name = labubuModel.Name
+	tool.Name = brainrotModel.Name
 	tool.RequiresHandle = true
 	tool.CanBeDropped = false
 	-- Copy model attributes to tool
-	for attributeName, attributeValue in pairs(labubuModel:GetAttributes()) do
+	for attributeName, attributeValue in pairs(brainrotModel:GetAttributes()) do
 		tool:SetAttribute(attributeName, attributeValue)
 	end
 
 	RootPart.Name = "Handle"
 
-	for _, obj in pairs(labubuModel:GetChildren()) do
+	for _, obj in pairs(brainrotModel:GetChildren()) do
 		obj.Parent = tool
 	end
 
@@ -1125,7 +1125,7 @@ function PlotUtil.ConvertLabubuModelToLabubuTool(labubuModel: Model)
 
 	tool.PrimaryPart = RootPart
 
-	labubuModel:Destroy()
+	brainrotModel:Destroy()
 
 	return tool
 end
@@ -1171,7 +1171,7 @@ function PlotUtil.GetAllSlots(plot: Model) : { Model }
 	return Slots
 end
 
-function PlotUtil.FindWorkingLabubuSlot(plot: Model, floor: number?) : Model?
+function PlotUtil.FindWorkingBrainrotSlot(plot: Model, floor: number?) : Model?
 	local Slots: { Model } = {}
 
 	if not floor then
@@ -1198,7 +1198,7 @@ function PlotUtil.FindWorkingLabubuSlot(plot: Model, floor: number?) : Model?
 		if not slotPlacement then continue end
 
 		if slot:GetAttribute("Occupied") and not slot:GetAttribute("ForSale") 
-			and slotPlacement:GetAttribute("Type") == "Labubu" and not slotPlacement:GetAttribute("IsMutating")
+			and slotPlacement:GetAttribute("Type") == "Brainrot" and not slotPlacement:GetAttribute("IsMutating")
 		then
 			local floorNum = tonumber(string.match(slot.Parent.Parent.Name, "%d+"))
 
@@ -1232,7 +1232,7 @@ function PlotUtil.FindEmptySlotAvailable(plot: Model, floor: number?) : Model?
 	end
 end
 
-function PlotUtil.LabubuPlacementFilterBy(placements: { Model }, rarity: string?, mutation: string?)
+function PlotUtil.BrainrotPlacementFilterBy(placements: { Model }, rarity: string?, mutation: string?)
 	: ( { Model }?, number )
 	-- Mutation Tier: placement:GetAttribute("MutationTier")
 	-- Mutation Rarity: placement:GetAttribute("EggType")
@@ -1251,17 +1251,17 @@ function PlotUtil.LabubuPlacementFilterBy(placements: { Model }, rarity: string?
 	return FilteredPlacements, #FilteredPlacements
 end
 
-function PlotUtil.GetRarity(data: Types.Labubu | Types.Egg) : (string, Color3)
+function PlotUtil.GetRarity(data: Types.Brainrot | Types.Egg) : (string, Color3)
 	if data.Type == "Block" then
 		local Rarity = data.Rarity or PlotUtil.EggsData[data.Name].Rarity
 
 		return Rarity, RarityTextColors[Rarity]
-	elseif data.Type == "Labubu" then
+	elseif data.Type == "Brainrot" then
 		return data.EggRarity, RarityTextColors[data.EggRarity]
 	end
 end
 
-function PlotUtil.CalculateCost(data: Types.Labubu | Types.Egg) : (number?, number?)
+function PlotUtil.CalculateCost(data: Types.Brainrot | Types.Egg) : (number?, number?)
 	if data.Type == "Block" then
 		local name = data.Name
 		local info: EggMutationInfo = EggsMutation[name]
@@ -1280,18 +1280,18 @@ function PlotUtil.CalculateCost(data: Types.Labubu | Types.Egg) : (number?, numb
 
 		return math.floor(Cost), 
 		math.floor(Cost * (GlobalSettings.SellerPricePercentage / 100))
-	elseif data.Type == "Labubu" then
+	elseif data.Type == "Brainrot" then
 		local EggData = PlotUtil.EggsData[data.EggType .. " Block"]
 		local BaseEggPrice = EggData.Price
 
-		local LabubuMutationTier = data.MutationTier
-		local LabubuMutation = PlotUtil.MutationTierToName(LabubuMutationTier)
+		local BrainrotMutationTier = data.MutationTier
+		local BrainrotMutation = PlotUtil.MutationTierToName(BrainrotMutationTier)
 
-		local MutationTierInfo = PlotUtil.getMutationInfo(LabubuMutation)
+		local MutationTierInfo = PlotUtil.getMutationInfo(BrainrotMutation)
 
 		local CostMultiplier = MutationTierInfo.CostMultiplier or 1
 
-		local Traits = PlotUtil.getLabubuTraits(data)
+		local Traits = PlotUtil.getBrainrotTraits(data)
 		for name, trait in pairs(Traits) do
 			local TraitData = PlotUtil.getTraitData(name)
 			CostMultiplier += (TraitData.CashBonus - 1)
@@ -1303,32 +1303,32 @@ function PlotUtil.CalculateCost(data: Types.Labubu | Types.Egg) : (number?, numb
 	end
 end
 
-function PlotUtil.CalculateCPS(labubu: Types.Labubu, boostMulti: number?)
+function PlotUtil.CalculateCPS(brainrot: Types.Brainrot, boostMulti: number?)
 	boostMulti = boostMulti or 1
 
-	local MutationName = PlotUtil.MutationTierToName(labubu.MutationTier)
+	local MutationName = PlotUtil.MutationTierToName(brainrot.MutationTier)
 	if not MutationName then return end
 
 	local MutationTierInfo = PlotUtil.getMutationInfo(MutationName)
 	if not MutationTierInfo then return end
 
-	local Traits = PlotUtil.getLabubuTraits(labubu)
+	local Traits = PlotUtil.getBrainrotTraits(brainrot)
 	for name, trait in pairs(Traits) do
 		local TraitData = PlotUtil.getTraitData(name)
 		boostMulti += (TraitData.CashBonus - 1)
 	end
 
-	return math.floor(labubu.BaseCPS * MutationTierInfo.Multiplier * boostMulti)
+	return math.floor(brainrot.BaseCPS * MutationTierInfo.Multiplier * boostMulti)
 end
 
-function PlotUtil.CalculateCPSbyName(labubuName: string, mutation: string, boostMulti: number?, traits: any?)
+function PlotUtil.CalculateCPSbyName(brainrotName: string, mutation: string, boostMulti: number?, traits: any?)
 	boostMulti = boostMulti or 1
 
 	local MutationTierInfo = PlotUtil.getMutationInfo(mutation)
 	if not MutationTierInfo then return end
 
-	local LabubuData = PlotUtil.getLabubuData(labubuName)
-	if not LabubuData then return end
+	local BrainrotData = PlotUtil.getBrainrotData(brainrotName)
+	if not BrainrotData then return end
 
 	if traits then
 		for name, trait in pairs(traits) do
@@ -1337,7 +1337,7 @@ function PlotUtil.CalculateCPSbyName(labubuName: string, mutation: string, boost
 		end
 	end
 
-	return math.floor(LabubuData.CPS * MutationTierInfo.Multiplier * boostMulti)
+	return math.floor(BrainrotData.CPS * MutationTierInfo.Multiplier * boostMulti)
 end
 
 export type MutationInfo = {
@@ -1464,21 +1464,21 @@ function PlotUtil.UpdateMutationInfoUI(mutationData: MutationInfo)
 	end
 end
 
-function PlotUtil.GetMutationExtraInfo(labubu: Types.Labubu) : MutationInfo
-	local MutationName = PlotUtil.MutationTierToName(labubu.MutationTier)
+function PlotUtil.GetMutationExtraInfo(brainrot: Types.Brainrot) : MutationInfo
+	local MutationName = PlotUtil.MutationTierToName(brainrot.MutationTier)
 	if not MutationName then return end
 
 	local MutationTierInfo = PlotUtil.getMutationInfo(MutationName)
 	if not MutationTierInfo then return end
 
 
-	local NextMutationTier = labubu.MutationTier + 1
+	local NextMutationTier = brainrot.MutationTier + 1
 	local NextMutationName = PlotUtil.MutationTierToName(NextMutationTier)
 
 	local NextMutationTierInfo = NextMutationName
 		and PlotUtil.getMutationInfo(NextMutationName)
 
-	local EggMutationData = PlotUtil.getEggMutationInfo(labubu.EggType)
+	local EggMutationData = PlotUtil.getEggMutationInfo(brainrot.EggType)
 	if not EggMutationData then return end
 
 	local EggMutationInfo = EggMutationData.Mutations[MutationName]
@@ -1489,7 +1489,7 @@ function PlotUtil.GetMutationExtraInfo(labubu: Types.Labubu) : MutationInfo
 
 	FailureRate = SuccessRate and 100 - SuccessRate or 0
 
-	local PrevMutationTier = labubu.MutationTier - 1
+	local PrevMutationTier = brainrot.MutationTier - 1
 	local PrevMutationName = PlotUtil.MutationTierToName(PrevMutationTier)
 
 	local PrevMutationTierInfo = PrevMutationName
@@ -1500,14 +1500,14 @@ function PlotUtil.GetMutationExtraInfo(labubu: Types.Labubu) : MutationInfo
 		NextMutationName = NextMutationName,
 		FailureMutationName = MutationTierInfo.FailureDowngrade,
 
-		CurrentMutationTier = labubu.MutationTier,
+		CurrentMutationTier = brainrot.MutationTier,
 		NextMutationTier = NextMutationTierInfo and NextMutationTierInfo.Tier,
 		PrevMutationTier = PrevMutationTierInfo and PrevMutationTierInfo.Tier,
 
-		CurrentMutationCPS = PlotUtil.CalculateCPSbyName(labubu.Name, MutationName, nil, labubu.Traits),
-		NextMutationCPS = PlotUtil.CalculateCPSbyName(labubu.Name, NextMutationName, nil, labubu.Traits),
-		FailureMutationCPS = PlotUtil.CalculateCPSbyName(labubu.Name, 
-			MutationTierInfo.FailureDowngrade, nil, labubu.Traits),
+		CurrentMutationCPS = PlotUtil.CalculateCPSbyName(brainrot.Name, MutationName, nil, brainrot.Traits),
+		NextMutationCPS = PlotUtil.CalculateCPSbyName(brainrot.Name, NextMutationName, nil, brainrot.Traits),
+		FailureMutationCPS = PlotUtil.CalculateCPSbyName(brainrot.Name, 
+			MutationTierInfo.FailureDowngrade, nil, brainrot.Traits),
 
 		Cost = EggMutationInfo.Cost,
 		MutationTime = MutationTierInfo.MutationTime,

@@ -104,7 +104,7 @@ local Events = {
 
 			end,
 		},
-		
+
 		["Poison Event"] = {
 			EventType = "Poison Event",
 			TraitName = "Toxic",
@@ -119,7 +119,7 @@ local Events = {
 
 			end,
 		},
-		
+
 		["Golden Rain"] = {
 			EventType = "Golden Rain",
 			TraitName = "Golden",

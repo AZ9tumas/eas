@@ -43,19 +43,19 @@ ProductPurchaseHandlers["Golden Rain"] = function(player: Player)
 	TriggerWeatherEvent:Fire("Golden Rain")
 end
 
--- Plot -> Mutate Labubu -> Mutate Fail
+-- Plot -> Mutate Brainrot -> Mutate Fail
 
 ProductPurchaseHandlers["Keep Lost Mutation"] = function(player: Player)
 	DataPlots.KeepLostMutation(player)
 end
 
--- Plot -> Stealing -> Labubu
+-- Plot -> Stealing -> Brainrot
 
-ProductPurchaseHandlers["Steal Labubu"] = function(player: Player)
+ProductPurchaseHandlers["Steal Brainrot"] = function(player: Player)
 	DataPlots.HandleStealing(player, false)
 end
 
-ProductPurchaseHandlers["Steal High-Tier Labubu"] = function(player: Player)
+ProductPurchaseHandlers["Steal High-Tier Brainrot"] = function(player: Player)
 	DataPlots.HandleStealing(player, true)
 end
 
@@ -220,9 +220,9 @@ ProductPurchaseHandlers["Skip Legendary Hatch"] = SkipEggHatch
 ProductPurchaseHandlers["Skip Mythic Hatch"] = SkipEggHatch
 ProductPurchaseHandlers["Skip Exclusive Hatch"] = SkipEggHatch
 
--- Plot -> Eggs -> Skip Labubu Mutation
+-- Plot -> Eggs -> Skip Brainrot Mutation
 
-local function SkipLabubuMutation(player: Player, tier: number)
+local function SkipBrainrotMutation(player: Player, tier: number)
 	local profileData, clientData = DataHandler.getProfileData(player)
 	if not profileData then return end
 
@@ -265,61 +265,61 @@ local function SkipLabubuMutation(player: Player, tier: number)
 		Placements, TargetSlotNum
 	)
 	if not Placement then return end
-	if Placement:GetAttribute("Type") ~= "Labubu" then return end
+	if Placement:GetAttribute("Type") ~= "Brainrot" then return end
 
 	local floorNum, slotNum = TargetSlotFloor, TargetSlotNum
 
-	local labubuData = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement :: Types.Labubu?
-	if not labubuData then return end
+	local brainrotData = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement :: Types.Brainrot?
+	if not brainrotData then return end
 
-	local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(labubuData)
+	local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(brainrotData)
 	if not GetMutationExtraInfo then return end
 
 	if not GetMutationExtraInfo.NextMutationTier then return end
 	if GetMutationExtraInfo.CurrentMutationTier ~= tier then return end
 
-	-- DataPlots.MutateLabubu(player, Placement, Slot, floorNum, slotNum)
-	labubuData.MutationTime = 0
+	-- DataPlots.MutateBrainrot(player, Placement, Slot, floorNum, slotNum)
+	brainrotData.MutationTime = 0
 end
 
 ProductPurchaseHandlers["Skip Mutation 1"] = function(player: Player)
-	SkipLabubuMutation(player, 1)
+	SkipBrainrotMutation(player, 1)
 end
 
 ProductPurchaseHandlers["Skip Mutation 2"] = function(player: Player)
-	SkipLabubuMutation(player, 2)
+	SkipBrainrotMutation(player, 2)
 end
 
 ProductPurchaseHandlers["Skip Mutation 3"] = function(player: Player)
-	SkipLabubuMutation(player, 3)
+	SkipBrainrotMutation(player, 3)
 end
 
 ProductPurchaseHandlers["Skip Mutation 4"] = function(player: Player)
-	SkipLabubuMutation(player, 4)
+	SkipBrainrotMutation(player, 4)
 end
 
 ProductPurchaseHandlers["Skip Mutation 5"] = function(player: Player)
-	SkipLabubuMutation(player, 5)
+	SkipBrainrotMutation(player, 5)
 end
 
 ProductPurchaseHandlers["Skip Mutation 6"] = function(player: Player)
-	SkipLabubuMutation(player, 6)
+	SkipBrainrotMutation(player, 6)
 end
 
 ProductPurchaseHandlers["Skip Mutation 7"] = function(player: Player)
-	SkipLabubuMutation(player, 7)
+	SkipBrainrotMutation(player, 7)
 end
 
 ProductPurchaseHandlers["Skip Mutation 8"] = function(player: Player)
-	SkipLabubuMutation(player, 8)
+	SkipBrainrotMutation(player, 8)
 end
 
 ProductPurchaseHandlers["Skip Mutation 9"] = function(player: Player)
-	SkipLabubuMutation(player, 9)
+	SkipBrainrotMutation(player, 9)
 end
 
 ProductPurchaseHandlers["Skip Mutation 10"] = function(player: Player)
-	SkipLabubuMutation(player, 10)
+	SkipBrainrotMutation(player, 10)
 end
 
 -- Temporary Traits

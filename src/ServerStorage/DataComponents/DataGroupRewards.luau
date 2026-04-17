@@ -51,7 +51,7 @@ function DataGroupRewards.claimGroupReward(player: Player, dontshowPrompt: boole
 	
 	-- Reward Player Here
 	
-	DataPlots.GiveLabubuByRarity(player, "Exclusive", 1, "GroupReward")
+	DataPlots.GiveBrainrotByRarity(player, "Exclusive", 1, "GroupReward")
 	
 	return true
 end

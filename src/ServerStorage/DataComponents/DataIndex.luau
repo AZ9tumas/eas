@@ -14,22 +14,22 @@ function DataIndex.init()
     
 end
 
-function DataIndex.AddLabubuToIndex(player: Player, labubuTemplate: Types.Labubu): (boolean, boolean)
+function DataIndex.AddBrainrotToIndex(player: Player, brainrotTemplate: Types.Brainrot): (boolean, boolean)
 	local profileData, clientData = DataHandler.getProfileData(player)
 	if profileData == nil then 
 		return false, false
 	end
 	
-	local labubuName = labubuTemplate.Name
-	local mutationTier = labubuTemplate.MutationTier
+	local brainrotName = brainrotTemplate.Name
+	local mutationTier = brainrotTemplate.MutationTier
 	
 	profileData.Index[mutationTier] = profileData.Index[mutationTier] or {}
 	
-	if profileData.Index[mutationTier][labubuName] then
+	if profileData.Index[mutationTier][brainrotName] then
 		return false, true
 	end
 
-	profileData.Index[mutationTier][labubuName] = true
+	profileData.Index[mutationTier][brainrotName] = true
 	if clientData then
 		clientData.Index(deepCopy(profileData.Index))
 	end

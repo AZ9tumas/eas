@@ -97,7 +97,7 @@ SpinWheel.OnServerInvoke = function(player: Player)
 	elseif RewardName == "King Block" then
 		DataPlots.GiveEgg(player, "King Block", "Spinner")
 	elseif RewardName == "SIX SIX SIX" then
-		DataPlots.GiveLabubu(player, "SIX SIX SIX", 1, "GroupReward")
+		DataPlots.GiveBrainrot(player, "SIX SIX SIX", 1, "GroupReward")
 	end
 
 	return RewardName

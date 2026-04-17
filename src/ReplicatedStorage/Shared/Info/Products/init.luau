@@ -6,8 +6,8 @@ local Products = {
 
 	["Repair Button"] = 3516251533,
 
-	["Steal Labubu"] = 3516251703,
-	["Steal High-Tier Labubu"] = 3516251827,
+	["Steal Brainrot"] = 3516251703,
+	["Steal High-Tier Brainrot"] = 3516251827,
 
 	["Magic Shield (24h)"] = 3516251353,
 

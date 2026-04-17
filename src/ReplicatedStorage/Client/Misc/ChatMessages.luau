@@ -39,7 +39,7 @@ function ChatMessages.init()
 			task.wait(1.5 * 60)
 			
 			displayTextMessage(RichText.ColorWrap(
-				"[TIP] Your Labubus keep earning cash even when you’re offline!"
+				"[TIP] Your Brainrots keep earning cash even when you’re offline!"
 				, Color3.fromRGB(255, 167, 14)
 				)
 			)
@@ -47,7 +47,7 @@ function ChatMessages.init()
 			task.wait(1.5 * 60)
 		else
 			displayTextMessage(RichText.ColorWrap(
-				"[TIP] Your Labubus keep earning cash even when you’re offline!"
+				"[TIP] Your Brainrots keep earning cash even when you’re offline!"
 				, Color3.fromRGB(255, 167, 14)
 				)
 			)

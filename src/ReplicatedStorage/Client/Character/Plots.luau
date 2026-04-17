@@ -64,7 +64,7 @@ local function HandleSlotsPlacements(state: boolean, name: string?)
 	end
 end
 
-local function attachLabubuPrompt(model: Model)
+local function attachBrainrotPrompt(model: Model)
 	local Placements = model.Parent
 	if not Placements then return end
 	local SlotsFolder = Placements.Parent
@@ -75,7 +75,7 @@ local function attachLabubuPrompt(model: Model)
 	local floorNum = tonumber(string.match(FloorModel.Name, "%d+"))
 	if not floorNum then return end
 	
-	if model:GetAttribute("Type") ~= "Labubu" then
+	if model:GetAttribute("Type") ~= "Brainrot" then
 		return
 	end
 
@@ -85,28 +85,28 @@ local function attachLabubuPrompt(model: Model)
 		model:FindFirstChildWhichIsA("BasePart")
 
 	if not promptPart then
-		warn("Labubu model has no BasePart:", model:GetFullName())
+		warn("Brainrot model has no BasePart:", model:GetFullName())
 		return
 	end
 
 	-- Avoid duplicates
-	if promptPart:FindFirstChild("LabubuPrompt") then
+	if promptPart:FindFirstChild("BrainrotPrompt") then
 		return
 	end
 	
 	local ParentIndex = model:GetAttribute("ParentIndex")
 	if not ParentIndex then return end
-	local LabubuSlot = PlotUtil.getPlacementFromIndex(Placements, ParentIndex)
-	if not LabubuSlot then return end
+	local BrainrotSlot = PlotUtil.getPlacementFromIndex(Placements, ParentIndex)
+	if not BrainrotSlot then return end
 	
 	local Attachment = Instance.new("Attachment")
 	Attachment.Position = Vector3.new(0, -1.5, 0)
-	Attachment.Name = "LabubuPromptAttachment"
+	Attachment.Name = "BrainrotPromptAttachment"
 
 	local prompt = Instance.new("ProximityPrompt")
-	prompt.Name = "LabubuPrompt"
+	prompt.Name = "BrainrotPrompt"
 	prompt.ActionText = "Take"
-	prompt.ObjectText = "Labubu"
+	prompt.ObjectText = "Brainrot"
 	prompt.HoldDuration = 0.5
 	prompt.MaxActivationDistance = 10
 	prompt.RequiresLineOfSight = false
@@ -140,10 +140,10 @@ local function attachLabubuPrompt(model: Model)
 			local ParentIndex = model:GetAttribute("ParentIndex")
 			if not ParentIndex then return end
 
-			--print("Labubu pressed:", model.Name)
+			--print("Brainrot pressed:", model.Name)
 
 			-- Tell server
-			Network.Plots.TakeLabubu:FireServer(model.Name, floorNum, ParentIndex)
+			Network.Plots.TakeBrainrot:FireServer(model.Name, floorNum, ParentIndex)
 			ClickSound:Play()
 		end)
 	)
@@ -152,8 +152,8 @@ local function attachLabubuPrompt(model: Model)
 end
 
 local function attachStealPrompt(model: Model, plot: Model)
-	-- Only Labubus
-	if model:GetAttribute("Type") ~= "Labubu" then
+	-- Only Brainrots
+	if model:GetAttribute("Type") ~= "Brainrot" then
 		return
 	end
 
@@ -191,7 +191,7 @@ local function attachStealPrompt(model: Model, plot: Model)
 	local prompt = Instance.new("ProximityPrompt")
 	prompt.Name = "StealPrompt"
 	prompt.ActionText = "Steal"
-	prompt.ObjectText = "Labubu"
+	prompt.ObjectText = "Brainrot"
 	prompt.HoldDuration = 2
 	prompt.MaxActivationDistance = 10
 	prompt.RequiresLineOfSight = false
@@ -239,7 +239,7 @@ local function attachStealPrompt(model: Model, plot: Model)
 			local parentIndex = model:GetAttribute("ParentIndex")
 			if not floorNum or not parentIndex then return end
 
-			Network.Plots.StealLabubu:FireServer(
+			Network.Plots.StealBrainrot:FireServer(
 				base,
 				ownerUserId,
 				model.Name,
@@ -312,13 +312,13 @@ local function InitSlotsPlacements()
 		
 		Placements.ChildAdded:Connect(function(child)
 			if child:IsA("Model") then
-				attachLabubuPrompt(child)
+				attachBrainrotPrompt(child)
 			end
 		end)
 		
 		for _, placement in ipairs(Placements:GetChildren()) do
 			if placement:IsA("Model") then
-				attachLabubuPrompt(placement)
+				attachBrainrotPrompt(placement)
 			end
 		end
 

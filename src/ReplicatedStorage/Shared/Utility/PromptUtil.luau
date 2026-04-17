@@ -176,6 +176,7 @@ if IsClient then
 	end)
 	
 	Network.Purchases.promptProduct.OnClientEvent:Connect(function(id: number, active: boolean?)
+		print("Prompting product purchase: ", id, active, Players.LocalPlayer)
 		PromptUtil.promptProduct(id, active)
 	end)
 

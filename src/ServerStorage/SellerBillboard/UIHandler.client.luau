@@ -47,7 +47,7 @@ for _, btn in pairs(container:GetChildren()) do
 				local tool = char:FindFirstChildWhichIsA("Tool")
 				
 				if btn.Name == "Option_1" then
-					Network.Seller.SellLabubus:InvokeServer()
+					Network.Seller.SellBrainrots:InvokeServer()
 					bb:Destroy()
 				elseif btn.Name == "Option_2" then
 					Network.Seller.SellEggs:InvokeServer()

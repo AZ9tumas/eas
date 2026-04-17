@@ -27,7 +27,7 @@ local assets = ReplicatedStorage.Assets
 -- Parented to ReplicatedStorage to ensure all parts are loaded, which avoids WaitForChild
 ReplicatedStorage:WaitForChild("MutationReveal").Parent = workspace
 local mutationRevealFolder = workspace.MutationReveal
-local labubuOriginCFrame = mutationRevealFolder.Stand.PositionPart.CFrame
+local brainrotOriginCFrame = mutationRevealFolder.Stand.PositionPart.CFrame
 local revealCameraCFrame = mutationRevealFolder.CameraPart.CFrame
 local blur = Lighting:WaitForChild("Blur")
 
@@ -213,7 +213,7 @@ function MutationReveal.revealAsync(modelTemplate: Model, props: Props)
 	local originalScale = modelTemplate:GetScale()
 
 	local model = modelTemplate:Clone()
-	model:PivotTo(labubuOriginCFrame)
+	model:PivotTo(brainrotOriginCFrame)
 	model.Parent = mutationRevealFolder
 	revealTrove:Add(model)
 
@@ -362,8 +362,8 @@ function MutationReveal.revealAsync(modelTemplate: Model, props: Props)
 end
 
 -- Queue test reveals
--- MutationReveal.queueReveal(ReplicatedStorage.Assets.Hatchables["Artist Labubu"], { mutationTier = 4, isNewMutation = true })
--- MutationReveal.queueReveal(ReplicatedStorage.Assets.Hatchables["JOB Labubu"], { mutationTier = 4, isNewMutation = true })
+-- MutationReveal.queueReveal(ReplicatedStorage.Assets.Hatchables["Artist Brainrot"], { mutationTier = 4, isNewMutation = true })
+-- MutationReveal.queueReveal(ReplicatedStorage.Assets.Hatchables["JOB Brainrot"], { mutationTier = 4, isNewMutation = true })
 
 Network.Overlay.MutationReveal.OnClientEvent:Connect(function(hatchableName, mutationTier, isNewMutation)
 	-- isNewMutation = true

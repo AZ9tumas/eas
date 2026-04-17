@@ -49,8 +49,8 @@ local EggInfoUI: BillboardGui = ReplicatedStorage.Assets.Interface.BillboardGui.
 
 local Eggs = ReplicatedStorage.Assets.Eggs
 local EggTools = ReplicatedStorage.Assets.EggTools
-local LabubuTools = ReplicatedStorage.Assets.LabubuTools
-local Labubus = ReplicatedStorage.Assets.Hatchables
+local BrainrotTools = ReplicatedStorage.Assets.BrainrotTools
+local Brainrots = ReplicatedStorage.Assets.Hatchables
 
 local NotifyError = Network.Notifications.Error
 local NotifySuccess = Network.Notifications.Success
@@ -135,11 +135,11 @@ for _, egg in pairs(Eggs:GetChildren()) do
 	eggTool.Parent = EggTools
 end
 
--- Init Labubus
-for _, labubu in pairs(Labubus:GetChildren()) do
-	local clone = labubu:Clone()
-	local eggTool = PlotUtil.ConvertLabubuModelToLabubuTool(clone)
-	eggTool.Parent = LabubuTools
+-- Init Brainrots
+for _, brainrot in pairs(Brainrots:GetChildren()) do
+	local clone = brainrot:Clone()
+	local eggTool = PlotUtil.ConvertBrainrotModelToBrainrotTool(clone)
+	eggTool.Parent = BrainrotTools
 end
 
 ----------------------------------------------------
@@ -406,7 +406,7 @@ function DataPlots.SetPlotSpinState(plot: Model, state: string, cooldown: number
 	end
 end
 
-function DataPlots.SpawnHatchableAtSlot(slot: Model, labubuData: Types.Labubu, player: Player?)
+function DataPlots.SpawnHatchableAtSlot(slot: Model, brainrotData: Types.Brainrot, player: Player?)
 	local slots: Folder = slot.Parent
 	if not slots then return end
 
@@ -421,52 +421,52 @@ function DataPlots.SpawnHatchableAtSlot(slot: Model, labubuData: Types.Labubu, p
 
 	if getSlotInfo.IsForSale then return end
 
-	local labubuModel: Model? = nil :: Model
+	local brainrotModel: Model? = nil :: Model
 
-	labubuModel = PlotUtil.getHatchableModel(labubuData.Name)
-	if not labubuModel then return warn("No hatchable model found for: " .. labubuData.Name) end
+	brainrotModel = PlotUtil.getHatchableModel(brainrotData.Name)
+	if not brainrotModel then return warn("No hatchable model found for: " .. brainrotData.Name) end
 
-	local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(labubuData)
+	local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(brainrotData)
 	if not GetMutationExtraInfo then return end
 
-	labubuModel = labubuModel:Clone()
+	brainrotModel = brainrotModel:Clone()
 
-	copyAttributesFromTable(labubuData, labubuModel)
+	copyAttributesFromTable(brainrotData, brainrotModel)
 
-	for _, part in pairs(labubuModel:GetDescendants()) do
+	for _, part in pairs(brainrotModel:GetDescendants()) do
 		if part:IsA("BasePart") then
 			part.Anchored = true
 			part.CanCollide = false
 		end
 	end
 
-	for _, fx in pairs(labubuModel:GetDescendants()) do
+	for _, fx in pairs(brainrotModel:GetDescendants()) do
 		if fx:HasTag("FX") then
 			fx:Destroy()
 		end
 	end
 
-	PlotUtil.setHatchableInfoUI(labubuModel, GetMutationExtraInfo.CurrentMutationName,
-		labubuData.IsMutating, labubuData
+	PlotUtil.setHatchableInfoUI(brainrotModel, GetMutationExtraInfo.CurrentMutationName,
+		brainrotData.IsMutating, brainrotData
 	)
-	labubuModel:SetAttribute("ParentIndex", getSlotInfo.SlotNum)
+	brainrotModel:SetAttribute("ParentIndex", getSlotInfo.SlotNum)
 
-	local GetExtentsSize: Vector3 = labubuModel:GetExtentsSize()
+	local GetExtentsSize: Vector3 = brainrotModel:GetExtentsSize()
 	local GetExtentsSizeY: number = GetExtentsSize.Y
 
-	labubuModel:PivotTo(
+	brainrotModel:PivotTo(
 		getSlotInfo.MainStand.CFrame + 
 			Vector3.new(0,
 				GetExtentsSizeY / 2 + getSlotInfo.MainStand.Size.Y/2, 
 				0)
 	)
 
-	labubuModel.Parent = slotsPlacement
+	brainrotModel.Parent = slotsPlacement
 end
 
 function DataPlots.HatchEgg(egg: Model, slot: Model, player: Player?, mutationTier: number?)
-	local labubuName, labubuData = PlotUtil.TranslateEggToHatchable(egg)
-	if not labubuName or not labubuData then return end
+	local brainrotName, brainrotData = PlotUtil.TranslateEggToHatchable(egg)
+	if not brainrotName or not brainrotData then return end
 
 	local slots = slot.Parent
 	if not slots then return end
@@ -494,14 +494,14 @@ function DataPlots.HatchEgg(egg: Model, slot: Model, player: Player?, mutationTi
 		if profileData then
 			local currentTime = getUTCtime()
 
-			local LabubuTemplate = PlotUtil.CreateLabubuTemplateFromEggData(
-				labubuName, labubuData, {
+			local BrainrotTemplate = PlotUtil.CreateBrainrotTemplateFromEggData(
+				brainrotName, brainrotData, {
 					MutationTier = mutationTier
 				}, eggData.Rarity, egg.Name
 			)
 
 			profileData.PlotData.Floors[getSlotInfo.floorNum].Slots[getSlotInfo.SlotNum].Placement
-				= LabubuTemplate
+				= BrainrotTemplate
 
 			placement:Destroy()
 
@@ -512,7 +512,7 @@ function DataPlots.HatchEgg(egg: Model, slot: Model, player: Player?, mutationTi
 			DataPlots.SetSlotState(slot, false, true, 
 				profileData.PlotData.Floors[getSlotInfo.floorNum].Slots[getSlotInfo.SlotNum], player)
 
-			DataIndex.AddLabubuToIndex(player, LabubuTemplate)
+			DataIndex.AddBrainrotToIndex(player, BrainrotTemplate)
 
 			profileData.EggsHatched += 1
 
@@ -602,7 +602,7 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 		slot:SetAttribute("Hatchable", nil)
 		slot:SetAttribute("IsHatching", nil)
 
-		if slotPlacement and slotPlacement.Type == "Labubu" then
+		if slotPlacement and slotPlacement.Type == "Brainrot" then
 			slot:SetAttribute("ReadyToBeginMutate", not slotPlacement.IsMutating
 				and (not slotPlacement.MutationTime or 
 					(slotPlacement.MutationTime and slotPlacement.MutationTime > 0))
@@ -724,18 +724,18 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 					else
 						warn("SLOT OCCUPATION EGG NOT HATCHING CORRUPTION")
 					end
-				elseif slotPlacement.Type == "Labubu" then
-					-- Labubu
+				elseif slotPlacement.Type == "Brainrot" then
+					-- Brainrot
 
-					local LabubuPlacement: Types.Labubu = slotPlacement
+					local BrainrotPlacement: Types.Brainrot = slotPlacement
 
-					local MutationName = PlotUtil.MutationTierToName(LabubuPlacement.MutationTier)
+					local MutationName = PlotUtil.MutationTierToName(BrainrotPlacement.MutationTier)
 					if not MutationName then return end
 
 					local MutationTierInfo = PlotUtil.getMutationInfo(MutationName)
 					if not MutationTierInfo then return end
 
-					local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(LabubuPlacement)
+					local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(BrainrotPlacement)
 					if not GetMutationExtraInfo then return end
 
 					local NextMutationTier = GetMutationExtraInfo.NextMutationTier
@@ -744,7 +744,7 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 					local NextMutationTierInfo = NextMutationName
 						and PlotUtil.getMutationInfo(NextMutationName)
 
-					local EggMutationData = PlotUtil.getEggMutationInfo(LabubuPlacement.EggType)
+					local EggMutationData = PlotUtil.getEggMutationInfo(BrainrotPlacement.EggType)
 					if not EggMutationData then return end
 
 					local EggMutationInfo = EggMutationData.Mutations[MutationName]
@@ -760,9 +760,9 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 							placementModel:AddTag("MutatingModel")
 						end
 
-						if LabubuPlacement.MutationTime > 0 then
+						if BrainrotPlacement.MutationTime > 0 then
 							NextMutationUI.DisplayScreen.PriceText.Text = 
-								TimeFormat.short(LabubuPlacement.MutationTime)
+								TimeFormat.short(BrainrotPlacement.MutationTime)
 							NextMutationUI.DisplayScreen.PriceText.TextColor3 = 
 								Color3.fromRGB(255, 0, 0)
 							ScreenGo.Color = Color3.fromRGB(255, 0, 0)
@@ -786,11 +786,11 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 						end
 					end
 
-					if LabubuPlacement.IsMutating then
+					if BrainrotPlacement.IsMutating then
 						if not UpdateRevealingIn() then
 							PlotUtil.setHatchableInfoUI(
 								placementModel, GetMutationExtraInfo.CurrentMutationName, true,
-								LabubuPlacement
+								BrainrotPlacement
 							)
 							NextMutationUI.TitleLabel.Text = "Mutating in"
 
@@ -800,7 +800,7 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 										if UpdateRevealingIn() then break end
 
 										local IsSuperSpeed = player:GetAttribute("SuperSpeed")
-										LabubuPlacement.MutationTime -= math.floor(IsSuperSpeed and 
+										BrainrotPlacement.MutationTime -= math.floor(IsSuperSpeed and 
 											1 * GlobalSettings.SuperSpeedMultiplier or 1)
 
 										if UpdateRevealingIn() then break end
@@ -864,7 +864,7 @@ function DataPlots.SetSlotState(slot: Model, isForSale: boolean?,  isOccupied: b
 						task.spawn(function()
 							while task.wait(1) do
 								--profileSlotData.Cash += GetMutationExtraInfo.CurrentMutationCPS
-								profileSlotData.Cash += PlotUtil.CalculateCPS(LabubuPlacement, 
+								profileSlotData.Cash += PlotUtil.CalculateCPS(BrainrotPlacement, 
 									profileData.CashMulti
 								)
 
@@ -1011,15 +1011,15 @@ function DataPlots.BeforePlayerLeave(player: Player, plot: Model, plotData: Type
 				continue
 			end
 
-			local labubuPlacement = slotInfo and slotInfo.Placement
+			local brainrotPlacement = slotInfo and slotInfo.Placement
 
-			if labubuPlacement ~= nil then
+			if brainrotPlacement ~= nil then
 				-- Has the slot
 
-				local IsOccupiedLabubu = next(labubuPlacement) ~= nil -- IsOccupied with Labubu?
-				local slotPlacement = IsOccupiedLabubu and labubuPlacement or nil -- nil if unoccupied
+				local IsOccupiedBrainrot = next(brainrotPlacement) ~= nil -- IsOccupied with Brainrot?
+				local slotPlacement = IsOccupiedBrainrot and brainrotPlacement or nil -- nil if unoccupied
 
-				if slotPlacement and slotPlacement.Type == "Labubu" then
+				if slotPlacement and slotPlacement.Type == "Brainrot" then
 					if not slotInfo.HasBeenHoldingOfflineCash and not slotPlacement.IsMutating then
 						slotInfo.LastOfflineCashHolderLeaveSession = os.time()
 						slotInfo.HasBeenHoldingOfflineCash = true
@@ -1060,30 +1060,30 @@ function DataPlots.ApplyPlotData(plot: Model, plotData: Types.PlotData, player: 
 			continue
 		end
 
-		-- Default Labubu
+		-- Default Brainrot
 		if floorIndex == 1 then
 			local firstSlot = slotsFolder:FindFirstChild("1")
 			if firstSlot then
-				if not profileData.HasBeenRewardedBeginnerLabubu then
-					profileData.HasBeenRewardedBeginnerLabubu = true
+				if not profileData.HasBeenRewardedBeginnerBrainrot then
+					profileData.HasBeenRewardedBeginnerBrainrot = true
 
 					DataPlots.AddSlotToPlayerData(player, 1, 1)
 					DataPlots.SetSlotState(firstSlot, false, false)
 
-					local name = "Normal Labubu"
+					local name = "Normal Brainrot"
 
-					local LabubuInfo = PlotUtil.getLabubuData(name)
-					if not LabubuInfo then return end
+					local BrainrotInfo = PlotUtil.getBrainrotData(name)
+					if not BrainrotInfo then return end
 
-					local rarity = LabubuInfo.Rarity -- Common to Basic
+					local rarity = BrainrotInfo.Rarity -- Common to Basic
 
 					local EggRng = RngUtil(
 						PlotUtil.EggChancesRarity[rarity],
 						DataPlots.GetExtraLuckMulti(player)
 					)
 
-					local labubuName, labubuData = name, LabubuInfo
-					if not labubuName or not labubuData then return end
+					local brainrotName, brainrotData = name, BrainrotInfo
+					if not brainrotName or not brainrotData then return end
 
 					local eggData = PlotUtil.EggsData[EggRng]
 					if not eggData then return end
@@ -1092,20 +1092,20 @@ function DataPlots.ApplyPlotData(plot: Model, plotData: Types.PlotData, player: 
 
 					local currentTime = getUTCtime()
 
-					local LabubuTemplate = PlotUtil.CreateLabubuTemplateFromEggData(
-						labubuName, labubuData, {
+					local BrainrotTemplate = PlotUtil.CreateBrainrotTemplateFromEggData(
+						brainrotName, brainrotData, {
 							MutationTier = mutationTier,
 							ObtainedFrom = "BeginnerReward",
 						}, rarity, EggRng
 					)
 
-					profileData.PlotData.Floors[1].Slots[1].Placement = LabubuTemplate
+					profileData.PlotData.Floors[1].Slots[1].Placement = BrainrotTemplate
 
-					--DataPlots.SpawnHatchableAtSlot(firstSlot, LabubuTemplate, player)
+					--DataPlots.SpawnHatchableAtSlot(firstSlot, BrainrotTemplate, player)
 					DataPlots.SetSlotState(firstSlot, false, true, 
 						profileData.PlotData.Floors[1].Slots[1], player)
-					DataIndex.AddLabubuToIndex(player, 
-						LabubuTemplate)
+					DataIndex.AddBrainrotToIndex(player, 
+						BrainrotTemplate)
 				end
 			end
 		end
@@ -1122,31 +1122,31 @@ function DataPlots.ApplyPlotData(plot: Model, plotData: Types.PlotData, player: 
 			slotInfo.Cash = slotInfo.Cash or 0
 			slotInfo.OfflineCash = slotInfo.OfflineCash or 0
 
-			local labubuPlacement = slotInfo and slotInfo.Placement
+			local brainrotPlacement = slotInfo and slotInfo.Placement
 
-			if labubuPlacement ~= nil then
+			if brainrotPlacement ~= nil then
 				-- Has the slot
 
-				local IsOccupiedLabubu = next(labubuPlacement) ~= nil -- IsOccupied with Labubu?
-				local slotPlacement = IsOccupiedLabubu and labubuPlacement or nil -- nil if unoccupied
+				local IsOccupiedBrainrot = next(brainrotPlacement) ~= nil -- IsOccupied with Brainrot?
+				local slotPlacement = IsOccupiedBrainrot and brainrotPlacement or nil -- nil if unoccupied
 
-				slot:SetAttribute("Occupied", IsOccupiedLabubu)
+				slot:SetAttribute("Occupied", IsOccupiedBrainrot)
 				slot:SetAttribute("ForSale", false)
 
-				-- spawn labubu here
-				-- DataPlots.SpawnLabubu(plot, floorIndex, slotIndex, labubu)
+				-- spawn brainrot here
+				-- DataPlots.SpawnBrainrot(plot, floorIndex, slotIndex, brainrot)
 
 				if slotPlacement then
 					if slotPlacement.Type == "Block" then
 						DataPlots.SpawnEggAtSlot(slot, slotPlacement)
-					elseif slotPlacement.Type == "Labubu" then
+					elseif slotPlacement.Type == "Brainrot" then
 						slotPlacement.Traits = slotPlacement.Traits or {}
 
 						DataPlots.SpawnHatchableAtSlot(slot, slotPlacement, player)
 					end
 				end
 
-				if slotPlacement and slotPlacement.Type == "Labubu" then
+				if slotPlacement and slotPlacement.Type == "Brainrot" then
 					local LeftSession = profileData.LeftSessionAt
 					local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(slotPlacement)
 
@@ -1160,7 +1160,7 @@ function DataPlots.ApplyPlotData(plot: Model, plotData: Types.PlotData, player: 
 					end
 				end
 
-				DataPlots.SetSlotState(slot, false, IsOccupiedLabubu, slotInfo, player)
+				DataPlots.SetSlotState(slot, false, IsOccupiedBrainrot, slotInfo, player)
 			else
 				DataPlots.SetSlotState(slot, true, false)
 			end
@@ -1170,7 +1170,7 @@ function DataPlots.ApplyPlotData(plot: Model, plotData: Types.PlotData, player: 
 
 		if TotalOfflineCash > 0 then
 			NotifyInfo:FireClient(player, 
-				`Your Labubus have made ${formatCommaValue(TotalOfflineCash)} while offline!`, 8)
+				`Your Brainrots have made ${formatCommaValue(TotalOfflineCash)} while offline!`, 8)
 		end
 	end
 
@@ -1310,25 +1310,25 @@ function DataPlots.SpawnEggAtSlot(slot: Model, egg: Model | Tool | Types.Egg)
 	eggModel.Parent = slotsPlacement
 end
 
-function DataPlots.GiveTraitToLabubu(
-	player: Player, labubu: Model, slot: Model, floorNum: number, slotNum: number,
+function DataPlots.GiveTraitToBrainrot(
+	player: Player, brainrot: Model, slot: Model, floorNum: number, slotNum: number,
 	traitName: string
 )
 	local profileData, clientData = DataHandler.getProfileData(player)
 	if not profileData then return end
 
-	if labubu:GetAttribute("Type") ~= "Labubu" then return end
+	if brainrot:GetAttribute("Type") ~= "Brainrot" then return end
 
-	local labubuData: Types.Labubu? = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement
-	if not labubuData then return end
+	local brainrotData: Types.Brainrot? = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement
+	if not brainrotData then return end
 
-	local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(labubuData)
+	local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(brainrotData)
 	if not GetMutationExtraInfo then return end
 
-	if labubuData.Traits[traitName] then return end
+	if brainrotData.Traits[traitName] then return end
 
-	labubuData.Traits[traitName] = true
-	labubu:Destroy()
+	brainrotData.Traits[traitName] = true
+	brainrot:Destroy()
 
 	DataPlots.SpawnHatchableAtSlot(slot, 
 		profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement,
@@ -1341,7 +1341,7 @@ function DataPlots.GiveTraitToLabubu(
 	if clientData then
 		clientData.PlotData(deepCopy(profileData.PlotData))
 
-		NotifySuccess:FireClient(player, `{labubu.Name} got {traitName} trait!`)
+		NotifySuccess:FireClient(player, `{brainrot.Name} got {traitName} trait!`)
 	end
 end
 
@@ -1357,7 +1357,7 @@ function DataPlots.TriggerWeatherPlotsTrait(trait: string, givenPlayer: Player?)
 		local plot = DataPlots.GetPlayerPlot(player)
 		if not plot then continue end
 
-		local Slot, FloorNum = PlotUtil.FindWorkingLabubuSlot(plot)
+		local Slot, FloorNum = PlotUtil.FindWorkingBrainrotSlot(plot)
 		if not Slot or not FloorNum then continue end
 
 		local Slots = Slot.Parent
@@ -1366,25 +1366,25 @@ function DataPlots.TriggerWeatherPlotsTrait(trait: string, givenPlayer: Player?)
 		local Placement = PlotUtil.getPlacementFromIndex(Placements, tonumber(Slot.Name))
 
 		if Placement then
-			DataPlots.GiveTraitToLabubu(player, Placement, Slot, FloorNum, tonumber(Slot.Name), 
+			DataPlots.GiveTraitToBrainrot(player, Placement, Slot, FloorNum, tonumber(Slot.Name), 
 				trait
 			)
 		end
 	end
 end
 
-function DataPlots.DowngradeLabubuMutation(
-	player: Player, labubu: Model, slot: Model, floorNum: number, slotNum: number
+function DataPlots.DowngradeBrainrotMutation(
+	player: Player, brainrot: Model, slot: Model, floorNum: number, slotNum: number
 ): number?
 	local profileData, clientData = DataHandler.getProfileData(player)
 	if not profileData then return end
 
-	if labubu:GetAttribute("Type") ~= "Labubu" then return end
+	if brainrot:GetAttribute("Type") ~= "Brainrot" then return end
 
-	local labubuData = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement
-	if not labubuData then return end
+	local brainrotData = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement
+	if not brainrotData then return end
 
-	local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(labubuData)
+	local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(brainrotData)
 	if not GetMutationExtraInfo then return end
 
 	local prevMutationTier = GetMutationExtraInfo.PrevMutationTier
@@ -1400,7 +1400,7 @@ function DataPlots.DowngradeLabubuMutation(
 	profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement.MutationTime = 
 		GetMutationExtraInfo.PrevMutationTime
 
-	labubu:Destroy()
+	brainrot:Destroy()
 
 	DataPlots.SpawnHatchableAtSlot(slot, 
 		profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement,
@@ -1410,7 +1410,7 @@ function DataPlots.DowngradeLabubuMutation(
 	DataPlots.SetSlotState(slot, false, true, 
 		profileData.PlotData.Floors[floorNum].Slots[slotNum], player)
 
-	DataIndex.AddLabubuToIndex(player, 
+	DataIndex.AddBrainrotToIndex(player, 
 		profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement)
 
 	if clientData then
@@ -1420,18 +1420,18 @@ function DataPlots.DowngradeLabubuMutation(
 	return prevMutationTier
 end
 
-function DataPlots.MutateLabubu(
-	player: Player, labubu: Model, slot: Model, floorNum: number, slotNum: number, wasFailedMutation: boolean?
+function DataPlots.MutateBrainrot(
+	player: Player, brainrot: Model, slot: Model, floorNum: number, slotNum: number, wasFailedMutation: boolean?
 )
 	local profileData, clientData = DataHandler.getProfileData(player)
 	if not profileData then return end
 
-	if labubu:GetAttribute("Type") ~= "Labubu" then return end
+	if brainrot:GetAttribute("Type") ~= "Brainrot" then return end
 
-	local labubuData = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement
-	if not labubuData then return end
+	local brainrotData = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement
+	if not brainrotData then return end
 
-	local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(labubuData)
+	local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(brainrotData)
 	if not GetMutationExtraInfo then return end
 
 	local nextMutationTier = GetMutationExtraInfo.NextMutationTier
@@ -1452,7 +1452,7 @@ function DataPlots.MutateLabubu(
 
 	profileData.Mutations += 1
 
-	labubu:Destroy()
+	brainrot:Destroy()
 
 	DataPlots.SpawnHatchableAtSlot(slot, 
 		profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement,
@@ -1462,15 +1462,15 @@ function DataPlots.MutateLabubu(
 	DataPlots.SetSlotState(slot, false, true, 
 		profileData.PlotData.Floors[floorNum].Slots[slotNum], player)
 
-	local _, isInIndex = DataIndex.AddLabubuToIndex(player, 
+	local _, isInIndex = DataIndex.AddBrainrotToIndex(player, 
 		profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement)
 
 	if clientData then
 		if wasFailedMutation then
-			Network.Plots.KeepLostMutationSuccess:FireClient(player, labubuData.Id)
+			Network.Plots.KeepLostMutationSuccess:FireClient(player, brainrotData.Id)
 		else
 			local isNewMutation = not isInIndex
-			Network.Overlay.MutationReveal:FireClient(player, labubuData.Name, nextMutationTier, isNewMutation)
+			Network.Overlay.MutationReveal:FireClient(player, brainrotData.Name, nextMutationTier, isNewMutation)
 		end
 
 		clientData.PlotData(deepCopy(profileData.PlotData))
@@ -1524,7 +1524,7 @@ function DataPlots.HandleStealing(player: Player, isHighTier: boolean)
 	local Placement: Model = Placements:FindFirstChild(placementName)
 	if not Placement then return end
 
-	if Placement:GetAttribute("Type") ~= "Labubu" then return end
+	if Placement:GetAttribute("Type") ~= "Brainrot" then return end
 	if Placement:GetAttribute("IsMutating") then return end
 	if Slot:GetAttribute("IsMutating") then return end
 	if Slot:GetAttribute("ReadyToMutate") then return end
@@ -1557,31 +1557,31 @@ function DataPlots.HandleStealing(player: Player, isHighTier: boolean)
 	--	return
 	--end
 
-	local LabubuToolClone
+	local BrainrotToolClone
 	local OriginalAttributes
 
-	local LabubuTool: Tool = PlotUtil.getHatchableTool(Placement.Name)
-	if not LabubuTool then return end
+	local BrainrotTool: Tool = PlotUtil.getHatchableTool(Placement.Name)
+	if not BrainrotTool then return end
 
 	local PlacementAttributes = Placement:GetAttributes()
 	OriginalAttributes = deepCopy(PlacementAttributes)
 
-	LabubuToolClone = LabubuTool:Clone()
-	copyAttributesFromTable(PlacementAttributes, LabubuToolClone)
+	BrainrotToolClone = BrainrotTool:Clone()
+	copyAttributesFromTable(PlacementAttributes, BrainrotToolClone)
 
-	DataBackpack.Labubus.addToBackpackByInstance(player, LabubuToolClone, true)
+	DataBackpack.Brainrots.addToBackpackByInstance(player, BrainrotToolClone, true)
 
 	DataPlots.SetSlotState(Slot, false, false)
 	TargetClientData.PlotData(deepCopy(TargetProfileData.PlotData))
 
-	NotifyInfo:FireClient(player, "You stole a Labubu!")
-	NotifyWarn:FireClient(TargetBaseOwner, "Your Labubu has been cloned!")
+	NotifyInfo:FireClient(player, "You stole a Brainrot!")
+	NotifyWarn:FireClient(TargetBaseOwner, "Your Brainrot has been cloned!")
 
 	--[[
 	local function BringBackToRightOwner()
-		if LabubuToolClone then
-			if LabubuToolClone.Parent then
-				LabubuToolClone:Destroy()
+		if BrainrotToolClone then
+			if BrainrotToolClone.Parent then
+				BrainrotToolClone:Destroy()
 			end
 
 			if OriginalAttributes then
@@ -1599,8 +1599,8 @@ function DataPlots.HandleStealing(player: Player, isHighTier: boolean)
 		end
 	end
 
-	local LabubuTool: Tool = PlotUtil.getHatchableTool(Placement.Name)
-	if not LabubuTool then return end
+	local BrainrotTool: Tool = PlotUtil.getHatchableTool(Placement.Name)
+	if not BrainrotTool then return end
 
 	local PlacementAttributes = Placement:GetAttributes()
 	OriginalAttributes = deepCopy(PlacementAttributes)
@@ -1615,8 +1615,8 @@ function DataPlots.HandleStealing(player: Player, isHighTier: boolean)
 
 	TargetProfileData.PlotData.Floors[floorNum].Slots[slotNum].Placement = {}
 
-	LabubuToolClone = LabubuTool:Clone()
-	copyAttributesFromTable(PlacementAttributes, LabubuToolClone)
+	BrainrotToolClone = BrainrotTool:Clone()
+	copyAttributesFromTable(PlacementAttributes, BrainrotToolClone)
 
 	local playerTrove = Trove.new()
 	local characterRemoving = playerTrove:AttachToInstance(character, function()
@@ -1632,11 +1632,11 @@ function DataPlots.HandleStealing(player: Player, isHighTier: boolean)
 		end)
 	)
 
-	PlotUtil.addMutationEffect(LabubuToolClone, PlacementAttributes.MutationTier)
-	LabubuToolClone.Parent = character
+	PlotUtil.addMutationEffect(BrainrotToolClone, PlacementAttributes.MutationTier)
+	BrainrotToolClone.Parent = character
 
 	playerTrove:Add(
-		LabubuToolClone:GetPropertyChangedSignal("Parent"):Connect(function()
+		BrainrotToolClone:GetPropertyChangedSignal("Parent"):Connect(function()
 			if playerTrove then
 				playerTrove:Destroy()
 			end
@@ -1646,8 +1646,8 @@ function DataPlots.HandleStealing(player: Player, isHighTier: boolean)
 	DataPlots.SetSlotState(Slot, false, false)
 	TargetClientData.PlotData(deepCopy(TargetProfileData.PlotData))
 
-	NotifyInfo:FireClient(player, "You're stealing Labubu!")
-	NotifyWarn:FireClient(TargetBaseOwner, "Your Labubu has been stolen!")
+	NotifyInfo:FireClient(player, "You're stealing Brainrot!")
+	NotifyWarn:FireClient(TargetBaseOwner, "Your Brainrot has been stolen!")
 	--]]
 end
 
@@ -1675,7 +1675,7 @@ function DataPlots.GetExtraLuckMulti(player: Player)
 	return multi
 end
 
-function DataPlots.GiveLabubu(
+function DataPlots.GiveBrainrot(
 	player: Player, name: string?, mutationTier: number?, obtainedFrom: string?)
 
 	local profileData, clientData = DataHandler.getProfileData(player)
@@ -1688,10 +1688,10 @@ function DataPlots.GiveLabubu(
 		return
 	end
 
-	local LabubuInfo = PlotUtil.getLabubuData(name)
-	if not LabubuInfo then return end
+	local BrainrotInfo = PlotUtil.getBrainrotData(name)
+	if not BrainrotInfo then return end
 
-	local rarity = LabubuInfo.Rarity -- Common to Basic
+	local rarity = BrainrotInfo.Rarity -- Common to Basic
 
 	local EggRng = RngUtil(
 		PlotUtil.EggChancesRarity[rarity],
@@ -1704,8 +1704,8 @@ function DataPlots.GiveLabubu(
 		end
 	end
 
-	local labubuName, labubuData = name, LabubuInfo
-	if not labubuName or not labubuData then return end
+	local brainrotName, brainrotData = name, BrainrotInfo
+	if not brainrotName or not brainrotData then return end
 
 	local eggData = PlotUtil.EggsData[EggRng]
 	if not eggData then return end
@@ -1714,37 +1714,37 @@ function DataPlots.GiveLabubu(
 
 	local currentTime = getUTCtime()
 
-	local LabubuTemplate = PlotUtil.CreateLabubuTemplateFromEggData(
-		labubuName, labubuData, {
+	local BrainrotTemplate = PlotUtil.CreateBrainrotTemplateFromEggData(
+		brainrotName, brainrotData, {
 			MutationTier = mutationTier,
 			ObtainedFrom = obtainedFrom or "Unknown",
 		}, rarity, EggRng
 	)
 
-	local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(LabubuTemplate)
+	local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(BrainrotTemplate)
 	if not GetMutationExtraInfo then return end
 
-	local LabubuTool: Tool = PlotUtil.getHatchableTool(labubuName)
-	if not LabubuTool then return end
+	local BrainrotTool: Tool = PlotUtil.getHatchableTool(brainrotName)
+	if not BrainrotTool then return end
 
-	local LabubuToolClone = LabubuTool:Clone()
-	copyAttributesFromTable(LabubuTemplate, LabubuToolClone)
+	local BrainrotToolClone = BrainrotTool:Clone()
+	copyAttributesFromTable(BrainrotTemplate, BrainrotToolClone)
 
-	for _, fx in pairs(LabubuToolClone:GetDescendants()) do
+	for _, fx in pairs(BrainrotToolClone:GetDescendants()) do
 		if fx:HasTag("FX") then
 			fx:Destroy()
 		end
 	end
 
-	PlotUtil.setHatchableInfoUI(LabubuToolClone, GetMutationExtraInfo.CurrentMutationName,
-		LabubuTemplate.IsMutating, LabubuTemplate
+	PlotUtil.setHatchableInfoUI(BrainrotToolClone, GetMutationExtraInfo.CurrentMutationName,
+		BrainrotTemplate.IsMutating, BrainrotTemplate
 	)
 
-	DataIndex.AddLabubuToIndex(player, LabubuTemplate)
-	DataBackpack.Labubus.addToBackpackByInstance(player, LabubuToolClone, true)
+	DataIndex.AddBrainrotToIndex(player, BrainrotTemplate)
+	DataBackpack.Brainrots.addToBackpackByInstance(player, BrainrotToolClone, true)
 end
 
-function DataPlots.GiveLabubuByRarity(
+function DataPlots.GiveBrainrotByRarity(
 	player: Player, rarity: string?, mutationTier: number?, obtainedFrom: string?)
 	-- Common to Basic: rarity now uses "Common" directly
 
@@ -1763,8 +1763,8 @@ function DataPlots.GiveLabubuByRarity(
 		DataPlots.GetExtraLuckMulti(player), nil, true
 	)
 
-	local labubuName, labubuData = PlotUtil.TranslateEggToHatchable(EggRng)
-	if not labubuName or not labubuData then return end
+	local brainrotName, brainrotData = PlotUtil.TranslateEggToHatchable(EggRng)
+	if not brainrotName or not brainrotData then return end
 
 	local eggData = PlotUtil.EggsData[EggRng]
 	if not eggData then return end
@@ -1773,34 +1773,34 @@ function DataPlots.GiveLabubuByRarity(
 
 	local currentTime = getUTCtime()
 
-	local LabubuTemplate = PlotUtil.CreateLabubuTemplateFromEggData(
-		labubuName, labubuData, {
+	local BrainrotTemplate = PlotUtil.CreateBrainrotTemplateFromEggData(
+		brainrotName, brainrotData, {
 			MutationTier = mutationTier,
 			ObtainedFrom = obtainedFrom or "Unknown",
 		}, rarity, EggRng
 	)
 
-	local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(LabubuTemplate)
+	local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(BrainrotTemplate)
 	if not GetMutationExtraInfo then return end
 
-	local LabubuTool: Tool = PlotUtil.getHatchableTool(labubuName)
-	if not LabubuTool then return end
+	local BrainrotTool: Tool = PlotUtil.getHatchableTool(brainrotName)
+	if not BrainrotTool then return end
 
-	local LabubuToolClone = LabubuTool:Clone()
-	copyAttributesFromTable(LabubuTemplate, LabubuToolClone)
+	local BrainrotToolClone = BrainrotTool:Clone()
+	copyAttributesFromTable(BrainrotTemplate, BrainrotToolClone)
 
-	for _, fx in pairs(LabubuToolClone:GetDescendants()) do
+	for _, fx in pairs(BrainrotToolClone:GetDescendants()) do
 		if fx:HasTag("FX") then
 			fx:Destroy()
 		end
 	end
 
-	PlotUtil.setHatchableInfoUI(LabubuToolClone, GetMutationExtraInfo.CurrentMutationName,
-		LabubuTemplate.IsMutating, LabubuTemplate
+	PlotUtil.setHatchableInfoUI(BrainrotToolClone, GetMutationExtraInfo.CurrentMutationName,
+		BrainrotTemplate.IsMutating, BrainrotTemplate
 	)
 
-	DataIndex.AddLabubuToIndex(player, LabubuTemplate)
-	DataBackpack.Labubus.addToBackpackByInstance(player, LabubuToolClone, true)
+	DataIndex.AddBrainrotToIndex(player, BrainrotTemplate)
+	DataBackpack.Brainrots.addToBackpackByInstance(player, BrainrotToolClone, true)
 end
 
 function DataPlots.GiveEgg(player: Player, name: string, obtainedFrom: string?)
@@ -1936,18 +1936,18 @@ function DataPlots.KeepLostMutation(player: Player)
 	local Placement = PlotUtil.getPlacementFromId(Placements, Id)
 	if not Placement then return end
 
-	if Placement:GetAttribute("Type") ~= "Labubu" then return end
+	if Placement:GetAttribute("Type") ~= "Brainrot" then return end
 
-	local labubuData = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement
-	if not labubuData then return end
+	local brainrotData = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement
+	if not brainrotData then return end
 
-	local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(labubuData)
+	local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(brainrotData)
 	if not GetMutationExtraInfo then return end
 
 	if not GetMutationExtraInfo.NextMutationTier then return end
 	if profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement.IsMutating then return end
 
-	DataPlots.MutateLabubu(player, Placement, slot, floorNum, slotNum, true)
+	DataPlots.MutateBrainrot(player, Placement, slot, floorNum, slotNum, true)
 end
 
 function DataPlots.InitAllPlots()
@@ -2013,12 +2013,12 @@ function DataPlots.InitAllPlots()
 		local Placement = PlotUtil.getPlacementFromId(Placements, Id)
 		if not Placement then return end
 
-		if Placement:GetAttribute("Type") ~= "Labubu" then return end
+		if Placement:GetAttribute("Type") ~= "Brainrot" then return end
 
-		local labubuData = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement
-		if not labubuData then return end
+		local brainrotData = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement
+		if not brainrotData then return end
 
-		local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(labubuData)
+		local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(brainrotData)
 		if not GetMutationExtraInfo then return end
 
 		if not GetMutationExtraInfo.NextMutationTier then return end
@@ -2077,7 +2077,7 @@ function DataPlots.InitAllPlots()
 
 	-- Stealing
 
-	Network.Plots.StealLabubu.OnServerEvent:Connect(function(
+	Network.Plots.StealBrainrot.OnServerEvent:Connect(function(
 		player: Player, base: Folder, expectedOwnerUserId: number, placementName: string,
 		floorNum: number, slotNum: number
 	)
@@ -2122,7 +2122,7 @@ function DataPlots.InitAllPlots()
 		local Placement: Model = Placements:FindFirstChild(placementName)
 		if not Placement then return end
 
-		if Placement:GetAttribute("Type") ~= "Labubu" then return end
+		if Placement:GetAttribute("Type") ~= "Brainrot" then return end
 		if Placement:GetAttribute("IsMutating") then return end
 		if Slot:GetAttribute("IsMutating") then return end
 		if Slot:GetAttribute("ReadyToMutate") then return end
@@ -2162,10 +2162,10 @@ function DataPlots.InitAllPlots()
 		PlayerAttributes.setAttribute(player, "TargetStealPlacementInfo", Info)
 
 		if Info.CurrentMutationTier > GlobalSettings.HighTierMutationsAreOver then
-			local Product = Products["Steal High-Tier Labubu"]
+			local Product = Products["Steal High-Tier Brainrot"]
 			Network.Purchases.promptProduct:FireClient(player, Product, true)
 		else
-			local Product = Products["Steal Labubu"]
+			local Product = Products["Steal Brainrot"]
 			Network.Purchases.promptProduct:FireClient(player, Product, true)
 		end
 	end)
@@ -2206,7 +2206,7 @@ function DataPlots.InitAllPlots()
 				local MutationColor = Mutation and MutationTextColors[Mutation]
 
 				local FilteredPlacements, Count = 
-					PlotUtil.LabubuPlacementFilterBy(Placements, Rarity, Mutation)
+					PlotUtil.BrainrotPlacementFilterBy(Placements, Rarity, Mutation)
 
 				if Count < RequiredAmount then
 					local RarityText = RarityColor and 
@@ -2215,7 +2215,7 @@ function DataPlots.InitAllPlots()
 						" " .. richColor(MutationColor, Mutation) or ""
 
 					NotifyError:FireClient(player, 
-						`You need to have {RequiredAmount}x of{RarityText}{MutationText} Labubus!`)
+						`You need to have {RequiredAmount}x of{RarityText}{MutationText} Brainrots!`)
 
 					return
 				end
@@ -2293,7 +2293,7 @@ function DataPlots.InitAllPlots()
 		end
 
 		--DataBackpack.Eggs.ResetAll(player)
-		--DataBackpack.Labubus.ResetAll(player)
+		--DataBackpack.Brainrots.ResetAll(player)
 
 		--Placements:ClearAllChildren()
 
@@ -2306,7 +2306,7 @@ function DataPlots.InitAllPlots()
 
 	-- Seller Network
 
-	Network.Seller.SellLabubus.OnServerInvoke = function(player: Player)
+	Network.Seller.SellBrainrots.OnServerInvoke = function(player: Player)
 		if PlayerCooldowns.isOnCooldown(player, "GlobalRemoteEventCooldown") then return end
 		PlayerCooldowns.setCooldown(player, "GlobalRemoteEventCooldown", 0.05)
 
@@ -2327,7 +2327,7 @@ function DataPlots.InitAllPlots()
 			local Type = Tool:GetAttribute("Type")
 			if not Type then continue end
 
-			if Type ~= "Labubu" then continue end
+			if Type ~= "Brainrot" then continue end
 			if Tool:GetAttribute("IsBeingStolen") then continue end
 			local Id = Tool:GetAttribute("Id")
 			if not Id then continue end
@@ -2345,12 +2345,12 @@ function DataPlots.InitAllPlots()
 		end
 
 		if TotalPrice > 0 then
-			DataBackpack.Labubus.ResetAll(player)
+			DataBackpack.Brainrots.ResetAll(player)
 			DataCash.giveCash(player, TotalPrice)
 			NotifySuccess:FireClient(player, 
-				`You sold {ItemsCount} Labubus for ${formatCommaValue(TotalPrice)}`, 8)
+				`You sold {ItemsCount} Brainrots for ${formatCommaValue(TotalPrice)}`, 8)
 		else
-			NotifyError:FireClient(player, "No Labubus in your Backpack to Sell")
+			NotifyError:FireClient(player, "No Brainrots in your Backpack to Sell")
 			return
 		end
 
@@ -2430,7 +2430,7 @@ function DataPlots.InitAllPlots()
 		local IsATool = Tool and Tool:IsA("Tool")
 		local Type = Tool and Tool:GetAttribute("Type")
 
-		if not Type or (Type ~= "Block" and Type ~= "Labubu") then 
+		if not Type or (Type ~= "Block" and Type ~= "Brainrot") then 
 			NotifyError:FireClient(player, "You can't sell this item!")
 
 			return 
@@ -2452,8 +2452,8 @@ function DataPlots.InitAllPlots()
 
 		if Type == "Block" then
 			DataBackpack.Eggs.removeBackpackEggByID(player, Id)
-		elseif Type == "Labubu" then
-			DataBackpack.Labubus.removeById(player, Id)
+		elseif Type == "Brainrot" then
+			DataBackpack.Brainrots.removeById(player, Id)
 		end
 
 		DataCash.giveCash(player, SellerPrice)
@@ -2485,7 +2485,7 @@ function DataPlots.InitAllPlots()
 		local IsATool = Tool and Tool:IsA("Tool")
 		local Type = Tool and Tool:GetAttribute("Type")
 
-		if not Type or (Type ~= "Block" and Type ~= "Labubu") then 
+		if not Type or (Type ~= "Block" and Type ~= "Brainrot") then 
 			NotifyError:FireClient(player, "Invalid Item!")
 
 			return 
@@ -3109,48 +3109,48 @@ function DataPlots.InitAllPlots()
 
 			profileData.EggsPlaced += 1
 			clientData.EggsPlaced(profileData.EggsPlaced)
-		elseif Type == "Labubu" then
-			local CloneLabubuData: Types.Labubu? = nil :: Types.Labubu
+		elseif Type == "Brainrot" then
+			local CloneBrainrotData: Types.Brainrot? = nil :: Types.Brainrot
 
 			if not tool:GetAttribute("IsBeingStolen") then
-				local PlayerLabubuData: Types.Labubu? = DataBackpack.Labubus.getById(player, id)
-				if not PlayerLabubuData then return end
+				local PlayerBrainrotData: Types.Brainrot? = DataBackpack.Brainrots.getById(player, id)
+				if not PlayerBrainrotData then return end
 
-				CloneLabubuData = deepCopy(PlayerLabubuData)
-				if not CloneLabubuData then return end
+				CloneBrainrotData = deepCopy(PlayerBrainrotData)
+				if not CloneBrainrotData then return end
 
-				DataBackpack.Labubus.removeById(player, id)
+				DataBackpack.Brainrots.removeById(player, id)
 			else
-				CloneLabubuData = tool:GetAttributes()
-				if not CloneLabubuData then return end
+				CloneBrainrotData = tool:GetAttributes()
+				if not CloneBrainrotData then return end
 
 				character:SetAttribute("IsStealing", nil)
-				CloneLabubuData.IsBeingStolen = nil
-				CloneLabubuData.FloorNum = nil
-				CloneLabubuData.OwnerUserId = nil
-				CloneLabubuData.ParentIndex = nil
-				CloneLabubuData.Placeable = nil
+				CloneBrainrotData.IsBeingStolen = nil
+				CloneBrainrotData.FloorNum = nil
+				CloneBrainrotData.OwnerUserId = nil
+				CloneBrainrotData.ParentIndex = nil
+				CloneBrainrotData.Placeable = nil
 
 				for _, instance: Instance? in pairs(getPlayerFullBackpack(player)) do
 					if not instance:IsA("Tool") then continue end
 
 					local Tool: Tool = instance
 
-					if Tool:GetAttribute("Type") ~= "Labubu" then continue end
+					if Tool:GetAttribute("Type") ~= "Brainrot" then continue end
 					if not Tool:GetAttribute("IsBeingStolen") then continue end
 
 					Tool:Destroy()
 				end
 			end
 
-			if CloneLabubuData then
-				profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement = CloneLabubuData
+			if CloneBrainrotData then
+				profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement = CloneBrainrotData
 
-				DataPlots.SpawnHatchableAtSlot(slot, CloneLabubuData, player)
+				DataPlots.SpawnHatchableAtSlot(slot, CloneBrainrotData, player)
 				DataPlots.SetSlotState(slot, false, true, 
 					profileData.PlotData.Floors[floorNum].Slots[slotNum], player)
-				DataIndex.AddLabubuToIndex(player, 
-					CloneLabubuData)
+				DataIndex.AddBrainrotToIndex(player, 
+					CloneBrainrotData)
 			end
 		end
 	end)
@@ -3332,12 +3332,12 @@ function DataPlots.InitAllPlots()
 		if not Placement then return end
 		if Placement.Name ~= placeName then return end
 
-		if Placement:GetAttribute("Type") ~= "Labubu" then return end
+		if Placement:GetAttribute("Type") ~= "Brainrot" then return end
 
-		local labubuData = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement
-		if not labubuData then return end
+		local brainrotData = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement
+		if not brainrotData then return end
 
-		local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(labubuData)
+		local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(brainrotData)
 		if not GetMutationExtraInfo then return end
 
 		if not GetMutationExtraInfo.NextMutationTier then return end
@@ -3407,12 +3407,12 @@ function DataPlots.InitAllPlots()
 		if not Placement then return end
 		if Placement.Name ~= placeName then return end
 
-		if Placement:GetAttribute("Type") ~= "Labubu" then return end
+		if Placement:GetAttribute("Type") ~= "Brainrot" then return end
 
-		local labubuData = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement
-		if not labubuData then return end
+		local brainrotData = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement
+		if not brainrotData then return end
 
-		local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(labubuData)
+		local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(brainrotData)
 		if not GetMutationExtraInfo then return end
 
 		if not GetMutationExtraInfo.NextMutationTier then return end
@@ -3484,12 +3484,12 @@ function DataPlots.InitAllPlots()
 		if not Placement then return end
 		if Placement.Name ~= placeName then return end
 
-		if Placement:GetAttribute("Type") ~= "Labubu" then return end
+		if Placement:GetAttribute("Type") ~= "Brainrot" then return end
 
-		local labubuData = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement
-		if not labubuData then return end
+		local brainrotData = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement
+		if not brainrotData then return end
 
-		local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(labubuData)
+		local GetMutationExtraInfo = PlotUtil.GetMutationExtraInfo(brainrotData)
 		if not GetMutationExtraInfo then return end
 
 		if not GetMutationExtraInfo.NextMutationTier then return end
@@ -3502,19 +3502,19 @@ function DataPlots.InitAllPlots()
 		-- success = false
 		-- success = true
 		if success then
-			DataPlots.MutateLabubu(player, Placement, slot, floorNum, slotNum)
+			DataPlots.MutateBrainrot(player, Placement, slot, floorNum, slotNum)
 
-			-- NotifySuccess:FireClient(player, "You've successfully mutated your Labubu!")
+			-- NotifySuccess:FireClient(player, "You've successfully mutated your Brainrot!")
 			return
 		else
 			profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement.MutationTime =
 				GetMutationExtraInfo.MutationTime
 			Placement:SetAttribute("IsMutating", false)
 
-			-- NotifyError:FireClient(player, "Your Labubu mutation failed!")
+			-- NotifyError:FireClient(player, "Your Brainrot mutation failed!")
 
 			PlotUtil.setHatchableInfoUI(Placement, GetMutationExtraInfo.CurrentMutationName,
-				labubuData.IsMutating, labubuData
+				brainrotData.IsMutating, brainrotData
 			)
 
 			local Id = profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement.Id
@@ -3528,9 +3528,9 @@ function DataPlots.InitAllPlots()
 			)
 
 			if GetMutationExtraInfo.CurrentMutationTier > 1 then
-				local newMutationTier = DataPlots.DowngradeLabubuMutation(player, Placement, slot, floorNum, slotNum)
+				local newMutationTier = DataPlots.DowngradeBrainrotMutation(player, Placement, slot, floorNum, slotNum)
 				newMutationTier = newMutationTier or 1
-				Network.Plots.MutateFail:FireClient(player, labubuData.Name, Id, newMutationTier)				
+				Network.Plots.MutateFail:FireClient(player, brainrotData.Name, Id, newMutationTier)				
 				return
 			end
 		end
@@ -3540,7 +3540,7 @@ function DataPlots.InitAllPlots()
 		clientData.PlotData(deepCopy(profileData.PlotData))
 	end)
 
-	Network.Plots.TakeLabubu.OnServerEvent:Connect(function(
+	Network.Plots.TakeBrainrot.OnServerEvent:Connect(function(
 		player: Player, placeName: string, floorNum: number, slotNum: number)
 
 		if typeof(placeName) ~= 'string' then return end
@@ -3592,15 +3592,15 @@ function DataPlots.InitAllPlots()
 		if not Placement then return end
 		if Placement.Name ~= placeName then return end
 
-		if Placement:GetAttribute("Type") ~= "Labubu" then return end
+		if Placement:GetAttribute("Type") ~= "Brainrot" then return end
 		if profileData.PlotData.Floors[floorNum].Slots[slotNum].Placement.IsMutating then return end
 
-		if DataBackpack.Labubus.getLength(player) >= GlobalSettings.BackpackHatchablesLimit then
-			return NotifyError:FireClient(player, "Your backpack is full, Place or Sell your Labubus!")
+		if DataBackpack.Brainrots.getLength(player) >= GlobalSettings.BackpackHatchablesLimit then
+			return NotifyError:FireClient(player, "Your backpack is full, Place or Sell your Brainrots!")
 		end
 
-		local LabubuTool: Tool = PlotUtil.getHatchableTool(Placement.Name)
-		if not LabubuTool then return end
+		local BrainrotTool: Tool = PlotUtil.getHatchableTool(Placement.Name)
+		if not BrainrotTool then return end
 
 		local PlacementAttributes = Placement:GetAttributes()
 		PlacementAttributes.ParentIndex = nil
@@ -3613,9 +3613,9 @@ function DataPlots.InitAllPlots()
 			player
 		)
 
-		local LabubuToolClone = LabubuTool:Clone()
-		copyAttributesFromTable(PlacementAttributes, LabubuToolClone)
-		DataBackpack.Labubus.addToBackpackByInstance(player, LabubuToolClone, true)
+		local BrainrotToolClone = BrainrotTool:Clone()
+		copyAttributesFromTable(PlacementAttributes, BrainrotToolClone)
+		DataBackpack.Brainrots.addToBackpackByInstance(player, BrainrotToolClone, true)
 
 		DataPlots.SetSlotState(slot, false, false)
 		clientData.PlotData(deepCopy(profileData.PlotData))
@@ -3851,7 +3851,7 @@ function DataPlots.characterAdded(player: Player, character: Model) -- automatic
 	if profileData == nil or clientData == nil then return end
 
 	DataBackpack.Eggs.EquipAll(player)
-	DataBackpack.Labubus.EquipAll(player)
+	DataBackpack.Brainrots.EquipAll(player)
 end
 
 function DataPlots.earlyPlayerAdded(player: Player) -- automatic

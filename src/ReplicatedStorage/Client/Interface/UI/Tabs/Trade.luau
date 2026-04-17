@@ -62,7 +62,7 @@ local tradeReqNo = tradeReqMain.No
 local inTrade = false
 local tradePartnerName = nil
 local pendingRequestSender = nil
-local myOffer: {string} = {} -- list of labubu names offered
+local myOffer: {string} = {} -- list of brainrot names offered
 local myAccepted = false
 local otherAccepted = false
 
@@ -238,10 +238,10 @@ local function populateSearch()
 	clearScroll(searchScroll)
 
 	local backpack = ClientData.Backpack()
-	if not backpack or not backpack.Labubus then return end
+	if not backpack or not backpack.Brainrots then return end
 
-	for _, labubu in backpack.Labubus do
-		local itemName = labubu.Name or labubu.Type or "Unknown"
+	for _, brainrot in backpack.Brainrots do
+		local itemName = brainrot.Name or brainrot.Type or "Unknown"
 		local isInOffer = table.find(myOffer, itemName) ~= nil
 
 		local btn = Instance.new("TextButton")
