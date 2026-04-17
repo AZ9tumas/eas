@@ -1,209 +1,203 @@
 local Brainrots = {
-	-- Common = from Basic Egg
-	["Normal Brainrot"] = {
-		DisplayName = "Normal Brainrot",
+	-- Common
+	["Madung Brainrot"] = {
+		DisplayName = "Madung Brainrot",
 		Rarity = "Common",
 		CPS = 1,
 		Weight = 100,
 	},
-	["Fall In Wild Brainrot"] = {
-		DisplayName = "Fall In Wild Brainrot",
+	["Mateo Brainrot"] = {
+		DisplayName = "Mateo Brainrot",
 		Rarity = "Common",
 		CPS = 2,
 		Weight = 80,
 	},
-	["Time To Chill Brainrot"] = {
-		DisplayName = "Time To Chill Brainrot",
+	["Pipi Kiwi Brainrot"] = {
+		DisplayName = "Pipi Kiwi Brainrot",
 		Rarity = "Common",
 		CPS = 3,
 		Weight = 60,
 	},
-	["Artist Brainrot"] = {
-		DisplayName = "Artist Brainrot",
+	["Tim Cheese Brainrot"] = {
+		DisplayName = "Tim Cheese Brainrot",
 		Rarity = "Common",
 		CPS = 4,
 		Weight = 40,
 	},
-	["Shark Brainrot"] = {
-		DisplayName = "Shark Brainrot",
+	["Ben Brainrot"] = {
+		DisplayName = "Ben Brainrot",
 		Rarity = "Common",
 		CPS = 5,
 		Weight = 30,
 	},
 
 	-- Rare
-	["Jump Into Summer Brainrot"] = {
-		DisplayName = "Jump Into Summer Brainrot",
+	["Chimpanzini Bananini Brainrot"] = {
+		DisplayName = "Chimpanzini Bananini Brainrot",
 		Rarity = "Rare",
 		CPS = 10,
 		Weight = 25,
 	},
-	["Sheriff Brainrot"] = {
-		DisplayName = "Sheriff Brainrot",
+	["Tralalero Tralala Brainrot"] = {
+		DisplayName = "Tralalero Tralala Brainrot",
 		Rarity = "Rare",
 		CPS = 12,
 		Weight = 20,
 	},
-	["Blue Diamond Brainrot"] = {
-		DisplayName = "Blue Diamond Brainrot",
+	["Bandito Bobrito Brainrot"] = {
+		DisplayName = "Bandito Bobrito Brainrot",
 		Rarity = "Rare",
 		CPS = 14,
 		Weight = 15,
 	},
-	["Ninja Brainrot"] = {
-		DisplayName = "Ninja Brainrot",
+	["Frigo Camelo Brainrot"] = {
+		DisplayName = "Frigo Camelo Brainrot",
 		Rarity = "Rare",
 		CPS = 16,
 		Weight = 10,
 	},
-	["Chef Brainrot"] = {
-		DisplayName = "Chef Brainrot",
-		Rarity = "Rare",
-		CPS = 18,
-		Weight = 8,
-	},
 
 	-- Epic
-	["Knight Brainrot"] = {
-		DisplayName = "Knight Brainrot",
+	["Tung Tung Sahur Brainrot"] = {
+		DisplayName = "Tung Tung Sahur Brainrot",
 		Rarity = "Epic",
 		CPS = 56,
 		Weight = 5,
 	},
-	["Be Fancy Now Brainrot"] = {
-		DisplayName = "Be Fancy Now Brainrot",
+	["Brr Brr Patapim Brainrot"] = {
+		DisplayName = "Brr Brr Patapim Brainrot",
 		Rarity = "Epic",
 		CPS = 58,
 		Weight = 4,
 	},
-	["Hide and Seek Brainrot"] = {
-		DisplayName = "Hide and Seek Brainrot",
+	["Cappuccino Assassino Brainrot"] = {
+		DisplayName = "Cappuccino Assassino Brainrot",
 		Rarity = "Epic",
 		CPS = 61,
 		Weight = 3,
 	},
-	["Wings of Fortune Brainrot"] = {
-		DisplayName = "Wings of Fortune Brainrot",
+	["Balerina Capucina Brainrot"] = {
+		DisplayName = "Balerina Capucina Brainrot",
 		Rarity = "Epic",
 		CPS = 63,
 		Weight = 2.5,
 	},
-	["Twinkly Fairy Tale Brainrot"] = {
-		DisplayName = "Twinkly Fairy Tale Brainrot",
+	["Trippi Troppi Brainrot"] = {
+		DisplayName = "Trippi Troppi Brainrot",
 		Rarity = "Epic",
 		CPS = 65,
 		Weight = 2,
 	},
 
 	-- Legendary
-	["Vampire Brainrot"] = {
-		DisplayName = "Vampire Brainrot",
+	["Lirili Larila Brainrot"] = {
+		DisplayName = "Lirili Larila Brainrot",
 		Rarity = "Legendary",
 		CPS = 380,
 		Weight = 1,
 	},
-	["Cupid Brainrot"] = {
-		DisplayName = "Cupid Brainrot",
+	["Boneca Ambalabu Brainrot"] = {
+		DisplayName = "Boneca Ambalabu Brainrot",
 		Rarity = "Legendary",
 		CPS = 400,
 		Weight = 0.8,
 	},
-	["Pharaoh Brainrot"] = {
-		DisplayName = "Pharaoh Brainrot",
+	["La Vacca Saturno Saturnita Brainrot"] = {
+		DisplayName = "La Vacca Saturno Saturnita Brainrot",
 		Rarity = "Legendary",
 		CPS = 420,
 		Weight = 0.6,
 	},
-	["Juggling Clown Brainrot"] = {
-		DisplayName = "Juggling Clown Brainrot",
+	["Bombardino Crocodilo Brainrot"] = {
+		DisplayName = "Bombardino Crocodilo Brainrot",
 		Rarity = "Legendary",
 		CPS = 440,
 		Weight = 0.5,
 	},
 
 	-- Mythic
-	["Princess Brainrot"] = {
-		DisplayName = "Princess Brainrot",
+	["Glorbo Fruttodrillo Brainrot"] = {
+		DisplayName = "Glorbo Fruttodrillo Brainrot",
 		Rarity = "Mythic",
 		CPS = 1000,
 		Weight = 0.2,
 	},
-	["Lets Checkmate Brainrot"] = {
-		DisplayName = "Lets Checkmate Brainrot",
+	["Espresso Signora Brainrot"] = {
+		DisplayName = "Espresso Signora Brainrot",
 		Rarity = "Mythic",
 		CPS = 1100,
 		Weight = 0.15,
 	},
-	["Good Luck To You Brainrot"] = {
-		DisplayName = "Good Luck To You Brainrot",
+	["Trippi Troppi Troppa Trippa Brainrot"] = {
+		DisplayName = "Trippi Troppi Troppa Trippa Brainrot",
 		Rarity = "Mythic",
 		CPS = 1200,
 		Weight = 0.1,
 	},
 
 	-- Godlike
-	["Angel In Clouds Brainrot"] = {
-		DisplayName = "Angel In Clouds Brainrot",
+	["Skibidi Toilet Brainrot"] = {
+		DisplayName = "Skibidi Toilet Brainrot",
 		Rarity = "Godlike",
 		CPS = 8000,
 		Weight = 0.02,
 	},
-	["Fairy Brainrot"] = {
-		DisplayName = "Fairy Brainrot",
+	["Trollface Brainrot"] = {
+		DisplayName = "Trollface Brainrot",
 		Rarity = "Godlike",
 		CPS = 8250,
 		Weight = 0.015,
 	},
 
 	-- Secret
-	["Catch Me If You Like Brainrot"] = {
-		DisplayName = "Catch Me If You Like Brainrot",
+	["Illuminati Brainrot"] = {
+		DisplayName = "Illuminati Brainrot",
 		Rarity = "Secret",
 		CPS = 10000,
 		Weight = 0.005,
 	},
 
 	-- Event
-	["Frostborn Brainrot"] = {
-		DisplayName = "Frostborn Brainrot",
+	["Nyan Cat Brainrot"] = {
+		DisplayName = "Nyan Cat Brainrot",
 		Rarity = "Event",
 		CPS = 5000,
 		Weight = 0.05,
 	},
 
 	-- Exclusive
-	["JOB Brainrot"] = {
-		DisplayName = "JOB Brainrot",
+	["Pepe Brainrot"] = {
+		DisplayName = "Pepe Brainrot",
 		Rarity = "Exclusive",
 		CPS = 1000,
 		Weight = 0.5,
 	},
-	["Baddie Brainrot"] = {
-		DisplayName = "Baddie Brainrot",
+	["Smurf Cat Brainrot"] = {
+		DisplayName = "Smurf Cat Brainrot",
 		Rarity = "Exclusive",
 		CPS = 1200,
 		Weight = 0.4,
 	},
-	["Ballerina Cappucina Brainrot"] = {
-		DisplayName = "Ballerina Cappucina Brainrot",
+	["Happy Banana Cat Brainrot"] = {
+		DisplayName = "Happy Banana Cat Brainrot",
 		Rarity = "Exclusive",
 		CPS = 1500,
 		Weight = 0.3,
 	},
-	["Tung Tung Brainrot"] = {
-		DisplayName = "Tung Tung Brainrot",
+	["69 Brainrot"] = {
+		DisplayName = "69 Brainrot",
 		Rarity = "Exclusive",
 		CPS = 2000,
 		Weight = 0.25,
 	},
-	["Brr Brr Batapim Brainrot"] = {
-		DisplayName = "Brr Brr Batapim Brainrot",
+	["67 Brainrot"] = {
+		DisplayName = "67 Brainrot",
 		Rarity = "Exclusive",
 		CPS = 2500,
 		Weight = 0.2,
 	},
-	["Cappucino Brainrot"] = {
-		DisplayName = "Cappucino Brainrot",
+	["La Grande Combination Brainrot"] = {
+		DisplayName = "La Grande Combination Brainrot",
 		Rarity = "Exclusive",
 		CPS = 3000,
 		Weight = 0.15,

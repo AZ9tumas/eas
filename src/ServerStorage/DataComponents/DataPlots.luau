@@ -1070,7 +1070,7 @@ function DataPlots.ApplyPlotData(plot: Model, plotData: Types.PlotData, player: 
 					DataPlots.AddSlotToPlayerData(player, 1, 1)
 					DataPlots.SetSlotState(firstSlot, false, false)
 
-					local name = "Normal Brainrot"
+					local name = "Madung Brainrot"
 
 					local BrainrotInfo = PlotUtil.getBrainrotData(name)
 					if not BrainrotInfo then return end
