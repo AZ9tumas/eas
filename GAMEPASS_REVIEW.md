@@ -232,11 +232,21 @@ end
 
 ---
 
+### Group Chest Reward (Fixed)
+
+- The `GroupChestPrompt.luau` proximity prompt handler was **fully commented out** — the prompt on the GroupChestPart in each base's Floor1 did nothing.
+- **Fixed:** Enabled the handler with group ID `784444031`. When triggered, it checks `player:IsInGroup(784444031)` and then calls `DataGroupRewards.claimGroupReward(player)`, which does an authoritative `IsInGroupAsync` check and rewards an exclusive Labubu via `DataPlots.GiveLabubuByRarity(player, "Exclusive", 1, "GroupReward")`.
+- The UI-based claim path (GroupReward tab → "Verify" button → `Network.GroupRewards.Claimed` remote) was already working and uses `ReplicatedStorage.GroupID.Value` for the group ID.
+- **Note:** Roblox does not provide a server-side API to verify whether a player has "liked" (favorited) the game. The `FavoritePrompt` system in `DataPrompts.luau` can prompt the player to favorite, but cannot verify completion. The game like requirement would need to be enforced through external means or treated as a soft/UI-only check.
+
+---
+
 ## Bugs Summary — Action Items
 
 | Priority | Gamepass | Issue | Fix |
 |----------|---------|-------|-----|
 | 🔴 High | **Starter Pack** | Missing 100k cash reward on purchase | Add `DataCash.giveCash(player, 100000, true)` in the purchase handler |
 | 🔴 High | **Magic Shield** | Server-side steal protection is commented out — exploitable | Uncomment the server-side check in `DataPlots.HandleStealing()` using `TargetBaseOwner:GetAttribute("MagicShield")` |
+| ✅ Fixed | **Group Chest Prompt** | Proximity prompt handler was commented out — group reward unreachable via prompt | Enabled with group ID `784444031` |
 | ⚠️ Low | **Triple Hatch** | Warning emojis in handler suggest unresolved concern; code logic is correct | Clean up comments and remove ⚠️ warning |
 | ℹ️ Info | **Auto-Collect** | 60s collection interval; first collection delayed | Consider reducing interval or adding immediate first collection |
