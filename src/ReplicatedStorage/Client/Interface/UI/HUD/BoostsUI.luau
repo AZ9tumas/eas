@@ -76,6 +76,7 @@ function FriendBoost.init()
 
 			local ImageLabel = Instance.new("ImageLabel")
 			ImageLabel.Image = Icon
+			ImageLabel.BackgroundTransparency = 1
 			ImageLabel.ScaleType = Enum.ScaleType.Fit
 			ImageLabel.Name = name
 			ImageLabel.LayoutOrder = BoostsImages.Get(name).Priority

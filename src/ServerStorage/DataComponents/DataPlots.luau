@@ -332,13 +332,13 @@ function DataPlots.UpdateRollsInfo(plot: Model, RollsInfo: Types.PlotRollsInfo, 
 	local MythicalRolls: number = PlotUtil.getRollsLeft(RollsAmount, Pity.Mythic)
 
 	EpicLabel.Text =
-		`<font color="#ff80ff">Epic</font> Egg In {EpicRolls} Rolls`
+		`<font color="#ff80ff">Epic</font> Block In {EpicRolls} Rolls`
 
 	LegendaryLabel.Text =
-		`<font color="#ffff00">Legendary</font> Egg In {LegendaryRolls} Rolls`
+		`<font color="#ffff00">Legendary</font> Block In {LegendaryRolls} Rolls`
 
 	MythicalLabel.Text =
-		`<font color="#ff0000">Mythical</font> Egg In {MythicalRolls} Rolls`
+		`<font color="#ff0000">Mythical</font> Block In {MythicalRolls} Rolls`
 
 	if SpawnEggs then
 		local EggPillars: { Model } = PlotUtil.getEggPillars(dropper)

@@ -48,6 +48,7 @@ function Traits.init()
 
 			local ImageLabel = Instance.new("ImageLabel")
 			ImageLabel.Image = Icon
+			ImageLabel.BackgroundTransparency = 1
 			ImageLabel.ScaleType = Enum.ScaleType.Fit
 			ImageLabel.Name = name
 			ImageLabel.Parent = mainGui
