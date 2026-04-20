@@ -652,6 +652,25 @@ function PlotUtil.spawnEggRoll(
 	mutationTier: number?
 )
 	mutationTier = mutationTier or 1
+
+	-- Premium pillars must only ever hold one block.
+	-- If the pillar already has an egg occupying it, do nothing.
+	if parent and parent:GetAttribute("Premium") then
+		local ParentIndex = parent:GetAttribute("Index")
+		if ParentIndex then
+			local dropper = parent.Parent -- EggPillars folder -> Dropper
+			local eggRolls = dropper and dropper:FindFirstChild("EggRolls")
+			if eggRolls then
+				for _, existing in pairs(eggRolls:GetChildren()) do
+					if existing:GetAttribute("ParentIndex") == ParentIndex then
+						-- A block is already present on this premium pillar; leave it alone.
+						return existing
+					end
+				end
+			end
+		end
+	end
+
 	local egg: Model = Eggs:FindFirstChild(eggName)
 
 	if not egg then

@@ -347,8 +347,7 @@ function DataPlots.UpdateRollsInfo(plot: Model, RollsInfo: Types.PlotRollsInfo, 
 		local EggsRolls: Folder = dropper:FindFirstChild("EggRolls")
 		if not EggsRolls then return end
 
-		EggsRolls:ClearAllChildren()
-
+		-- Build pillar index map first so we know which eggs are premium.
 		local EggPillarsByIndex: { [number]: Model } = {}
 
 		for _, pillar in pairs(EggPillars) do
@@ -356,6 +355,16 @@ function DataPlots.UpdateRollsInfo(plot: Model, RollsInfo: Types.PlotRollsInfo, 
 			if not EggPillarInfo then continue end
 
 			EggPillarsByIndex[EggPillarInfo.Index] = pillar
+		end
+
+		-- Only clear non-premium eggs; premium blocks must persist.
+		for _, existing in pairs(EggsRolls:GetChildren()) do
+			local idx = existing:GetAttribute("ParentIndex")
+			local pillar = idx and EggPillarsByIndex[idx]
+			local isPremium = pillar and PlotUtil.getEggPillarInfo(pillar).Premium
+			if not isPremium then
+				existing:Destroy()
+			end
 		end
 
 		for index, eggName in pairs(RollsInfo.EggRolls) do
@@ -366,7 +375,19 @@ function DataPlots.UpdateRollsInfo(plot: Model, RollsInfo: Types.PlotRollsInfo, 
 
 			local EggPillarInfo = PlotUtil.getEggPillarInfo(EggPillarsByIndex[index])
 
-			local egg: Model = PlotUtil.spawnEggRoll(eggName, 
+			-- Skip premium pillars that already have a block present.
+			if EggPillarInfo.Premium then
+				local alreadyPresent = false
+				for _, existing in pairs(EggsRolls:GetChildren()) do
+					if existing:GetAttribute("ParentIndex") == index then
+						alreadyPresent = true
+						break
+					end
+				end
+				if alreadyPresent then continue end
+			end
+
+			local egg: Model = PlotUtil.spawnEggRoll(eggName,
 				EggPillarsByIndex[index], not EggPillarInfo.Premium, "SpinRoll")
 			egg.Parent = EggsRolls
 		end
@@ -2612,14 +2633,25 @@ function DataPlots.InitAllPlots()
 		end
 
 		local function spawnNormalEgg(info, pillar, rng)
+			-- Premium blocks are permanent; never destroy or re-spawn them.
+			if info.Premium then
+				for _, existing in pairs(EggsRolls:GetChildren()) do
+					if existing:GetAttribute("ParentIndex") == info.Index then
+						return -- already present, leave it untouched
+					end
+				end
+				-- First-time spawn only
+				local egg = PlotUtil.spawnEggRoll(rng, pillar, nil, "SpinRoll")
+				if egg then
+					egg.Parent = EggsRolls
+				end
+				profileData.PlotData.RollsInfo.EggRolls[info.Index] = egg and egg.Name
+				return
+			end
+
 			destroyEggAtIndex(info.Index)
 
-			local egg
-			if info.Premium then
-				egg = PlotUtil.spawnEggRoll(rng, pillar, nil, "SpinRoll")
-			else
-				egg = PlotUtil.spawnEggRoll(rng, pillar, true, "SpinRoll")
-			end
+			local egg = PlotUtil.spawnEggRoll(rng, pillar, true, "SpinRoll")
 
 			if egg then
 				egg.Parent = EggsRolls
@@ -2863,7 +2895,23 @@ function DataPlots.InitAllPlots()
 			Button.Trigger:Fire(true)
 		end
 
-		EggsRolls:ClearAllChildren()
+		-- Clear only non-premium eggs; premium blocks must persist.
+		for _, existing in pairs(EggsRolls:GetChildren()) do
+			local idx = existing:GetAttribute("ParentIndex")
+			local isPremium = false
+			if idx then
+				for _, pillar in pairs(EggPillars) do
+					local info = PlotUtil.getEggPillarInfo(pillar)
+					if info and info.Index == idx and info.Premium then
+						isPremium = true
+						break
+					end
+				end
+			end
+			if not isPremium then
+				existing:Destroy()
+			end
+		end
 
 		local RollsAmount: number = profileData.PlotData.RollsInfo.EggRollsCount
 

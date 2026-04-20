@@ -7,6 +7,7 @@ local Players = game:GetService("Players")
 --//imports
 local DataHandler = require(ServerStorage.DataHandler)
 local DataPlots = require(ServerStorage.DataComponents.DataPlots)
+local DataCash = require(ServerStorage.DataComponents.DataCash)
 local PlotUtil = require(ReplicatedStorage.Shared.Game.PlotUtil)
 
 
@@ -30,7 +31,10 @@ end
 
 GamepassPurchaseHandlers["Starter Pack"] = function(player: Player, OnPurchase: boolean?)
 	if OnPurchase then
+		DataPlots.GiveBrainrot(player, "Brr Brr Patapim Brainrot", 5, "Pass") -- Rainbow (tier 5)
+		DataPlots.GiveBrainrot(player, "Bombardino Crocodilo Brainrot", 6, "Pass") -- Thunder (tier 6)
 		DataPlots.GiveEgg(player, "Arcane Block", "Pass")
+		DataCash.giveCash(player, 100000, true)
 	end
 end
 
