@@ -483,6 +483,24 @@ function DataPlots.SpawnHatchableAtSlot(slot: Model, brainrotData: Types.Brainro
 	)
 
 	brainrotModel.Parent = slotsPlacement
+
+	-- Apply mutation aura VFX
+	local mutationName = GetMutationExtraInfo.CurrentMutationName
+	if mutationName and mutationName ~= "Default" then
+		local auraName = mutationName == "Thunder" and "Electric" or mutationName
+		local Auras = ReplicatedStorage:FindFirstChild("Auras")
+		if Auras then
+			local auraPart = Auras:FindFirstChild(auraName)
+			local primaryPart = brainrotModel.PrimaryPart
+			if auraPart and primaryPart then
+				local auraClone = auraPart:Clone()
+				auraClone.Anchored = true
+				auraClone.CanCollide = false
+				auraClone.CFrame = primaryPart.CFrame
+				auraClone.Parent = primaryPart
+			end
+		end
+	end
 end
 
 function DataPlots.HatchEgg(egg: Model, slot: Model, player: Player?, mutationTier: number?)
@@ -524,6 +542,26 @@ function DataPlots.HatchEgg(egg: Model, slot: Model, player: Player?, mutationTi
 			profileData.PlotData.Floors[getSlotInfo.floorNum].Slots[getSlotInfo.SlotNum].Placement
 				= BrainrotTemplate
 
+			-- Burst-emit the hatch VFX before destroying the egg
+			local vfxPart = placement:FindFirstChildWhichIsA("BasePart", true)
+				or placement:FindFirstChild("EggHatch")
+			if not vfxPart then
+				for _, desc in ipairs(placement:GetDescendants()) do
+					if desc.Name == "EggHatch" and desc:IsA("BasePart") then
+						vfxPart = desc
+						break
+					end
+				end
+			end
+			if vfxPart then
+				for _, emitter in ipairs(vfxPart:GetDescendants()) do
+					if emitter:IsA("ParticleEmitter") then
+						emitter.Enabled = false
+						emitter:Emit(50)
+					end
+				end
+			end
+
 			placement:Destroy()
 
 			DataPlots.SpawnHatchableAtSlot(slot, 
@@ -541,9 +579,10 @@ function DataPlots.HatchEgg(egg: Model, slot: Model, player: Player?, mutationTi
 				clientData.PlotData(deepCopy(profileData.PlotData))
 				clientData.EggsHatched(profileData.EggsHatched)
 			end
-		end
 
-		NotifySuccess:FireClient(player, "Successfully hatched egg!")
+			NotifySuccess:FireClient(player, "Successfully hatched egg!")
+			Network.Plots.EggHatchVFX:FireClient(player)
+		end
 	end
 end
 
@@ -1327,6 +1366,22 @@ function DataPlots.SpawnEggAtSlot(slot: Model, egg: Model | Tool | Types.Egg)
 	eggModel:PivotTo(CFrame.new(finalpos) * sourceRotation)
 
 	PlotUtil.applyAlignConstraints(eggModel, finalpos, sourceRotation)
+
+	-- Attach hatch VFX while the egg is incubating (server-side so all clients see it)
+	local eggVFXTemplate = ReplicatedStorage.Assets.VFX:FindFirstChild("EggHatch")
+	local eggPrimaryPart = eggModel.PrimaryPart or eggModel:FindFirstChildWhichIsA("BasePart")
+	if eggVFXTemplate and eggPrimaryPart then
+		local eggVFXClone = eggVFXTemplate:Clone()
+		eggVFXClone.Anchored = true
+		eggVFXClone.CanCollide = false
+		eggVFXClone.CFrame = eggPrimaryPart.CFrame
+		for _, emitter in ipairs(eggVFXClone:GetDescendants()) do
+			if emitter:IsA("ParticleEmitter") then
+				emitter.Enabled = true
+			end
+		end
+		eggVFXClone.Parent = eggModel
+	end
 
 	eggModel.Parent = slotsPlacement
 end

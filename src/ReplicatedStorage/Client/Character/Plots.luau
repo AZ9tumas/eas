@@ -1,5 +1,6 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
 local player = Players.LocalPlayer
 local char = player.Character or player.CharacterAdded:Wait()
 
@@ -19,10 +20,18 @@ local Types = require(ReplicatedStorage.Shared.Types)
 
 local Notification = require(ReplicatedStorage.Client.Interface.UI.Overlays.Notification)
 local stringRemoveTrailingSpaces = require(ReplicatedStorage.Shared.Utility.String.stringRemoveTrailingSpaces)
+local CameraShaker = require(ReplicatedStorage.Shared.Classes.CameraShaker)
 
 local InterfaceSounds = ReplicatedStorage.Assets.Sounds.Interface
 local ClickSound = InterfaceSounds.ButtonClick
 local HoverSound = InterfaceSounds.ButtonHover
+local GameSounds = ReplicatedStorage.Assets.Sounds
+
+local camera = workspace.CurrentCamera
+local camShaker = CameraShaker.new(Enum.RenderPriority.Camera.Value, function(shakeCF)
+	camera.CFrame = camera.CFrame * shakeCF
+end)
+camShaker:Start()
 
 local localPlayer = Players.LocalPlayer
 local playerGui = localPlayer.PlayerGui
@@ -431,6 +440,17 @@ function Plots.init()
 	UpdatePlot()
 	
 	Charm.subscribe(ClientData.PlotData, UpdatePlotData)
+
+	Network.Plots.EggHatchVFX.OnClientEvent:Connect(function()
+		-- Camera shake on hatch completion
+		camShaker:ShakeOnce(3, 5, 0.1, 0.5)
+
+		-- Sound
+		local revealSound = GameSounds:FindFirstChild("Reveal")
+		if revealSound then
+			revealSound:Play()
+		end
+	end)
 end
 
 function Plots.characterAdded(character: Model)
