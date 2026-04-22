@@ -1791,6 +1791,53 @@ local MutationInfoTabCache = {
 	SlotNum = nil,
 }
 
+local GO_BUTTON_TWEEN_INFO = TweenInfo.new(0.35, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+local GO_BUTTON_PRESS_DISTANCE = 0.08
+local GO_BUTTON_PRESS_HOLD = 0.05
+
+local function playGoButtonVFX(buttonPart: BasePart)
+	local originalCFrame = buttonPart.CFrame
+
+	-- Particles on vfxpart1
+	local vfxPart = buttonPart:FindFirstChild("vfxpart1")
+	if vfxPart then
+		local particles = vfxPart:FindFirstChildWhichIsA("ParticleEmitter", true)
+		if particles then
+			particles:Emit(1)
+		end
+	end
+
+	-- Sparks on Sparks/End
+	local sparksPart = buttonPart:FindFirstChild("Sparks")
+	if sparksPart then
+		local endPart = sparksPart:FindFirstChild("End")
+		if endPart then
+			local sparksEmitter = endPart:FindFirstChildWhichIsA("ParticleEmitter", true)
+			if sparksEmitter then
+				sparksEmitter:Emit(8)
+			end
+		end
+	end
+
+	-- Sound
+	local sound = buttonPart:FindFirstChild("Sound")
+	if sound then
+		sound:Play()
+	end
+
+	-- Button press tween
+	task.spawn(function()
+		local pressDir = buttonPart.CFrame.LookVector
+		local pressedCFrame = originalCFrame + pressDir * GO_BUTTON_PRESS_DISTANCE
+		local pressTween = TweenService:Create(buttonPart, GO_BUTTON_TWEEN_INFO, { CFrame = pressedCFrame })
+		pressTween:Play()
+		pressTween.Completed:Wait()
+		task.wait(GO_BUTTON_PRESS_HOLD)
+		local returnTween = TweenService:Create(buttonPart, GO_BUTTON_TWEEN_INFO, { CFrame = originalCFrame })
+		returnTween:Play()
+	end)
+end
+
 function PlotUtil.initClientPlot(plot: Model)
 	if not plot or not plot.Parent then return end
 
@@ -2102,6 +2149,8 @@ function PlotUtil.initClientPlot(plot: Model)
 					ScreenGoClick.MouseClick:Connect(function(player: Player)
 						if player ~= LocalPlayer then return end
 						if not plot:GetAttribute("Initialized") then return end
+
+						playGoButtonVFX(ScreenGo)
 
 						if not ButtonRatelimit:Try() then return end
 

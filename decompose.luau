@@ -2,9 +2,9 @@ local fs = require("@lune/fs")
 local roblox = require("@lune/roblox")
 local serde = require("@lune/serde")
 
-local INPUT_FILE = "CashDisplay.rbxm"
+local INPUT_FILE = "EggSpinGoButton.rbxm"
 local OUTPUT_DIR = "Disassembly"
-local OUTPUT_FILE = OUTPUT_DIR .. "/CashDisplay.json"
+local OUTPUT_FILE = OUTPUT_DIR .. "/EggSpinGoButton.json"
 
 -- Ensure output directory exists
 if not fs.isDir(OUTPUT_DIR) then

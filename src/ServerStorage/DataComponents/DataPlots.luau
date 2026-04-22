@@ -2639,6 +2639,7 @@ function DataPlots.InitAllPlots()
 		end
 
 		local function middleFusionReady(rng)
+			print(rng, "fusion check")
 			local a, b, c = rng[2], rng[3], rng[4]
 			return a ~= nil and a == b and b == c
 		end
