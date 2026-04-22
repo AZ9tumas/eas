@@ -4,6 +4,7 @@ local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 
 local MutationTextColors = require(ReplicatedStorage.Data.TextColors.Mutation)
+local Brainrots = require(ReplicatedStorage.Data.Brainrots)
 local InterfaceHUDUtil = require(ReplicatedStorage.Client.Interface.Utility.InterfaceHUDUtil)
 local InterfaceTabUtil = require(ReplicatedStorage.Client.Interface.Utility.InterfaceTabUtil)
 local Satchel = require(ReplicatedStorage.Satchel.SatchelLoader.Satchel)
@@ -201,6 +202,11 @@ function NewMutation.revealAsync(model: Model, mutationTier: number)
 
     local name = model.Name
     nameLabel.Text = name
+
+    local brainrotData = Brainrots[name]
+    if brainrotData and brainrotData.Icon then
+        brainrotIcon.Image = brainrotData.Icon
+    end
 
     local mutationName = PlotUtil.MutationTierToName(mutationTier)
     if mutationName then

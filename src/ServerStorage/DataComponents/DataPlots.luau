@@ -2782,6 +2782,50 @@ function DataPlots.InitAllPlots()
 			local EffectClone = CachedEggsFusionEffect[plot]:Clone()
 
 			EffectClone.Parent = EggsRolls.Parent:WaitForChild("Effects")
+
+			-- Swap the static (yellow) animation blocks with clones of the actually-rolled egg
+			-- so the fusion animation visually reflects the rolled rarity.
+			-- middleFusionReady() guarantees PreRolledRNG[2] == [3] == [4]; fall back through them.
+			local fusionEggName = PreRolledRNG[3] or PreRolledRNG[2] or PreRolledRNG[4]
+			local fusionSourceEgg = fusionEggName and Eggs:FindFirstChild(fusionEggName)
+
+			if fusionSourceEgg then
+				local function buildFusionEggClone(sourceEgg: Model, targetCFrame: CFrame, name: string)
+					local clone = sourceEgg:Clone()
+
+					for _, descendant in ipairs(clone:GetDescendants()) do
+						if descendant:IsA("SurfaceGui")
+							or descendant:IsA("BillboardGui")
+							or descendant:IsA("ProximityPrompt")
+							or descendant:IsA("ClickDetector")
+							or descendant:IsA("Highlight")
+						then
+							descendant:Destroy()
+						elseif descendant:IsA("BasePart") then
+							descendant.Transparency = 0
+						end
+					end
+
+					clone.Name = name
+					clone:PivotTo(targetCFrame)
+					return clone
+				end
+
+				for _, blockName in ipairs({ "Egg1", "Egg2", "Egg3" }) do
+					local staticBlock = EffectClone:FindFirstChild(blockName)
+					if staticBlock then
+						local cf = staticBlock:GetPivot()
+						local newClone = buildFusionEggClone(fusionSourceEgg, cf, blockName)
+						staticBlock:Destroy()
+						newClone.Parent = EffectClone
+					else
+						warn(("EggsFusion: missing static block %q; leaving fusion animation as-is."):format(blockName))
+					end
+				end
+			else
+				warn(("EggsFusion: could not resolve rolled egg %q in Assets.Eggs; keeping yellow fallback blocks."):format(tostring(fusionEggName)))
+			end
+
 			EffectClone.Script.Enabled = true
 
 			PlayerCooldowns.setCooldown(player, "EggRollSpinCooldown", cooldown)

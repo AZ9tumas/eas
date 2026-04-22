@@ -2048,8 +2048,14 @@ function PlotUtil.initClientPlot(plot: Model)
 
 			if IsHatching or IsMutating then
 				GoButtonUI.Background.Frame.GoText.Text = "SKIP"
+				GoButtonUI.Background.BackgroundColor3 = Color3.fromRGB(220, 0, 0)
+				GoButtonUI.Background.Frame.BackgroundColor3 = Color3.fromRGB(220, 0, 0)
+				GoButtonUI.Background.Frame.GoText.TextColor3 = Color3.fromRGB(100, 0, 0)
 			else
 				GoButtonUI.Background.Frame.GoText.Text = "GO"
+				GoButtonUI.Background.BackgroundColor3 = Color3.fromRGB(0, 220, 0)
+				GoButtonUI.Background.Frame.BackgroundColor3 = Color3.fromRGB(0, 220, 0)
+				GoButtonUI.Background.Frame.GoText.TextColor3 = Color3.fromRGB(0, 100, 0)
 			end
 
 			FloatingCollectUI.Enabled = IsMutatable
