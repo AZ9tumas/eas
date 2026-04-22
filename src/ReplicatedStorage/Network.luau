@@ -83,7 +83,7 @@ return {
 		KeepLostMutationSuccess = RemoteEvent("KeepLostMutationSuccess") :: RemoteEvent<string>,
 		MutateFail = RemoteEvent("MutateFail") :: RemoteEvent<string, string, number>,
 		ClientMutateFail = RemoteEvent("ClientMutateFail") :: RemoteEvent<string>,
-		EggHatchVFX = RemoteEvent("EggHatchVFX") :: RemoteEvent<>,
+		EggHatchVFX = RemoteEvent("EggHatchVFX") :: RemoteEvent<Vector3>,
 	},
 	
 	Seller = {

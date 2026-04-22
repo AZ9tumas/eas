@@ -51,24 +51,24 @@ local function HandleSlotsPlacements(state: boolean, name: string?)
 	if name then
 		LastSlotPlacementToolName = name
 	end
-	
+
 	for _, slotData in ipairs(SlotsData) do
 		local Slot = slotData.Slot
 		local Prompt = slotData.Prompt
-		
+
 		local getSlotData = PlotUtil.getSlotData(Slot)
 		if not getSlotData then continue end
-		
+
 		if getSlotData.IsForSale or getSlotData.IsOccupied then
 			Prompt.Enabled = false
-			
+
 			continue
 		end
-		
+
 		if name then
 			Prompt.ObjectText = name
 		end
-		
+
 		Prompt.Enabled = state
 	end
 end
@@ -80,10 +80,10 @@ local function attachBrainrotPrompt(model: Model)
 	if not SlotsFolder then return end
 	local FloorModel = SlotsFolder.Parent
 	if not FloorModel then return end
-	
+
 	local floorNum = tonumber(string.match(FloorModel.Name, "%d+"))
 	if not floorNum then return end
-	
+
 	if model:GetAttribute("Type") ~= "Brainrot" then
 		return
 	end
@@ -91,7 +91,7 @@ local function attachBrainrotPrompt(model: Model)
 	-- Pick a sensible part for the prompt
 	local promptPart =
 		model.PrimaryPart or model:WaitForChild("RootPart", 2)
-		model:FindFirstChildWhichIsA("BasePart")
+	model:FindFirstChildWhichIsA("BasePart")
 
 	if not promptPart then
 		warn("Brainrot model has no BasePart:", model:GetFullName())
@@ -102,12 +102,12 @@ local function attachBrainrotPrompt(model: Model)
 	if promptPart:FindFirstChild("BrainrotPrompt") then
 		return
 	end
-	
+
 	local ParentIndex = model:GetAttribute("ParentIndex")
 	if not ParentIndex then return end
 	local BrainrotSlot = PlotUtil.getPlacementFromIndex(Placements, ParentIndex)
 	if not BrainrotSlot then return end
-	
+
 	local Attachment = Instance.new("Attachment")
 	Attachment.Position = Vector3.new(0, -1.5, 0)
 	Attachment.Name = "BrainrotPromptAttachment"
@@ -120,19 +120,19 @@ local function attachBrainrotPrompt(model: Model)
 	prompt.MaxActivationDistance = 10
 	prompt.RequiresLineOfSight = false
 	prompt.Enabled = false
-	
+
 	prompt.Parent = Attachment
 	Attachment.Parent = promptPart
 
 	local promptTrove = Trove.new()
-	
+
 	promptTrove:Add(
 		model:GetPropertyChangedSignal("Parent"):Connect(function()
 			Attachment:Destroy()
 			promptTrove:Destroy()
 		end)
 	)
-	
+
 	promptTrove:Add(
 		model:GetAttributeChangedSignal("IsMutating"):Connect(function()
 			if not model:GetAttribute("IsMutating") then
@@ -142,7 +142,7 @@ local function attachBrainrotPrompt(model: Model)
 			end
 		end)
 	)
-	
+
 	promptTrove:Add(
 		prompt.Triggered:Connect(function(player)
 			if player ~= localPlayer then return end
@@ -156,7 +156,7 @@ local function attachBrainrotPrompt(model: Model)
 			ClickSound:Play()
 		end)
 	)
-	
+
 	prompt.Enabled = not model:GetAttribute("IsMutating")
 end
 
@@ -178,7 +178,7 @@ local function attachStealPrompt(model: Model, plot: Model)
 	if ownerUserId == localPlayer.UserId then
 		return
 	end
-	
+
 	local ownerPlayer = Players:GetPlayerByUserId(ownerUserId)
 	if not ownerPlayer then return end
 
@@ -205,7 +205,7 @@ local function attachStealPrompt(model: Model, plot: Model)
 	prompt.MaxActivationDistance = 10
 	prompt.RequiresLineOfSight = false
 	prompt.Parent = attachment
-	
+
 	local function UpdatePromptState()
 		prompt.Enabled = not model:GetAttribute("IsMutating") 
 			and model:GetAttribute("IsStealable") and not player:GetAttribute("MagicShield")
@@ -231,7 +231,7 @@ local function attachStealPrompt(model: Model, plot: Model)
 			UpdatePromptState()
 		end)
 	)
-	
+
 	promptTrove:Add(
 		model:GetAttributeChangedSignal("IsStealable"):Connect(function()
 			UpdatePromptState()
@@ -263,7 +263,7 @@ end
 
 local function hookFloor(floor: Model)
 	local Plot = floor.Parent
-	
+
 	local slots = floor:WaitForChild("Slots", 3)
 	if not slots then return end
 
@@ -304,27 +304,27 @@ end
 local function InitSlotsPlacements()
 	if Initialized then return end
 	Initialized = true
-	
+
 	local plot: Model = PlayerPlot
-	
+
 	local dropper: Model = PlotUtil.getPlotDropper(plot)
 	if not dropper then return end
-	
+
 	for _, floor in ipairs(plot:GetChildren()) do
 		local floorNum = tonumber(string.match(floor.Name, "%d+"))
 
 		local Slots: Folder = floor:FindFirstChild("Slots")
 		if not Slots then continue end
-		
+
 		local Placements: Folder = PlotUtil.getSlotsPlacements(Slots)
 		if not Placements then continue end
-		
+
 		Placements.ChildAdded:Connect(function(child)
 			if child:IsA("Model") then
 				attachBrainrotPrompt(child)
 			end
 		end)
-		
+
 		for _, placement in ipairs(Placements:GetChildren()) do
 			if placement:IsA("Model") then
 				attachBrainrotPrompt(placement)
@@ -337,10 +337,10 @@ local function InitSlotsPlacements()
 
 			local getSlotData = PlotUtil.getSlotData(slot)
 			if not getSlotData then continue end
-			
+
 			local SlotMainScreen: BasePart? = PlotUtil.getSlotScreenMain(slot)
 			if not SlotMainScreen then continue end
-			
+
 			if slot:GetAttribute("ForSale") then
 				slot:GetAttributeChangedSignal("ForSale"):Connect(function()
 					if not slot:GetAttribute("ForSale") then
@@ -354,18 +354,18 @@ local function InitSlotsPlacements()
 					end
 				end)
 			end
-			
+
 			slot:GetAttributeChangedSignal("Occupied"):Connect(function()
 				local Tool: Tool = localPlayer.Character and localPlayer.Character:FindFirstChildWhichIsA("Tool")
 				local IsPlaceable = Tool and Tool:GetAttribute("Placeable")
-				
+
 				if IsPlaceable then
 					local IsOccupied = slot:GetAttribute("Occupied")
 
 					HandleSlotsPlacements(not IsOccupied, Tool.Name)
 				end
 			end)
-			
+
 			local ProximityPrompt: ProximityPrompt = SlotMainScreen:FindFirstChild("ProximityPrompt")
 			if not ProximityPrompt then
 				local NewProximityPrompt: ProximityPrompt = Instance.new("ProximityPrompt")
@@ -375,33 +375,33 @@ local function InitSlotsPlacements()
 				NewProximityPrompt.HoldDuration = 0.5
 				NewProximityPrompt.MaxActivationDistance = 10
 				NewProximityPrompt.Enabled = false
-				
+
 				ProximityPrompt = NewProximityPrompt
 				ProximityPrompt.Parent = SlotMainScreen
-				
+
 				table.insert(SlotsData, {
 					Slot = slot,
 					Prompt = ProximityPrompt
 				})
-				
+
 				ProximityPrompt.Triggered:Connect(function(player: Player)
 					if player ~= localPlayer then return end
 					if not plot:GetAttribute("Initialized") then return end
 
 					if not PlotUtil.ButtonRatelimit:Try() then return end
-					
+
 					if not LastSlotPlacementToolName then return end
 					Network.Plots.PlaceAtSlot:FireServer(
 						LastSlotPlacementToolName, floorNum, getSlotData.SlotNum
 					)
-					
+
 					ClickSound:Play()
 				end)
 			end
 		end
 	end
-	
-	
+
+
 	-- Existing bases
 	for _, base in ipairs(Bases:GetChildren()) do
 		if base:IsA("Folder") then
@@ -427,7 +427,7 @@ function Plots.init()
 		PlayerPlotData = plotData
 		InitSlotsPlacements()
 	end
-	
+
 	local function UpdatePlot()
 		local Plot = ClientData.Plot()
 		if Plot then
@@ -435,15 +435,37 @@ function Plots.init()
 			UpdatePlotData()
 		end
 	end
-	
+
 	Charm.subscribe(ClientData.Plot, UpdatePlot)
 	UpdatePlot()
-	
+
 	Charm.subscribe(ClientData.PlotData, UpdatePlotData)
 
-	Network.Plots.EggHatchVFX.OnClientEvent:Connect(function()
-		-- Camera shake on hatch completion
-		camShaker:ShakeOnce(3, 5, 0.1, 0.5)
+	Network.Plots.EggHatchVFX.OnClientEvent:Connect(function(position: Vector3)
+		-- Clone and burst-emit the VFX at the hatch position
+		local vfxTemplate = ReplicatedStorage.Assets.VFX:FindFirstChild("EggHatch")
+		
+		if vfxTemplate then
+			task.delay(0.5, function()
+				local vfxClone = vfxTemplate:Clone()
+				print("[Plots]:", vfxClone)
+				vfxClone.Anchored = true
+				vfxClone.CanCollide = false
+				vfxClone.CFrame = CFrame.new(position)
+				vfxClone.Parent = workspace
+				for _, emitter in ipairs(vfxClone:GetDescendants()) do
+					if emitter:IsA("ParticleEmitter") then
+						emitter:Emit(50)
+					end
+				end
+				task.delay(2, function()
+					vfxClone:Destroy()
+				end)
+			end)
+		end
+
+		-- Camera shake
+		camShaker:ShakeOnce(7, 9, 0.1, 0.7)
 
 		-- Sound
 		local revealSound = GameSounds:FindFirstChild("Reveal")
@@ -455,22 +477,22 @@ end
 
 function Plots.characterAdded(character: Model)
 	char = character
-	
+
 	local trove = Trove.new()
 	trove:AttachToInstance(character)
-	
+
 	trove:Add(
 		character.ChildAdded:Connect(function(child: Instance)
 			if child:IsA("Tool") then
 				local Tool: Tool = child
-				
+
 				if Tool:GetAttribute("Placeable") then
 					HandleSlotsPlacements(true, Tool.Name)
 				end
 			end
 		end)
 	)
-	
+
 	trove:Add(
 		character.ChildRemoved:Connect(function(child: Instance)
 			if child:IsA("Tool") then
@@ -485,7 +507,7 @@ function Plots.characterAdded(character: Model)
 end
 
 function Plots.characterRemoving(character: Model)
-	
+
 end
 
 return Plots

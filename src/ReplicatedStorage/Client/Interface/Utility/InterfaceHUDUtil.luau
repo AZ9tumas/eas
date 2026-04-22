@@ -17,6 +17,7 @@ end
 
 local newUI = playerGui:WaitForChild("NewUI")
 local leftSideFrame = newUI:WaitForChild("LeftSide")
+local cashDisplay = newUI:WaitForChild("CashDisplay")
 
 local hudSavedStates = {} :: { [ScreenGui]: boolean }
 for _, hudGui in ipairs(hudList) do
@@ -40,6 +41,7 @@ function InterfaceHUDUtil.showHUD()
         screenGui.Enabled = hudSavedStates[screenGui]
     end
     leftSideFrame.Visible = true
+    cashDisplay.Visible = true
 end
 
 function InterfaceHUDUtil.hideHUD()
@@ -48,6 +50,7 @@ function InterfaceHUDUtil.hideHUD()
         screenGui.Enabled = false
     end
     leftSideFrame.Visible = false
+    cashDisplay.Visible = false
 end
 
 return InterfaceHUDUtil

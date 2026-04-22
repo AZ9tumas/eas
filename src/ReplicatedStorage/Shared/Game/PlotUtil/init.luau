@@ -791,57 +791,101 @@ function PlotUtil.deployWorldEggRoll(egg: Model, eggPillar: Model) : Model
 	local topPart = PlotUtil.getPillarTopPart(eggPillar)
 	local startPos = topPart and (topPart.Position + Vector3.new(0, GetExtentsSizeY / 2, 0)) or finalpos
 
-	local startCF = CFrame.new(startPos) * sourceRotation
 	local finalCF = CFrame.new(finalpos) * sourceRotation
 
 	local primaryPart = egg.PrimaryPart or egg:FindFirstChild("EggPart")
 	if not primaryPart then return egg end
 
-	local attachment = Instance.new("Attachment")
-	attachment.Name = "AlignConstraintAttachment"
-	attachment.CFrame = CFrame.identity
-	attachment.Parent = primaryPart
-
-	local alignOrientation = Instance.new("AlignOrientation")
-	alignOrientation.Mode = Enum.OrientationAlignmentMode.OneAttachment
-	alignOrientation.Attachment0 = attachment
-	alignOrientation.CFrame = sourceRotation
-	alignOrientation.RigidityEnabled = true
-	alignOrientation.Parent = primaryPart
-
-	local alignPosition = script.AlignPosition:Clone()
-	alignPosition.Attachment0 = attachment
-	alignPosition.Position = finalpos
-	alignPosition.Parent = primaryPart
-	alignPosition.Enabled = true
-
 	-- Premium pillars skip the fall animation entirely
 	if PillarInfo.Premium then
+		local attachment = Instance.new("Attachment")
+		attachment.Name = "AlignConstraintAttachment"
+		attachment.CFrame = CFrame.identity
+		attachment.Parent = primaryPart
+
+		local alignOrientation = Instance.new("AlignOrientation")
+		alignOrientation.Mode = Enum.OrientationAlignmentMode.OneAttachment
+		alignOrientation.Attachment0 = attachment
+		alignOrientation.CFrame = sourceRotation
+		alignOrientation.RigidityEnabled = true
+		alignOrientation.Parent = primaryPart
+
+		local alignPosition = script.AlignPosition:Clone()
+		alignPosition.Attachment0 = attachment
+		alignPosition.Position = finalpos
+		alignPosition.Parent = primaryPart
+		alignPosition.Enabled = true
+		alignPosition.RigidityEnabled = true
+
 		egg:PivotTo(finalCF)
 		PlotUtil.weldModelToPrimaryPart(egg, false)
-		alignPosition.RigidityEnabled = true
 
 		return egg
 	end
 
-	-- play fall animation
-	-- 1. tween
-	-- 2. align position
-	-- 3. manual cframe calculation
-
+	-- Non-premium: spring-driven fall animation on the server. The egg is
+	-- welded+anchored, and we advance a spring simulation (ported from the
+	-- `ripple` spring solver) on Heartbeat, pivoting the model each frame.
+	-- Roblox interpolates anchored CFrame replication on clients, so this
+	-- produces a smooth fall without physics constraints fighting gravity.
 	PlotUtil.setModelCancollide(egg, false)
-	PlotUtil.weldModelToPrimaryPart(egg, false)
-	egg:PivotTo(startCF:Lerp(finalCF, 0.2))
+	PlotUtil.weldModelToPrimaryPart(egg, true)
+	egg:PivotTo(CFrame.new(startPos) * sourceRotation)
 
-	--conn = RunService.Heartbeat:Connect(function(dt)
-	--	local newcf = currcf:Lerp(finalCF, 1 * dt)
-	--	egg:PivotTo(newcf)
-	--	
-	--	if (currcf.Position - finalCF.Position).Magnitude < 0.02 then
-	--		egg.PrimaryPart.Anchored = false
-	--		conn:Disconnect()
-	--	end
-	--end)
+	-- Spring parameters (mirrors ripple spring config using frequency/damping)
+	local SPRING_MASS = 1
+	local SPRING_FREQUENCY = 0.55
+	local SPRING_DAMPING = 0.85
+	local SPRING_STEP_MS = 1 -- sub-step size, milliseconds (matches ripple)
+	local SPRING_MAX_PASS = 100
+	local RESTING_VELOCITY = 0.01
+	local RESTING_POSITION = 0.005
+
+	local tension = (2 * math.pi / SPRING_FREQUENCY) ^ 2 * SPRING_MASS
+	local friction = (4 * math.pi * SPRING_DAMPING * SPRING_MASS) / SPRING_FREQUENCY
+
+	local position = startPos
+	local velocity = Vector3.zero
+	local goal = finalpos
+
+	local conn: RBXScriptConnection? = nil
+	conn = RunService.Heartbeat:Connect(function(deltaTime: number)
+		if not egg.Parent or not primaryPart.Parent then
+			if conn then conn:Disconnect() end
+			return
+		end
+
+		local passes = math.min(math.ceil((deltaTime * 1000) / SPRING_STEP_MS), SPRING_MAX_PASS)
+		for _ = 1, passes do
+			local springForce = -tension * 0.000001 * (position - goal)
+			local dampingForce = -friction * 0.001 * velocity
+			local acceleration = (springForce + dampingForce) / SPRING_MASS
+
+			velocity = velocity + acceleration * SPRING_STEP_MS
+			position = position + velocity * SPRING_STEP_MS
+		end
+
+		local offset = position - goal
+		if offset.Magnitude < RESTING_POSITION and velocity.Magnitude < RESTING_VELOCITY then
+			position = goal
+			velocity = Vector3.zero
+			egg:PivotTo(finalCF)
+			if conn then
+				conn:Disconnect()
+				conn = nil
+			end
+			return
+		end
+
+		egg:PivotTo(CFrame.new(position) * sourceRotation)
+	end)
+
+	egg.Destroying:Connect(function()
+		if conn then
+			conn:Disconnect()
+			conn = nil
+		end
+	end)
 
 	return egg
 end

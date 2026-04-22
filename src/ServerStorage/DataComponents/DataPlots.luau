@@ -542,26 +542,7 @@ function DataPlots.HatchEgg(egg: Model, slot: Model, player: Player?, mutationTi
 			profileData.PlotData.Floors[getSlotInfo.floorNum].Slots[getSlotInfo.SlotNum].Placement
 				= BrainrotTemplate
 
-			-- Burst-emit the hatch VFX before destroying the egg
-			local vfxPart = placement:FindFirstChildWhichIsA("BasePart", true)
-				or placement:FindFirstChild("EggHatch")
-			if not vfxPart then
-				for _, desc in ipairs(placement:GetDescendants()) do
-					if desc.Name == "EggHatch" and desc:IsA("BasePart") then
-						vfxPart = desc
-						break
-					end
-				end
-			end
-			if vfxPart then
-				for _, emitter in ipairs(vfxPart:GetDescendants()) do
-					if emitter:IsA("ParticleEmitter") then
-						emitter.Enabled = false
-						emitter:Emit(50)
-					end
-				end
-			end
-
+			local hatchPosition = placement:GetPivot().Position
 			placement:Destroy()
 
 			DataPlots.SpawnHatchableAtSlot(slot, 
@@ -581,7 +562,7 @@ function DataPlots.HatchEgg(egg: Model, slot: Model, player: Player?, mutationTi
 			end
 
 			NotifySuccess:FireClient(player, "Successfully hatched egg!")
-			Network.Plots.EggHatchVFX:FireClient(player)
+			Network.Plots.EggHatchVFX:FireClient(player, hatchPosition)
 		end
 	end
 end
@@ -1366,22 +1347,6 @@ function DataPlots.SpawnEggAtSlot(slot: Model, egg: Model | Tool | Types.Egg)
 	eggModel:PivotTo(CFrame.new(finalpos) * sourceRotation)
 
 	PlotUtil.applyAlignConstraints(eggModel, finalpos, sourceRotation)
-
-	-- Attach hatch VFX while the egg is incubating (server-side so all clients see it)
-	local eggVFXTemplate = ReplicatedStorage.Assets.VFX:FindFirstChild("EggHatch")
-	local eggPrimaryPart = eggModel.PrimaryPart or eggModel:FindFirstChildWhichIsA("BasePart")
-	if eggVFXTemplate and eggPrimaryPart then
-		local eggVFXClone = eggVFXTemplate:Clone()
-		eggVFXClone.Anchored = true
-		eggVFXClone.CanCollide = false
-		eggVFXClone.CFrame = eggPrimaryPart.CFrame
-		for _, emitter in ipairs(eggVFXClone:GetDescendants()) do
-			if emitter:IsA("ParticleEmitter") then
-				emitter.Enabled = true
-			end
-		end
-		eggVFXClone.Parent = eggModel
-	end
 
 	eggModel.Parent = slotsPlacement
 end
