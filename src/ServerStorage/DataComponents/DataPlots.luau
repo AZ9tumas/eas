@@ -2812,7 +2812,7 @@ function DataPlots.InitAllPlots()
 					return clone
 				end
 
-				for _, blockName in ipairs({ "Egg1", "Egg2", "Egg3" }) do
+				for _, blockName in ipairs({ "LuckyBlock1", "LuckyBlock2", "LuckyBlock3" }) do
 					local staticBlock = EffectClone:FindFirstChild(blockName)
 					if staticBlock then
 						local cf = staticBlock:GetPivot()
@@ -2827,8 +2827,10 @@ function DataPlots.InitAllPlots()
 				warn(("EggsFusion: could not resolve rolled egg %q in Assets.Eggs; keeping yellow fallback blocks."):format(tostring(fusionEggName)))
 			end
 
+			-- egg fusion begins
 			EffectClone.Script.Enabled = true
 
+			-- wait for egg fusion to end
 			PlayerCooldowns.setCooldown(player, "EggRollSpinCooldown", cooldown)
 			repeat task.wait(0.05) until EffectClone:GetAttribute("CombineComplete") == true
 
