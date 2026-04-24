@@ -2,7 +2,7 @@ local Brainrots = {
 	-- Common
 	["Madung Brainrot"] = {
 		DisplayName = "Madung Brainrot",
-		Icon = "rbxassetid://18702215643",
+		Icon = "rbxassetid://90819949629506",
 		Rarity = "Common",
 		CPS = 1,
 		Weight = 100,
@@ -39,7 +39,7 @@ local Brainrots = {
 	-- Rare
 	["Chimpanzini Bananini Brainrot"] = {
 		DisplayName = "Chimpanzini Bananini Brainrot",
-		Icon = "rbxassetid://18702215643",
+		Icon = "rbxassetid://102803497244179",
 		Rarity = "Rare",
 		CPS = 10,
 		Weight = 25,
@@ -60,7 +60,7 @@ local Brainrots = {
 	},
 	["Frigo Camelo Brainrot"] = {
 		DisplayName = "Frigo Camelo Brainrot",
-		Icon = "rbxassetid://18702215643",
+		Icon = "rbxassetid://96472567714959",
 		Rarity = "Rare",
 		CPS = 16,
 		Weight = 10,
@@ -69,21 +69,21 @@ local Brainrots = {
 	-- Epic
 	["Tung Tung Sahur Brainrot"] = {
 		DisplayName = "Tung Tung Sahur Brainrot",
-		Icon = "rbxassetid://18702215643",
+		Icon = "rbxassetid://109189142407622",
 		Rarity = "Epic",
 		CPS = 56,
 		Weight = 5,
 	},
 	["Brr Brr Patapim Brainrot"] = {
 		DisplayName = "Brr Brr Patapim Brainrot",
-		Icon = "rbxassetid://18702215643",
+		Icon = "rbxassetid://102852699657041",
 		Rarity = "Epic",
 		CPS = 58,
 		Weight = 4,
 	},
 	["Cappuccino Assassino Brainrot"] = {
 		DisplayName = "Cappuccino Assassino Brainrot",
-		Icon = "rbxassetid://18702215643",
+		Icon = "rbxassetid://135976769884261",
 		Rarity = "Epic",
 		CPS = 61,
 		Weight = 3,
@@ -97,7 +97,7 @@ local Brainrots = {
 	},
 	["Trippi Troppi Brainrot"] = {
 		DisplayName = "Trippi Troppi Brainrot",
-		Icon = "rbxassetid://18702215643",
+		Icon = "rbxassetid://96124100408992",
 		Rarity = "Epic",
 		CPS = 65,
 		Weight = 2,
@@ -106,14 +106,14 @@ local Brainrots = {
 	-- Legendary
 	["Lirili Larila Brainrot"] = {
 		DisplayName = "Lirili Larila Brainrot",
-		Icon = "rbxassetid://18702215643",
+		Icon = "rbxassetid://110154896120529",
 		Rarity = "Legendary",
 		CPS = 380,
 		Weight = 1,
 	},
 	["Boneca Ambalabu Brainrot"] = {
 		DisplayName = "Boneca Ambalabu Brainrot",
-		Icon = "rbxassetid://18702215643",
+		Icon = "rbxassetid://102937900681923",
 		Rarity = "Legendary",
 		CPS = 400,
 		Weight = 0.8,
@@ -150,7 +150,7 @@ local Brainrots = {
 	},
 	["Trippi Troppi Troppa Trippa Brainrot"] = {
 		DisplayName = "Trippi Troppi Troppa Trippa Brainrot",
-		Icon = "rbxassetid://18702215643",
+		Icon = "rbxassetid://86244238157694",
 		Rarity = "Mythic",
 		CPS = 1200,
 		Weight = 0.1,
