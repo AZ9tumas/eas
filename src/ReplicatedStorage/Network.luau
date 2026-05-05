@@ -13,7 +13,7 @@ return {
 	-- ✰ Shared ✰ --
 	Notifications = {
 		Notify = RemoteEvent("Notification") :: RemoteEvent<string, Types.ColorKey?, Types.SoundKey?, number?>,
-		
+
 		Normal = RemoteEvent("NotifyNormal") :: RemoteEvent<string, number?>,
 		Info = RemoteEvent("NotifyInfo") :: RemoteEvent<string, number?>,
 		Warning = RemoteEvent("NotifyWarn") :: RemoteEvent<string, number?>,
@@ -22,30 +22,30 @@ return {
 		ProductBought = RemoteEvent("ProductBought") :: RemoteEvent<string, number?>,
 		ItemBought = RemoteEvent("ItemBought") :: RemoteEvent<string, number?>,
 	},
-	
+
 	PlaySounds = {
 		CustomSound = RemoteEvent("CustomSound") :: RemoteEvent<string>,
 		StopSound = RemoteEvent("StopSound") :: RemoteEvent<string>,
-		
+
 		Error = RemoteEvent("ErrorSFX") :: RemoteEvent<>,
 		Success = RemoteEvent("SuccessSFX") :: RemoteEvent<>,
 		Purchase = RemoteEvent("PurchaseSFX") :: RemoteEvent<>,
 		Warning = RemoteEvent("WarningSFX") :: RemoteEvent<>,
 	},
-	
+
 	Chat = {
 		DisplayChatMessage = RemoteEvent("DisplayChatMessage") :: RemoteEvent<string>,
 	},
-	
+
 	Overlay = {
 		Transition = RemoteEvent("Transition") :: RemoteEvent<>,
 		MutationReveal = RemoteEvent("MutationReveal") :: RemoteEvent<string, number, boolean?>,
 	},
-	
+
 	Tutorial = {
 		Progress = RemoteEvent("Progress") :: RemoteEvent<number, boolean?>,
 	},
-	
+
 	Spin = {
 		SpinWheel = _RemoteFunction("SpinWheel") :: RemoteFunction<(), ()>
 	},
@@ -62,11 +62,11 @@ return {
 
 
 	---- ✰ Data Components ✰ --
-	
+
 	---- DataPlots
 	Plots = {
 		BuySlot = RemoteEvent("BuySlot") :: RemoteEvent<number, number>,
-		
+
 		EggRoll = RemoteEvent("EggRoll") :: RemoteEvent<>,
 		BuyEggRoll = RemoteEvent("BuyEggRoll") :: RemoteEvent<string, number>,
 		PlaceAtSlot = RemoteEvent("PlaceAtSlot") :: RemoteEvent<string, number, number>,
@@ -76,23 +76,23 @@ return {
 		RevealMutation = RemoteEvent("RevealMutation") :: RemoteEvent<string, number, number>,
 		SkipMutation = RemoteEvent("SkipMutation") :: RemoteEvent<string, number, number>,
 		TakeBrainrot = RemoteEvent("TakeBrainrot") :: RemoteEvent<string, number, number>,
-		
+
 		Rebirth = RemoteEvent("Rebirth") :: RemoteEvent<number>,
 		StealBrainrot = RemoteEvent("StealBrainrot") :: RemoteEvent<Model, number, string, number, number>,
-		
+
 		KeepLostMutationSuccess = RemoteEvent("KeepLostMutationSuccess") :: RemoteEvent<string>,
 		MutateFail = RemoteEvent("MutateFail") :: RemoteEvent<string, string, number>,
 		ClientMutateFail = RemoteEvent("ClientMutateFail") :: RemoteEvent<string>,
 		EggHatchVFX = RemoteEvent("EggHatchVFX") :: RemoteEvent<Vector3>,
 	},
-	
+
 	Seller = {
 		SellBrainrots = _RemoteFunction("SellBrainrots") :: RemoteFunction<(), (boolean)>,
 		SellEggs = _RemoteFunction("SellEggs") :: RemoteFunction<(), (boolean)>,
 		CheckValue = _RemoteFunction("CheckValue") :: RemoteFunction<(string), (boolean)>,
 		SellHandItem = _RemoteFunction("SellHandItem") :: RemoteFunction<(string), (boolean)>,
 	},
-	
+
 	-- DataTrading
 	Trading = {
 		TradeRequest = RemoteEvent("TradeRequest") :: RemoteEvent<string>,
@@ -106,7 +106,7 @@ return {
 	Codes = {
 		RedeemCode = _RemoteFunction("RedeemCode") :: RemoteFunction<(string), (boolean?)>,
 	},
-	
+
 	DailyRewards = {
 		Claim = RemoteEvent("DailyRewardsClaim") :: RemoteEvent<>,
 	},
@@ -115,20 +115,20 @@ return {
 	GroupRewards = {
 		Claimed = _RemoteFunction("GroupRewardsClaimed") :: RemoteFunction<(boolean?), (boolean?)>,
 	},
-	
+
 	-- DataGifting
 	Gifting = {
 		Select = RemoteEvent("GiftSelect") :: RemoteEvent<number, string, string>,
 	},
-	
+
 	Purchases = {
 		promptProduct = RemoteEvent("PromptProduct") :: RemoteEvent<number, boolean?>,
 		promptGamepass = RemoteEvent("PromptGamepass") :: RemoteEvent<number, boolean?>,
 		promptBundle = RemoteEvent("PromptBundle") :: RemoteEvent<number, boolean?>,
-		
+
 		ConfettiEffect = RemoteEvent("ConfettiEffect") :: RemoteEvent<>,
 	},
-	
+
 	Prompts = {
 		FavoritePrompt = RemoteEvent("FavoritePrompt") :: RemoteEvent<>,
 	},

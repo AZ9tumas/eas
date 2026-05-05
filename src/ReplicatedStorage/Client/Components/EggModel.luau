@@ -39,6 +39,8 @@ observers.observeTag("EggModel", function(eggModel: Model)
 		end)
 		motion:spring(goalOffset, { frequency = 0.35, tension = 50, friction = 12, damping = 0.5 })
 		trove:Add(motion.stop :: any)
+	else
+		--eggModel:PivotTo(originCFrame)
 	end
 
 	-- Cleanup

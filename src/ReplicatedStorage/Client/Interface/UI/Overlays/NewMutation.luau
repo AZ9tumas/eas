@@ -28,39 +28,39 @@ local glowLight = container.GlowLight
 
 
 local function createMotionRecord(guiObject: GuiObject)
-    local uiScale = Instance.new("UIScale")
-    uiScale.Parent = guiObject
+	local uiScale = Instance.new("UIScale")
+	uiScale.Parent = guiObject
 
-    local motionRecord = {
-        rotation = ripple.createMotion(0),
-        size = ripple.createMotion(1),
-        transparency = ripple.createMotion(0)
-    }
-    motionRecord.rotation:onStep(function(value)
-        guiObject.Rotation = value
-    end)
-    motionRecord.size:onStep(function(value)
-        uiScale.Scale = value
-    end)
-    motionRecord.transparency:onStep(function(value)
-        setTransparencyAndKeepOriginal(guiObject, value)
-    end)
+	local motionRecord = {
+		rotation = ripple.createMotion(0),
+		size = ripple.createMotion(1),
+		transparency = ripple.createMotion(0)
+	}
+	motionRecord.rotation:onStep(function(value)
+		guiObject.Rotation = value
+	end)
+	motionRecord.size:onStep(function(value)
+		uiScale.Scale = value
+	end)
+	motionRecord.transparency:onStep(function(value)
+		setTransparencyAndKeepOriginal(guiObject, value)
+	end)
 
-    return motionRecord
+	return motionRecord
 end
 
 type MotionRecord = typeof(createMotionRecord(...))
 local motionRecords = {
-    nameLabel = createMotionRecord(nameLabel),
-    newLabel = createMotionRecord(newLabel),
-    mutationTierLabel = createMotionRecord(mutationTierLabel),
-    brainrotIcon = createMotionRecord(brainrotIcon),
-    glowLight = createMotionRecord(glowLight),
+	nameLabel = createMotionRecord(nameLabel),
+	newLabel = createMotionRecord(newLabel),
+	mutationTierLabel = createMotionRecord(mutationTierLabel),
+	brainrotIcon = createMotionRecord(brainrotIcon),
+	glowLight = createMotionRecord(glowLight),
 }
 local function doSomethingWithMotionRecords(callback: (MotionRecord) -> ())
-    for _, motionRecord in pairs(motionRecords) do
-        callback(motionRecord :: any)
-    end
+	for _, motionRecord in pairs(motionRecords) do
+		callback(motionRecord :: any)
+	end
 end
 
 
@@ -78,7 +78,7 @@ local revealTrove = trove:Extend()
 local NewMutation = {}
 
 function NewMutation.init()
-    
+
 end
 
 function NewMutation.queueMutation(model: Model, mutationTier: number)
@@ -97,11 +97,11 @@ function NewMutation.processQueue()
 	end
 	isProcessingQueue = true
 
-    doSomethingWithMotionRecords(function(motionRecord)  
-        motionRecord.transparency:set(1)
-        motionRecord.transparency:forceStep()
-    end)
-    container.Visible = false
+	doSomethingWithMotionRecords(function(motionRecord)  
+		motionRecord.transparency:set(1)
+		motionRecord.transparency:forceStep()
+	end)
+	container.Visible = false
 	mainGui.Enabled = true
 	InterfaceTabUtil.blurScreen()
 	InterfaceHUDUtil.hideHUD()
@@ -109,18 +109,18 @@ function NewMutation.processQueue()
 		Satchel:SetBackpackEnabled(false)
 	end
 
-    local waveAngle = 0
-    trove:Add(RunService.Heartbeat:Connect(function(deltaTime)  
+	local waveAngle = 0
+	trove:Add(RunService.Heartbeat:Connect(function(deltaTime)  
 		waveAngle += deltaTime*4
-        waveAngle %= math.pi*2
+		waveAngle %= math.pi*2
 
 		local sineValue = -math.cos(waveAngle)
 		local amplitude = 2
-        continueLabel.Rotation = sineValue * amplitude
+		continueLabel.Rotation = sineValue * amplitude
 	end))
 
-    -- Wait for transition to end
-    task.wait(0.1)
+	-- Wait for transition to end
+	task.wait(0.1)
 
 	while revealQueue[1] do
 		local revealRecord = revealQueue[1]
@@ -128,10 +128,10 @@ function NewMutation.processQueue()
 		NewMutation.revealAsync(revealRecord.model, revealRecord.mutationTier)
 	end
 
-    revealTrove:Clean()
+	revealTrove:Clean()
 
 	mainGui.Enabled = false
-    InterfaceTabUtil.unblurScreen()
+	InterfaceTabUtil.unblurScreen()
 	InterfaceHUDUtil.showHUD()
 	if not Satchel:GetBackpackEnabled() then
 		Satchel:SetBackpackEnabled(true)
@@ -139,102 +139,102 @@ function NewMutation.processQueue()
 
 	task.wait(1)
 	isProcessingQueue = false
-    trove:Clean()
+	trove:Clean()
 end
 
 function NewMutation.revealAsync(model: Model, mutationTier: number)
-    revealTrove:Clean()
+	revealTrove:Clean()
 
-    doSomethingWithMotionRecords(function(motionRecord)  
-        motionRecord.rotation:stop()
-        motionRecord.transparency:stop()
-        motionRecord.size:stop()
+	doSomethingWithMotionRecords(function(motionRecord)  
+		motionRecord.rotation:stop()
+		motionRecord.transparency:stop()
+		motionRecord.size:stop()
 
-        local transparencyConfig: ripple.SpringOptions = { frequency = 0.1, tension = 50, friction = 30, damping = 1 }
-        local sizeConfig: ripple.SpringOptions = { frequency = 0.2, tension = 50, friction = 30, damping = 1 }
-        motionRecord.transparency:spring(1, transparencyConfig)
-        motionRecord.size:spring(0.5, sizeConfig)
-    end)
-    container.Visible = true
+		local transparencyConfig: ripple.SpringOptions = { frequency = 0.1, tension = 50, friction = 30, damping = 1 }
+		local sizeConfig: ripple.SpringOptions = { frequency = 0.2, tension = 50, friction = 30, damping = 1 }
+		motionRecord.transparency:spring(1, transparencyConfig)
+		motionRecord.size:spring(0.5, sizeConfig)
+	end)
+	container.Visible = true
 
-    task.wait(0.2)
+	task.wait(0.2)
 
 
-    local currentDelay = 0
-    local function createDelay(delayTime: number)
-        currentDelay += delayTime
-        return currentDelay
-    end
+	local currentDelay = 0
+	local function createDelay(delayTime: number)
+		currentDelay += delayTime
+		return currentDelay
+	end
 
-    local transparencyConfig: ripple.SpringOptions = { frequency = 0.5, tension = 50, friction = 30, damping = 1 }
-    local sizeConfig: ripple.SpringOptions = { frequency = 0.3, tension = 50, friction = 30, damping = 1 }
-    local rotationConfig: ripple.SpringOptions = { frequency = 0.4, tension = 50, friction = 30, damping = 0.7 }
-    revealTrove:Add(task.delay(createDelay(0), function()
-        local motionRecord = motionRecords.glowLight
-        motionRecord.transparency:spring(0, transparencyConfig)
-    end))
-    revealTrove:Add(task.delay(createDelay(0), function()
-        local motionRecord = motionRecords.brainrotIcon
-        motionRecord.transparency:spring(0, transparencyConfig)
-        motionRecord.size:set(0.9)
-        motionRecord.size:spring(1, sizeConfig)
-        motionRecord.rotation:set(-10)
-        motionRecord.rotation:spring(0, rotationConfig)
-    end))
-    revealTrove:Add(task.delay(createDelay(0.1), function()
-        local motionRecord = motionRecords.nameLabel
-        motionRecord.transparency:spring(0, transparencyConfig)
-        motionRecord.size:set(0.9)
-        motionRecord.size:spring(1, sizeConfig)
-    end))
-    revealTrove:Add(task.delay(createDelay(0.05), function()
-        local motionRecord = motionRecords.newLabel
-        motionRecord.transparency:spring(0, transparencyConfig)
-        motionRecord.size:set(0.9)
-        motionRecord.size:spring(1, sizeConfig)
-    end))
-    revealTrove:Add(task.delay(createDelay(0.07), function()
-        local motionRecord = motionRecords.mutationTierLabel
-        motionRecord.transparency:spring(0, transparencyConfig)
-        motionRecord.size:set(0.9)
-        motionRecord.size:spring(1, sizeConfig)
-    end))
+	local transparencyConfig: ripple.SpringOptions = { frequency = 0.5, tension = 50, friction = 30, damping = 1 }
+	local sizeConfig: ripple.SpringOptions = { frequency = 0.3, tension = 50, friction = 30, damping = 1 }
+	local rotationConfig: ripple.SpringOptions = { frequency = 0.4, tension = 50, friction = 30, damping = 0.7 }
+	revealTrove:Add(task.delay(createDelay(0), function()
+		local motionRecord = motionRecords.glowLight
+		motionRecord.transparency:spring(0, transparencyConfig)
+	end))
+	revealTrove:Add(task.delay(createDelay(0), function()
+		local motionRecord = motionRecords.brainrotIcon
+		motionRecord.transparency:spring(0, transparencyConfig)
+		motionRecord.size:set(0.9)
+		motionRecord.size:spring(1, sizeConfig)
+		motionRecord.rotation:set(-10)
+		motionRecord.rotation:spring(0, rotationConfig)
+	end))
+	revealTrove:Add(task.delay(createDelay(0.1), function()
+		local motionRecord = motionRecords.nameLabel
+		motionRecord.transparency:spring(0, transparencyConfig)
+		motionRecord.size:set(0.9)
+		motionRecord.size:spring(1, sizeConfig)
+	end))
+	revealTrove:Add(task.delay(createDelay(0.05), function()
+		local motionRecord = motionRecords.newLabel
+		motionRecord.transparency:spring(0, transparencyConfig)
+		motionRecord.size:set(0.9)
+		motionRecord.size:spring(1, sizeConfig)
+	end))
+	revealTrove:Add(task.delay(createDelay(0.07), function()
+		local motionRecord = motionRecords.mutationTierLabel
+		motionRecord.transparency:spring(0, transparencyConfig)
+		motionRecord.size:set(0.9)
+		motionRecord.size:spring(1, sizeConfig)
+	end))
 
-    local name = model.Name
-    nameLabel.Text = name
+	local name = model.Name
+	nameLabel.Text = name
 
-    local brainrotData = Brainrots[name]
-    if brainrotData and brainrotData.Icon then
-        brainrotIcon.Image = brainrotData.Icon
-    end
+	local brainrotData = Brainrots[name]
+	if brainrotData and brainrotData.Icon then
+		brainrotIcon.Image = brainrotData.Icon
+	end
 
-    local mutationName = PlotUtil.MutationTierToName(mutationTier)
-    if mutationName then
-        mutationTierLabel.Text = mutationName
-        mutationTierLabel.TextColor3 = (MutationTextColors :: any)[mutationName]
-    end
+	local mutationName = PlotUtil.MutationTierToName(mutationTier)
+	if mutationName then
+		mutationTierLabel.Text = mutationName
+		mutationTierLabel.TextColor3 = (MutationTextColors :: any)[mutationName]
+	end
 
-    local clickTrove = revealTrove:Extend()
-    local function addClickListener(callback: () -> ())
-        clickTrove:Add(UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
-            if gameProcessedEvent and input.KeyCode ~= Enum.KeyCode.ButtonA then
-                return
-            end
-            if input.UserInputType ~= Enum.UserInputType.Touch
-            and input.UserInputType ~= Enum.UserInputType.MouseButton1
-            and input.KeyCode ~= Enum.KeyCode.ButtonA then
-                return
-            end
-            callback()
-        end))
-    end
+	local clickTrove = revealTrove:Extend()
+	local function addClickListener(callback: () -> ())
+		clickTrove:Add(UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+			if gameProcessedEvent and input.KeyCode ~= Enum.KeyCode.ButtonA then
+				return
+			end
+			if input.UserInputType ~= Enum.UserInputType.Touch
+				and input.UserInputType ~= Enum.UserInputType.MouseButton1
+				and input.KeyCode ~= Enum.KeyCode.ButtonA then
+				return
+			end
+			callback()
+		end))
+	end
 
-    local finished = false
-    addClickListener(function()  
-        finished = true
-    end)
+	local finished = false
+	addClickListener(function()  
+		finished = true
+	end)
 
-    while not finished do
+	while not finished do
 		task.wait()
 	end
 end
